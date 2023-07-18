@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
+     * The `models/index` file will call this method automatically. 
      */
     static associate(models) {
       this.belongsToMany(models.Users, {
@@ -14,18 +14,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'petSitterId',
         otherKey: 'userId',
       });
-      this.belongsTo(models.Users, {
-        targetKey: 'id',
-        foreignKey: 'userId',
-      });
-      this.hasMany(models.Reservations, {
-        sourceKey: 'id',
-        foreignKey: 'reservationId',
-      });
       this.hasMany(models.Reviews, {
         sourceKey: 'id',
         foreignKey: 'reviewId',
       });
+      this.belongsTo(models.Users,{
+        targetKey:'id',
+        foreignKey:'userId'
+      })
     }
   }
   PetSitterInfos.init(
