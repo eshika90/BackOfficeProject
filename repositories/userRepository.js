@@ -15,15 +15,28 @@ class UserRepository {
     });
     return userResult;
   };
-  createUser = async (email, name, password, isPetSitter, profileImage) => {
+  createUser = async (
+    email,
+    name,
+    hashedPassword,
+    isPetSitter,
+    profileImage,
+  ) => {
     const createUserData = await Users.create({
       email,
       name,
-      password,
+      password: hashedPassword,
       isPetSitter,
       profileImage,
     });
     return createUserData;
+  };
+  saveRefreshtoken = async (email, refreshToken) => {
+    const savedRefreshToken = await Users.update(
+      { refreshToken },
+      { where: { email } },
+    );
+    return savedRefreshToken;
   };
 }
 

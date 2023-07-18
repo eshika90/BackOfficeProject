@@ -1,4 +1,4 @@
-const jwt = require('jswonwebtoken');
+const jwt = require('jsonwebtoken');
 const UserRepository = require('../repositories/userRepository');
 const cookieParser = require('cookie-parser');
 const variable = require('../config.js');
