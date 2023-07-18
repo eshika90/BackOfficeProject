@@ -4,10 +4,9 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 const router = require('./routes/index.js');
-const config = require('./config.js');
 const http = Server(app);
 
 app.use([express.json(), cookieParser()]);
-app.use('/', router);
+app.use('/api', router);
 
 module.exports = http;

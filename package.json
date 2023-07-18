@@ -1,11 +1,11 @@
 {
   "name": "team_1jobeoljo",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "prettify": "prettier --write *.js **/*.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -23,5 +23,6 @@
     "nodemon": "^3.0.1",
     "prettier": "^3.0.0",
     "sequelize-cli": "^6.6.1"
-  }
+  },
+  "description": ""
 }

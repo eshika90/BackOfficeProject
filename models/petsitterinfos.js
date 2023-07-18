@@ -14,17 +14,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'petSitterId',
         otherKey: 'userId',
       });
-      this.belongsTo(models.Users, {
-        targetKey: 'id',
-        foreignKey: 'userId',
-      });
-      this.hasMany(models.Reservations, {
-        sourceKey: 'id',
-        foreignKey: 'reservationId',
-      });
       this.hasMany(models.Reviews, {
         sourceKey: 'id',
         foreignKey: 'reviewId',
+      });
+      this.belongsTo(models.Users, {
+        targetKey: 'id',
+        foreignKey: 'userId',
       });
     }
   }

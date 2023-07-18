@@ -1,10 +1,16 @@
-const User = require('../models/users');
+const { Users } = require('../models');
 class UserRepository {
-  findUser = async (id) => {};
-  createUser = async (userdata) => {
-    const createUserData = await User.create({});
+  createUser = async (email, name, password, isPetSitter, profileImage) => {
+    const createUserData = await Users.create({
+      email,
+      name,
+      password,
+      isPetSitter,
+      profileImage,
+    });
+    console.log('여긴repo', name);
+    return createUserData;
   };
-  login = async (email, password) => {};
 }
 
 module.exports = UserRepository;
