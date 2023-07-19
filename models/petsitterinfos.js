@@ -18,10 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'id',
         foreignKey: 'reviewId',
       });
-      this.belongsTo(models.Users,{
-        targetKey:'id',
-        foreignKey:'userId'
-      })
+      this.belongsTo(models.Users, {
+        targetKey: 'id',
+        foreignKey: 'userId',
+      });
     }
   }
   PetSitterInfos.init(
