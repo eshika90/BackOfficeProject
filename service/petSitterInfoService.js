@@ -1,5 +1,6 @@
 const PetSitterInfoRepository = require('../repositories/petSitterInfoRepository.js');
 const UserRepository = require('../repositories/userRepository.js');
+const careerCalculation = require('../utils/dateCalculationUtil.js');
 
 class PetSitterInfoService {
   petSitterInfoRepository = new PetSitterInfoRepository();
@@ -47,6 +48,8 @@ class PetSitterInfoService {
         };
       }
 
+      const career = careerCalculation(petSitterData.career);
+
       const petSitter = {
         petSitterId: petSitterData.id,
         homeType: petSitterData.homeType,
@@ -56,6 +59,7 @@ class PetSitterInfoService {
         address: petSitterData.address,
         image: petSitterData.image,
         price: petSitterData.price,
+        career,
       };
 
       return {
