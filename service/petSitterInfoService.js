@@ -58,11 +58,10 @@ class PetSitterInfoService {
 
       const career = careerCalculation(petSitterData.career);
 
-      // user repository에서 가져오기
-      const userData = await Users.findone({
-        where: { id: petSitterData.userId },
-        attributes: ['name'],
-      });
+      const userData = await this.userRepository.findUser(
+        { id: petSitterData.userId },
+        ['name'],
+      );
 
       // reservation repository에서 가져오기
       const reservationData = await Reservations.findAll({
