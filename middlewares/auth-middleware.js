@@ -13,12 +13,12 @@ const authMiddlewareHttp = async (req, res, next) => {
     ).split(' ');
     const [refreshTokenAuthType, refreshToken] = (
       req.cookies.refreshToken ?? ''
-    ).split('');
+    ).split(' ');
 
     if (
       accessTokenAuthType !== 'Bearer' ||
       !refreshToken ||
-      !refreshTokenAuthType !== 'Bearer' ||
+      refreshTokenAuthType !== 'Bearer' ||
       !accessToken
     ) {
       throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
@@ -40,7 +40,8 @@ const authMiddlewareHttp = async (req, res, next) => {
   } catch (err) {
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
-    return res.status(401).json('로그인이 필요한 기능입니다');
+
+    return res.status(401).json('로그인이 필요한 기능1입니다');
   }
 };
 

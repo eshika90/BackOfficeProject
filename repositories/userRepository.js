@@ -13,6 +13,7 @@ class UserRepository {
       where: object,
       attributes: arr,
     });
+    // console.log(userResult);
     return userResult;
   };
   createUser = async (
