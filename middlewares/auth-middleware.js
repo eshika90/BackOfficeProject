@@ -3,7 +3,7 @@ const UserService = require('../service/userService');
 const userService = new UserService();
 const cookieParser = require('cookie-parser');
 const jwtInfo = require('../config.js').jwt;
-const { secretKey, expiresIn } = jwtInfo;
+const { secretKey, expireIn } = jwtInfo;
 const MakeError = require('../utils/makeErrorUtil');
 
 const authMiddlewareHttp = async (req, res, next) => {
@@ -29,6 +29,7 @@ const authMiddlewareHttp = async (req, res, next) => {
       accessToken,
       refreshToken,
       secretKey,
+      expireIn,
     );
 
     if (tokenAndUserId.newAccessToken) {
@@ -57,7 +58,13 @@ function accessTokenVerify(jwt, accessToken) {
     return { userId: null };
   }
 }
-const verifyToken = async (jwt, accessToken, refreshToken, secretKey) => {
+const verifyToken = async (
+  jwt,
+  accessToken,
+  refreshToken,
+  secretKey,
+  expiresIn,
+) => {
   try {
     const payload = accessTokenVerify(jwt, accessToken);
 
@@ -76,6 +83,7 @@ const verifyToken = async (jwt, accessToken, refreshToken, secretKey) => {
       return { userId: user.userId, newAccessToken };
     }
   } catch (err) {
+    console.log(err);
     throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
   }
 };

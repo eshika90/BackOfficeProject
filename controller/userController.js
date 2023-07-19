@@ -35,7 +35,7 @@ class UserController {
     const userData = await this.userService.login(email, password);
     if (userData) {
       res.cookie('accessToken', `${userData.accessToken}`);
-      res.cookie('refreshToken', `${userData.refreshToken}`);
+      res.cookie('refreshToken', `Bearer ${userData.refreshToken}`);
       res.status(200).json({ message: '로그인에 성공하였습니다.' });
     }
   };
