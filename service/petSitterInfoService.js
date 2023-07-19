@@ -1,6 +1,7 @@
 const PetSitterInfoRepository = require('../repositories/petSitterInfoRepository.js');
 const UserRepository = require('../repositories/userRepository.js');
 const careerCalculation = require('../utils/dateCalculationUtil.js');
+const { Users, Reservations } = require('../models');
 
 class PetSitterInfoService {
   petSitterInfoRepository = new PetSitterInfoRepository();
@@ -50,8 +51,19 @@ class PetSitterInfoService {
 
       const career = careerCalculation(petSitterData.career);
 
+      // user repository에서 가져오기
+      const userData = await Users.findone({
+        where: { id: petSitterData.userId },
+        attributes: ['name'],
+      });
+
+      // reservation repository에서 가져오기
+      const reservationData = await Reservations.findAll({
+        where: { petSitterId: petSitterData.id },
+      });
       const petSitter = {
         petSitterId: petSitterData.id,
+        name: userData.name,
         homeType: petSitterData.homeType,
         summaryTitle: petSitterData.summaryTitle,
         summary: petSitterData.summary,
@@ -60,6 +72,7 @@ class PetSitterInfoService {
         image: petSitterData.image,
         price: petSitterData.price,
         career,
+        reservationData,
       };
 
       return {
