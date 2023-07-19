@@ -1,4 +1,5 @@
 const UserRepository = require('../repositories/userRepository');
+const { json } = require('sequelize');
 const MakeError = require('../utils/makeErrorUtil');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -20,7 +21,7 @@ class UserService {
         'email',
       ]);
       if (foundEmail) {
-        throw new MakeError(400, '중복된 이메일입니다.', 'invalid request');
+        // throw new MakeError(400, '중복된 이메일입니다.', 'invalid request');
       }
       if (!name || !password || !email || !isPetSitter || !confirmpassword) {
         throw new MakeError(
@@ -116,7 +117,7 @@ class UserService {
   //   const userId = payloadData.userId;
   //   const requireUserInfo = [email, name, isPetSitter, profileImage];
   //   return await this.userRepository.findUser({ userId }, requireUserInfo);
-  // };
+  // };D
   getUser = async (object, arr = []) => {
     try {
       if (arr.indexOf('password') !== -1) {

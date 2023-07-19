@@ -39,7 +39,8 @@ const authMiddlewareHttp = async (req, res, next) => {
   } catch (err) {
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
-    return res.status(401).json('로그인이 필요한 기능입니다');
+
+    return res.status(401).json('로그인이 필요한 기능1입니다');
   }
 };
 
@@ -77,6 +78,7 @@ const verifyToken = async (
       }
     }
   } catch (err) {
+    console.log(err);
     throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
   }
 };
