@@ -8,7 +8,7 @@ const userController = new UserController();
 router.post('/signup', userController.createUser);
 router.post('/login', userController.login);
 router.get('/getuser', authMiddlewareHttp, userController.showUserInfo);
-// router.put('/password', userController.modifyUserPass);
-// router.put('/', userController.modifyUserInfo);
+router.put('/password', authMiddlewareHttp, userController.modifyUserPass);
+router.put('/', authMiddlewareHttp, userController.modifyUserInfo);
 
 module.exports = router;

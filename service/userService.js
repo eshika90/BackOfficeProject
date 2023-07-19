@@ -1,5 +1,4 @@
 const UserRepository = require('../repositories/userRepository');
-const { json } = require('sequelize');
 const MakeError = require('../utils/makeErrorUtil');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -7,7 +6,6 @@ const { secretKey, expireIn, expireIn2 } = require('../config').jwt;
 
 class UserService {
   userRepository = new UserRepository();
-  getUser = async () => {};
   createUser = async (
     email,
     name,
@@ -21,7 +19,7 @@ class UserService {
         'email',
       ]);
       if (foundEmail) {
-        // throw new MakeError(400, '중복된 이메일입니다.', 'invalid request');
+        throw new MakeError(400, '중복된 이메일입니다.', 'invalid request');
       }
       if (!name || !password || !email || !isPetSitter || !confirmpassword) {
         throw new MakeError(
@@ -98,26 +96,26 @@ class UserService {
           'invalid request',
         );
       }
+      let refreshToken;
+      if (!foundUser.refreshToken) {
+        refreshToken =
+          'Bearer ' + jwt.sign({}, secretKey, { expiresIn: expireIn2 });
+        await this.userRepository.saveRefreshtoken(email, refreshToken);
+      }
+      if (foundUser.refreshToken) {
+        refreshToken = foundUser.refreshToken;
+      }
       const accessToken =
         'Bearer ' +
         jwt.sign({ userId: foundUser.id }, secretKey, {
           expiresIn: expireIn,
         });
-      if (!foundUser.refreshToken) {
-        await this.userRepository.saveRefreshtoken(email, refreshToken);
-      }
-      const refreshToken =
-        'Bearer ' + jwt.sign({}, secretKey, { expiresIn: expireIn2 });
+      console.log(refreshToken);
       return { accessToken, refreshToken };
     } catch (err) {
       throw err;
     }
   };
-  // getUser = async (payloadData) => {
-  //   const userId = payloadData.userId;
-  //   const requireUserInfo = [email, name, isPetSitter, profileImage];
-  //   return await this.userRepository.findUser({ userId }, requireUserInfo);
-  // };D
   getUser = async (object, arr = []) => {
     try {
       if (arr.indexOf('password') !== -1) {
@@ -148,32 +146,62 @@ class UserService {
     }
   };
 
-  modifyUserPass = async (payloadData, password, updatepassword) => {
+  modifyUserPass = async (
+    payloadData,
+    confirmpassword,
+    password,
+    updatepassword,
+  ) => {
     const userId = payloadData.userId;
-    const foundUser = await this.userRepository.findUser(
-      { id: userId },
+    const foundUser = await this.userRepository.findUser({ id: userId }, [
       'password',
-    );
-    if (!password.match(/^(?=.*[a-zA-Z])(?=.*[0-9]).{4,8}$/)) {
-      throw new MakeError(
-        400,
-        '패스워드 형식이 올바르지 않습니다.',
-        'invalid request',
-      );
+    ]);
+    try {
+      if (!password.match(/^(?=.*[a-zA-Z])(?=.*[0-9]).{4,8}$/)) {
+        throw new MakeError(
+          400,
+          '패스워드 형식이 올바르지 않습니다.',
+          'invalid request',
+        );
+      }
+      if (!updatepassword.match(/^(?=.*[a-zA-Z])(?=.*[0-9]).{4,8}$/)) {
+        throw new MakeError(
+          400,
+          '변경할 패스워드 형식이 올바르지 않습니다.',
+          'invalid request',
+        );
+      }
+      if (password !== confirmpassword) {
+        const error = new MakeError(
+          400,
+          '패스워드와 패스워드 확인 값이 일치하지 않습니다.',
+          'invalid request',
+        );
+      }
+      if (password == updatepassword) {
+        throw new MakeError(
+          400,
+          '변경할 패스워드와 현재 패스워드가 같습니다.',
+          'invalid request',
+        );
+      }
+      if (!bcrypt.compareSync(password, foundUser.password)) {
+        throw new MakeError(
+          400,
+          '입력하신 패스워드가 기존 패스워드와 다릅니다.',
+          'invalid request',
+        );
+      }
+      const updateHashPass = { password: bcrypt.hashSync(updatepassword, 10) };
+      return await this.userRepository.updateUser(userId, updateHashPass);
+    } catch (err) {
+      throw err;
     }
-    if (!bcrypt.compareSync(password, foundUser.password)) {
-      throw new MakeError(
-        400,
-        '패스워드와 패스워드 확인 값이 일치하지 않습니다.',
-        'invalid request',
-      );
-    }
-    const updateHashPass = bcrypt.hashSync(updatepassword);
-    return await this.userRepository.updateUserPass(userId, updateHashPass);
   };
   modifyUserInfo = async (payloadData, profileImage) => {
     const userId = payloadData.userId;
-    return await this.userRepository.updateUserInfo(userId, profileImage);
+    const updateImg = { profileImage };
+    return await this.userRepository.updateUser(userId, updateImg);
   };
 }
 module.exports = UserService;

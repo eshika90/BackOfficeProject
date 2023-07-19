@@ -41,11 +41,8 @@ class UserController {
         res.status(200).json({ message: '로그인에 성공하였습니다.' });
       }
     } catch (err) {
-      if (err.code) {
-        return res.status(err.code).json({ messge: err.message });
-      } else {
-        return res.status(500).json({ message: 'Server Error' });
-      }
+      console.log(err);
+      return res.status(500).json({ message: 'Server Error' });
     }
   };
   showUserInfo = async (req, res, next) => {
@@ -57,24 +54,30 @@ class UserController {
     );
     return res.status(200).json({ 'Users detail': foundUserInfos });
   };
-  // modifyUserPass = async (req, res, next) => {
-  //   const payloadData = res.locals.payload;
-  //   const { password, updatepassword } = req.body;
-  //   const updateUserPass = await this.userService.modifyUserPass(
-  //     payloadData,
-  //     password,
-  //     updatepassword,
-  //   );
-  //   return res.status(200).json({ message: '비밀번호를 수정하였습니다.' });
-  // };
-  // modifyUserInfo = async (req, res, next) => {
-  //   const payloadData = res.locals.payload;
-  //   const { profileImage } = req.body;
-  //   const updateUserInfo = await this.userService.modifyUserInfo(
-  //     payloadData,
-  //     profileImage,
-  //   );
-  //   return res.status(200).json({ message: '회원 정보를 수정하였습니다.' });
-  // };
+  modifyUserPass = async (req, res, next) => {
+    const payloadData = res.locals.payload;
+    const { password, confirmpassword, updatepassword } = req.body;
+    await this.userService.modifyUserPass(
+      payloadData,
+      password,
+      confirmpassword,
+      updatepassword,
+    );
+    return res.status(200).json({ message: '비밀번호를 수정하였습니다.' });
+  };
+  modifyUserInfo = async (req, res, next) => {
+    const payloadData = res.locals.payload;
+    const { profileImage } = req.body;
+    try {
+      const updateUserInfo = await this.userService.modifyUserInfo(
+        payloadData,
+        profileImage,
+      );
+      return res.status(200).json({ message: '회원 정보를 수정하였습니다.' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server Error' });
+    }
+  };
 }
 module.exports = UserController;

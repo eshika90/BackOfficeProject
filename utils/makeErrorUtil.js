@@ -1,12 +1,9 @@
 class MakeError extends Error {
-  constructor(code, message, name) {
+  constructor(message, code, name) {
     super(message);
     this.code = code;
     this.name = name;
-  }
-  sendErrorResponse(res) {
-    res.status(this.code).json({ message: this.message, name: this.name });
+    Error.captureStackTrace(this, this.constructor);
   }
 }
-
 module.exports = MakeError;
