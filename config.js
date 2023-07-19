@@ -1,4 +1,4 @@
-const db = {
+const db =  {
   development: {
     username: 'root',
     password: '',
