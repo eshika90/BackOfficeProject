@@ -38,6 +38,16 @@ class UserRepository {
     );
     return savedRefreshToken;
   };
+  updateUserPass = async (id, updateHassPass) => {
+    const updatePassword = await Users.update(
+      { updateHassPass },
+      { where: { id } },
+    );
+    return updatePassword;
+  };
+  updateUserInfo = async (id, profileImage) => {
+    return await Users.update({ profileImage }, { where: { id } });
+  };
 }
 
 module.exports = UserRepository;
