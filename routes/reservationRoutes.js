@@ -12,22 +12,23 @@ router.post(
   reservationController.createreservation,
 );
 router.get(
-  'reservation',
+  '/reservation',
   authMiddleware,
   reservationController.viewreservation,
 );
+const authMiddleware = require('../middlewares/auth-middleware');
 router.get(
-  'reservation/:reservationId',
+  '/reservation/:reservationId',
   authMiddleware,
   reservationController.viewonereservation,
 );
 router.put(
-  'reservation/:reservationId',
+  '/reservation/:reservationId',
   authMiddleware,
   reservationController.updatereservation,
 );
 router.delete(
-  'reservation/:reservationId',
+  '/reservation/:reservationId',
   authMiddleware,
   reservationController.deletereservation,
 );
