@@ -12,6 +12,13 @@ class PetSitterInfoService {
     try {
       const petSitters = await this.petSitterInfoRepository.findAllPetSitter({
         attributes: ['id', 'homeType', 'summaryTitle', 'address', 'image'],
+        include: [
+          {
+            as: 'petSitterUserInfo',
+            model: Users,
+            attributes: ['name'],
+          },
+        ],
         order: [['createdAt', 'DESC']],
       });
 
@@ -61,6 +68,7 @@ class PetSitterInfoService {
       const reservationData = await Reservations.findAll({
         where: { petSitterId: petSitterData.id },
       });
+
       const petSitter = {
         petSitterId: petSitterData.id,
         name: userData.name,
