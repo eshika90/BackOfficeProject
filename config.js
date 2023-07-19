@@ -1,6 +1,6 @@
-const db =  {
+const db = {
   development: {
-    username: 'root',
+    username: '',
     password: '',
     database: 'BackOfficeProject',
     host: '',
@@ -23,7 +23,7 @@ const db =  {
 };
 
 const jwt = {
-  secretKey: '',
+  secretKey: '1234',
   expireIn: '600s', // accesstoken 유효기간
   expireIn2: '7d', // refreshtoken 유효기간
 };
