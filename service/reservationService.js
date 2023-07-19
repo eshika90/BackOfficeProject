@@ -8,16 +8,7 @@ class ReservationService {
       userId,
     );
 
-    return reservationDatas.map((a) => {
-      return {
-        id: a.id,
-        userId: a.userId,
-        petSitterId: a.petSitterId,
-        startDate: a.startDateL,
-        endDate: a.endDate,
-        totalPrice: a.totalPrice,
-      };
-    });
+    return reservationDatas;
   };
 
   createreservation = async (

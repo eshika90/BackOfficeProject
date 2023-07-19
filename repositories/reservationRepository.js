@@ -30,6 +30,8 @@ class ReservationRepository {
     petSitterId,
     totalPrice,
   ) => {
+    console.log(petSitterId);
+
     const reservation = await Reservations.create({
       userId,
       petSitterId,
@@ -38,6 +40,7 @@ class ReservationRepository {
       endDate,
       totalPrice,
     });
+
     return reservation;
   };
 

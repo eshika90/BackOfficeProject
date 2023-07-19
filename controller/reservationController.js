@@ -12,20 +12,17 @@ class ReservationController {
     );
 
     try {
-      if (!reservationDatas) {
-        return res(200).json({
-          message: '예약된 정보가 없습니다.',
+      if (!reservationDatas.legth) {
+        return res.status(200).json({
+          Message: '예약된 정보가 없습니다.',
         });
       } else if (reservationDatas) {
-        return (
-          res(200),
-          json({
-            reservationDatas,
-          })
-        );
+        return res.status(200).json({
+          reservationDatas,
+        });
       }
-    } catch {
-      return res(500).json({ message: 'Server Error' });
+    } catch (err) {
+      return res.status(500).json({ message: 'Server Error' });
     }
   };
 
@@ -64,44 +61,42 @@ class ReservationController {
         return res.status(400).json({ message: '예약 실패' });
       }
     } catch {
-      return res(500).json({ message: 'Server Error' });
+      return res.status(500).json({ message: 'Server Error' });
     }
   };
 
   viewonereservation = async (req, res) => {
     const { reservationId } = req.params;
+    const reservationData = await this.reservationService.viewonereservation(
+      reservationId,
+    );
     try {
-      if (!reservationId) {
+      if (!reservationData) {
         return res
           .status(400)
           .json({ message: '해당 예약 정보를 불러오는데 실패하였습니다.' });
       }
-      const reservationData = await this.reservationService.viewonereservation(
-        reservationId,
-      );
+
       if (reservationData) {
-        return (
-          res(200),
-          json({
-            reservationData,
-          })
-        );
+        return res.status(200).json({
+          reservationData,
+        });
       }
     } catch {
-      return res(500).json({ message: 'Server Error' });
+      return res.status(500).json({ message: 'Server Error' });
     }
   };
 
   updatereservation = async (req, res) => {
     const { userId } = res.locals.payload;
     const { reservationId } = req.params;
-    const { startDate, endDate, petType, petSitterId, totalPrice } = res.body;
+    const { startDate, endDate, petType, petSitterId, totalPrice } = req.body;
     const reservationData = await this.reservationService.viewonereservation(
       reservationId,
     );
 
     try {
-      if (!reservationId) {
+      if (!reservationData) {
         return res
           .status(400)
           .json({ message: '존재하지 않는 예약 정보입니다.' });
@@ -134,7 +129,7 @@ class ReservationController {
         return res.status(400).json({ message: '예약 실패' });
       }
     } catch {
-      return res(500).json({ message: 'Server Error' });
+      return res.status(500).json({ message: 'Server Error' });
     }
   };
 
@@ -161,7 +156,7 @@ class ReservationController {
         return res.status(400).json({ message: '삭제 실패' });
       }
     } catch {
-      return res(500).json({ message: 'Server Error' });
+      return res.status(500).json({ message: 'Server Error' });
     }
   };
 }
