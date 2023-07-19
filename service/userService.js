@@ -91,6 +91,7 @@ class UserService {
         'email',
         'password',
         'refreshToken',
+        'id',
       ]);
       if (!foundUser || !bcrypt.compareSync(password, foundUser.password)) {
         throw new MakeError(
@@ -101,14 +102,12 @@ class UserService {
       }
       const accessToken =
         'Bearer ' +
-        jwt.sign({ email }, secretKey, {
+        jwt.sign({ userId: foundUser.id }, secretKey, {
           expiresIn: expireIn,
         });
-      if (!foundUser.refreshToken) {
-        await this.userRepository.saveRefreshtoken(email, refreshToken);
-      }
-      const refreshToken =
-        'Bearer ' + jwt.sign({}, secretKey, { expiresIn: expireIn2 });
+
+      const refreshToken = jwt.sign({}, secretKey, { expiresIn: expireIn2 });
+      await this.userRepository.saveRefreshtoken(email, refreshToken);
       return { accessToken, refreshToken };
     } catch (err) {
       throw err;
@@ -136,7 +135,6 @@ class UserService {
         );
       }
       const user = await this.userRepository.findUser(object, arr);
-      console.log(object.refreshToken);
       if (!user) {
         throw new MakeError(
           404,
