@@ -7,6 +7,6 @@ const router = require('./routes/index.js');
 const http = Server(app);
 
 app.use([express.json(), cookieParser()]);
-app.use('/', router);
+app.use('/api', router);
 
 module.exports = http;
