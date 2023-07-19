@@ -5,6 +5,5 @@ class MakeError extends Error {
     this.name = name;
   }
 }
-module.exports = MakeError;
 
-throw new MakeError(401, '올바른 postId를 입력해주세요', 'invalid postId');
+module.exports = MakeError;
