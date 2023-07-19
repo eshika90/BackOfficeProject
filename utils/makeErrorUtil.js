@@ -5,4 +5,5 @@ class MakeError extends Error {
     this.name = name;
   }
 }
+
 module.exports = MakeError;

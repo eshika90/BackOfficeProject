@@ -1,4 +1,4 @@
-const jwt = require('jswonwebtoken');
+const jwt = require('jsonwebtoken');
 const UserService = require('../service/userService');
 const userService = new UserService();
 const cookieParser = require('cookie-parser');
@@ -44,9 +44,7 @@ const authMiddlewareHttp = async (req, res, next) => {
   }
 };
 
-const authMiddlewareSocket = async (socket) => {
-  
-};
+const authMiddlewareSocket = async (socket) => {};
 
 //1.accessToken => verify해서 try/catch로 감싸서 에러처리  refreshToken
 function accessTokenVerify(jwt, accessToken) {
