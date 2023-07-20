@@ -3,9 +3,45 @@ const MakeError = require('../utils/makeErrorUtil');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { secretKey, expireIn, expireIn2 } = require('../config').jwt;
+const { MailSender, codeObject } = require('../nodemailer/nodemailer');
 
 class UserService {
   userRepository = new UserRepository();
+  mailSender = new MailSender();
+  mailVerify = async (email) => {
+    try {
+      const isEmail = await this.userRepository.findUser({ email: email });
+      if (isEmail) {
+        throw new MakeError(400, '중복되는 이메일입니다.', 'invalid request');
+      }
+      await this.mailSender.sendKaKaoemail(email);
+      return true;
+    } catch (err) {
+      throw err;
+    }
+  };
+  mailCodeVerify = async (email, code) => {
+    try {
+      if (
+        Object.keys(codeObject) == email &&
+        Object.values(codeObject) == code
+      ) {
+        return true;
+      } else if (
+        Object.keys(codeObject) != email ||
+        Object.values(codeObject) != code
+      ) {
+        throw new MakeError(
+          400,
+          '보낸 코드와 일치하지 않습니다.',
+          'invalid request',
+        );
+      }
+      return delete codeObject.email;
+    } catch (err) {
+      throw err;
+    }
+  };
   createUser = async (
     email,
     name,
@@ -15,12 +51,6 @@ class UserService {
     profilImage,
   ) => {
     try {
-      const foundEmail = await this.userRepository.findUser({ email: email }, [
-        'email',
-      ]);
-      if (foundEmail) {
-        throw new MakeError(400, '중복된 이메일입니다.', 'invalid request');
-      }
       if (!name || !password || !email || !isPetSitter || !confirmpassword) {
         throw new MakeError(
           400,
