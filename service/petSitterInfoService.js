@@ -46,18 +46,27 @@ class PetSitterInfoService {
     }
 
     try {
-      const canEndReservationDate = new Date('July 25, 2023 23:59:59'); // canStartReservationDate + 90일
-      const canStartReservationDate = new Date('July 19, 2023 23:59:59'); // 현재 날짜 다음날
+      // 예약 현황 조회 : 1일 후~90일 후
+      const today = new Date();
+      const canStartReservationDate = new Date(
+        today.setDate(today.getDate() + 1),
+      );
+      const canEndReservationDate = new Date(
+        today.setDate(today.getDate() + 91),
+      );
+
       const petSitterData = await this.petSitterInfoRepository.findOnePetSitter(
         {
           where: { id },
           include: [
             {
+              // 펫시터 이름
               as: 'petSitterUserInfo',
               model: Users,
               attributes: ['name'],
             },
             {
+              // 펫시터 예약 현황
               separate: true,
               as: 'petSitterReservationInfo',
               model: Reservations,
@@ -94,6 +103,7 @@ class PetSitterInfoService {
         };
       }
 
+      // 경력 계산
       const career = careerCalculation(petSitterData.career);
 
       const petSitter = {
