@@ -1,7 +1,7 @@
 const db = {
   development: {
-    username: '',
-    password: '',
+    username: 'root',
+    password: '4321!!!!',
     database: 'BackOfficeProject',
     host: '127.0.0.1',
     dialect: 'mysql',

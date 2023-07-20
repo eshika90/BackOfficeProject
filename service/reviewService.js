@@ -23,8 +23,8 @@ class ReviewService {
         throw new MakeError('종료되지 않은 예약입니다', 400, 'invalid date');
       }
       const createReviewData = await this.reviewRepository.createReview({
-        userId,
         reservationId,
+        userId,
         petSitterId,
         rating,
         comment,
@@ -90,15 +90,15 @@ class ReviewService {
   };
 
   deleteReview = async (reviewData) => {
-    const { reviewId, userId } = reviewData;
+    const { id, userId } = reviewData;
     const deleteOptions = {
       where: {
-        [Op.and]: [{ reviewId, userId }],
+        [Op.and]: [{ id, userId }],
       },
     };
 
     try {
-      if (isNaN(reviewId / 1)) {
+      if (isNaN(id / 1)) {
         throw new MakeError(
           '유효하지 않은 리뷰id입니다',
           401,

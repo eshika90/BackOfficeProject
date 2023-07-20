@@ -1,20 +1,34 @@
 const ReviewService = require('../service/reviewService');
+// const ReservationController = require('../controller/reservationController');
 
 class ReviewController {
   constructor() {
     this.reviewService = new ReviewService();
+    // this.reservationController = new ReservationController();
   }
 
   createReview = async (req, res) => {
-    const { rating, comment, image } = req.body;
+    console.log('111111');
+    const { userId, rating, comment, image } = req.body;
     const { reservationId } = req.params;
-    const userId = res.locals.user.id;
+    // const userId = res.locals.user.id;
     // reservation 컨트롤러에서 가져오기
-    const petSitterId = '리뷰컨트롤러의 펫시터 아이디';
-    const endDate = '예약 종료일';
+    // params의 "예약id"에 해당하는 예약의 "펫시터id"와 "예약종료일"이  필요
+    // const reservationDatas = this.reservationController.viewreservation();
+    // const { petSitterId } = reservationDatas.petSitterId;
+    const petSitterId = 1;
+    console.log('2222222222');
+    const endDate = '2023-07-20';
 
     try {
-      if (!reservationId) {
+      if (
+        !reservationId ||
+        !userId ||
+        !rating ||
+        !comment ||
+        !petSitterId ||
+        !endDate
+      ) {
         res.status(400).json({
           message: '리뷰 작성 실패',
         });
@@ -74,12 +88,17 @@ class ReviewController {
 
   deleteReview = async (req, res) => {
     const userId = res.locals.user.id;
-    const { reviewId } = req.params;
+    const { id } = req.params;
     try {
-      if (!reviewId) {
+      if (!id || !userId) {
         return res.status(400).json({ message: '리뷰 삭제 실패' });
       }
-      await this.reviewService.deleteReview({ userId, reviewId });
+      if (isNaN(id.trim())) {
+        res.status(400).json({
+          message: '리뷰 삭제 실패',
+        });
+      }
+      await this.reviewService.deleteReview({ userId, id });
       return res.status(200).json({ message: '리뷰 삭제 완료' });
     } catch (err) {
       if (err.code === 401) {

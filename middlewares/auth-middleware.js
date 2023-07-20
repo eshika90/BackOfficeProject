@@ -6,8 +6,6 @@ const jwtInfo = require('../config.js').jwt;
 const { secretKey, expireIn } = jwtInfo;
 const MakeError = require('../utils/makeErrorUtil');
 
-{
-}
 const authMiddlewareHttp = async (req, res, next) => {
   try {
     const [accessTokenAuthType, accessToken] = (
@@ -15,24 +13,36 @@ const authMiddlewareHttp = async (req, res, next) => {
     ).split(' ');
     const [refreshTokenAuthType, refreshToken] = (
       req.cookies.refreshToken ?? ''
-    ).split('');
+    ).split(' ');
 
     if (
       accessTokenAuthType !== 'Bearer' ||
       !refreshToken ||
-      !accessTokenAuthType !== 'Bearer' ||
+      refreshTokenAuthType !== 'Bearer' ||
       !accessToken
     ) {
-      //  throw Error
-      throw new MakeError(
-        401,
-        '올바른 postId를 입력해주세요',
-        'invalid postId',
-      );
+      throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
     }
-    res.locals.payload = { userId: 1 };
+
+    const tokenAndUserId = await verifyToken(
+      jwt,
+      accessToken,
+      refreshToken,
+      secretKey,
+      expireIn,
+    );
+
+    if (tokenAndUserId.newAccessToken) {
+      res.cookie('accessToken', `Bearer ${tokenAndUserId.newAccessToken}`);
+    }
+
+    res.locals.payload = { userId: tokenAndUserId.userId };
+    next();
   } catch (err) {
-    throw err;
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+
+    return res.status(401).json('로그인이 필요한 기능1입니다');
   }
 };
 
@@ -42,9 +52,39 @@ const authMiddlewareHttp = async (req, res, next) => {
 function accessTokenVerify(jwt, accessToken) {
   try {
     //토큰에 뭐 집어넣을지 물어보기
-    const { id } = jwt.verify(accessToken, tokenKey);
-    return id;
-  } catch (err) {}
+    const payload = jwt.verify(accessToken, secretKey);
+    return payload;
+  } catch (err) {
+    return { userId: null };
+  }
 }
-function verifyToken(accessToken, refreshToken, tokenKey) {}
+const verifyToken = async (
+  jwt,
+  accessToken,
+  refreshToken,
+  secretKey,
+  expiresIn,
+) => {
+  try {
+    const payload = accessTokenVerify(jwt, accessToken);
+
+    if (payload.userId) {
+      payload.newAccessToken = null;
+      return payload;
+    } else {
+      jwt.verify(refreshToken, secretKey);
+    }
+
+    const user = await userService.getUser({ refreshToken }, ['id']);
+    if (user) {
+      const newAccessToken = jwt.sign({ userId: user.id }, secretKey, {
+        expiresIn,
+      });
+      return { userId: user.userId, newAccessToken };
+    }
+  } catch (err) {
+    console.log(err);
+    throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
+  }
+};
 module.exports = { authMiddlewareHttp, authMiddlewareSocket };

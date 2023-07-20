@@ -14,7 +14,7 @@ class ReviewRepository {
         where: { reservationId, userId },
       });
 
-      if (isReview) {
+      if (!isReview) {
         const createReviewData = await Reviews.create({
           reservationId,
           userId,
