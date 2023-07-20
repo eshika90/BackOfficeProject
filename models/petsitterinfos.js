@@ -16,11 +16,17 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.hasMany(models.Reviews, {
         sourceKey: 'id',
-        foreignKey: 'reviewId',
+        foreignKey: 'petSitterId',
       });
       this.belongsTo(models.Users, {
+        as: 'petSitterUserInfo',
         targetKey: 'id',
         foreignKey: 'userId',
+      });
+      this.hasMany(models.Reservations, {
+        as: 'petSitterReservationInfo',
+        sourceKey: 'id',
+        foreignKey: 'petSitterId',
       });
     }
   }

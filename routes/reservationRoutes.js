@@ -6,30 +6,39 @@ const { authMiddlewareHttp } = require('../middlewares/auth-middleware');
 const ReservationController = require('../controller/reservationController');
 const reservationController = new ReservationController();
 
+// 전체 조회
+router.get(
+  '/reservation',
+  authMiddlewareHttp,
+  reservationController.viewReservation,
+);
+
+// 예약 등록
 router.post(
   '/reservation',
   authMiddlewareHttp,
-  reservationController.createreservation,
+  reservationController.createReservation,
 );
-router.get(
-  '/reservation',
-  authMiddlewareHttp,
-  reservationController.viewreservation,
-);
+
+// 예약 상세 조회
 router.get(
   '/reservation/:reservationId',
   authMiddlewareHttp,
-  reservationController.viewonereservation,
+  reservationController.viewOneReservation,
 );
+
+// 예약 수정
 router.put(
   '/reservation/:reservationId',
   authMiddlewareHttp,
-  reservationController.updatereservation,
+  reservationController.updateReservation,
 );
+
+// 예약 취소
 router.delete(
   '/reservation/:reservationId',
   authMiddlewareHttp,
-  reservationController.deletereservation,
+  reservationController.deleteReservation,
 );
 
 module.exports = router;

@@ -1,9 +1,9 @@
 class MakeError extends Error {
-  constructor(code, message, name) {
+  constructor(message, code, name) {
     super(message);
     this.code = code;
     this.name = name;
+    Error.captureStackTrace(this, this.constructor);
   }
 }
-
-// // throw new MakeError(401, '올바른 postId를 입력해주세요', 'invalid postId');
+module.exports = MakeError;

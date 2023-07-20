@@ -1,7 +1,8 @@
 const { Reservations, Users } = require('../models');
 
 class ReservationRepository {
-  viewreservation = async (userId) => {
+  // 전체 조회
+  viewReservation = async (userId) => {
     const reservationDatas = await Reservations.findAll({
       where: { userId },
       attribute: [
@@ -22,7 +23,8 @@ class ReservationRepository {
     return reservationDatas;
   };
 
-  createreservation = async (
+  // 예약 등록
+  createReservation = async (
     userId,
     startDate,
     endDate,
@@ -32,16 +34,18 @@ class ReservationRepository {
   ) => {
     const reservation = await Reservations.create({
       userId,
-      petSitterId,
-      petType,
       startDate,
       endDate,
+      petType,
+      petSitterId,
       totalPrice,
     });
+
     return reservation;
   };
 
-  viewonereservation = async (reservationId) => {
+  // 예약 상세 조회
+  viewOneReservation = async (reservationId) => {
     const reservationData = await Reservations.findOne({
       where: { id: reservationId },
       attribute: [
@@ -62,6 +66,7 @@ class ReservationRepository {
     return reservationData;
   };
 
+  // 예약 수정
   updateReservation = async (
     reservationId,
     startDate,
@@ -70,8 +75,7 @@ class ReservationRepository {
     petSitterId,
     totalPrice,
   ) => {
-    const updateReservation = await Reservations.update(
-      { where: { id: reservationId } },
+    const updatereservation = await Reservations.update(
       {
         startDate,
         endDate,
@@ -79,11 +83,14 @@ class ReservationRepository {
         petSitterId,
         totalPrice,
       },
+      { where: { id: reservationId } },
     );
-    return updateReservation;
+    console.log(updatereservation);
+    return updatereservation;
   };
 
-  deletereservation = async (reservationId) => {
+  // 예약 취소
+  deleteReservation = async (reservationId) => {
     const deleteReservation = await Reservations.destroy({
       where: { id: reservationId },
     });
