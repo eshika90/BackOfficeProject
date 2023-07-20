@@ -11,9 +11,7 @@ class ReservationService {
 
     try {
       if (!reservationDatas.legth) {
-        return res.status(200).json({
-          Message: '예약된 정보가 없습니다.',
-        });
+        return { status: 200, message: '예약된 정보가 없습니다.' };
       } else if (reservationDatas) {
         return { status: 200, message: reservationDatas };
       }
@@ -131,13 +129,14 @@ class ReservationService {
   };
 
   // 예약 취소
-  deleteReservation = async (reservationId) => {
+  deleteReservation = async (userId, reservationId) => {
+    console.log(reservationId);
     // 취소 권한 조회
     const reservationData = await this.reservationRepository.viewOneReservation(
       reservationId,
     );
     try {
-      if (!reservationId) {
+      if (!reservationData) {
         return { status: 400, message: '존재하지 않는 예약 정보입니다.' };
       } else if (userId !== reservationData.userId) {
         return { status: 400, message: '예약 취소 권한이 없습니다.' };
