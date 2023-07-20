@@ -32,7 +32,6 @@ const authMiddlewareHttp = async (req, res, next) => {
     if (tokenAndUserId.newAccessToken) {
       res.cookie('accessToken', `Bearer ${tokenAndUserId.newAccessToken}`);
     }
-
     res.locals.payload = { userId: tokenAndUserId.userId };
     next();
   } catch (err) {
@@ -67,15 +66,16 @@ const verifyToken = async (
       return payload;
     } else {
       const refreshUserid = jwt.verify(refreshToken, secretKey);
-      const user = await userService.getUser({ refreshToken }, refreshUserid);
+      const user = await userService.getUser({ refreshToken }, ['id']);
       if (user) {
         const newAccessToken = jwt.sign({ userId: user.id }, secretKey, {
           expiresIn,
         });
-        return { userId: user.userId, newAccessToken };
+        return { userId: user.id, newAccessToken };
       }
     }
   } catch (err) {
+    console.log(err);
     throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
   }
 };

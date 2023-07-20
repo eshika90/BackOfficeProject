@@ -36,8 +36,8 @@ class UserController {
     try {
       const userData = await this.userService.login(email, password);
       if (userData) {
-        res.cookie('accessToken', `${userData.accessToken}`);
-        res.cookie('refreshToken', `${userData.refreshToken}`);
+        res.cookie('accessToken', `Bearer ${userData.accessToken}`);
+        res.cookie('refreshToken', `Bearer ${userData.refreshToken}`);
         res.status(200).json({ message: '로그인에 성공하였습니다.' });
       }
     } catch (err) {
@@ -46,13 +46,17 @@ class UserController {
     }
   };
   showUserInfo = async (req, res, next) => {
-    const payloadData = res.locals.payload;
-    const userInfo = ['email', 'name', 'isPetSitter', 'profileImage'];
-    const foundUserInfos = await this.userService.getUser(
-      { id: payloadData.userId },
-      userInfo,
-    );
-    return res.status(200).json({ 'Users detail': foundUserInfos });
+    try {
+      const payloadData = res.locals.payload;
+      const userInfo = ['email', 'name', 'isPetSitter', 'profileImage'];
+      const foundUserInfos = await this.userService.getUser(
+        { id: payloadData.userId },
+        userInfo,
+      );
+      return res.status(200).json({ 'Users detail': foundUserInfos });
+    } catch (err) {
+      return res.status(500).json({ message: 'Server Error' });
+    }
   };
   modifyUserPass = async (req, res, next) => {
     const payloadData = res.locals.payload;

@@ -86,7 +86,6 @@ class UserService {
       const foundUser = await this.userRepository.findUser({ email: email }, [
         'email',
         'password',
-        'refreshToken',
         'id',
       ]);
       if (!foundUser || !bcrypt.compareSync(password, foundUser.password)) {
@@ -96,21 +95,11 @@ class UserService {
           'invalid request',
         );
       }
-      let refreshToken;
-      if (!foundUser.refreshToken) {
-        refreshToken =
-          'Bearer ' + jwt.sign({}, secretKey, { expiresIn: expireIn2 });
-        await this.userRepository.saveRefreshtoken(email, refreshToken);
-      }
-      if (foundUser.refreshToken) {
-        refreshToken = foundUser.refreshToken;
-      }
-      const accessToken =
-        'Bearer ' +
-        jwt.sign({ userId: foundUser.id }, secretKey, {
-          expiresIn: expireIn,
-        });
-      console.log(refreshToken);
+      let refreshToken = jwt.sign({}, secretKey, { expiresIn: expireIn2 });
+      await this.userRepository.saveRefreshtoken(email, refreshToken);
+      const accessToken = jwt.sign({ userId: foundUser.id }, secretKey, {
+        expiresIn: expireIn,
+      });
       return { accessToken, refreshToken };
     } catch (err) {
       throw err;
@@ -145,7 +134,6 @@ class UserService {
       throw err;
     }
   };
-
   modifyUserPass = async (
     payloadData,
     confirmpassword,
@@ -201,7 +189,11 @@ class UserService {
   modifyUserInfo = async (payloadData, profileImage) => {
     const userId = payloadData.userId;
     const updateImg = { profileImage };
-    return await this.userRepository.updateUser(userId, updateImg);
+    try {
+      return await this.userRepository.updateUser(userId, updateImg);
+    } catch (err) {
+      throw err;
+    }
   };
 }
 module.exports = UserService;

@@ -31,7 +31,6 @@ class UserRepository {
     return savedRefreshToken;
   };
   updateUser = async (id, updateColumn) => {
-    console.log('여긴 repo', updateColumn);
     const updateUserData = await Users.update(updateColumn, { where: { id } });
     return updateUserData;
   };
