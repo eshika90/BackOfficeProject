@@ -7,14 +7,19 @@ module.exports = (sequelize, Datatypes) => {
         sourceKey: 'id',
         foreignKey: 'userId',
       });
-      this.hasMany(models.PetSitterInfos,{
-        sourceKey:'id',
-        foreignKey:'userId'
-      })
+      this.hasMany(models.PetSitterInfos, {
+        sourceKey: 'id',
+        foreignKey: 'userId',
+      });
       this.belongsToMany(models.PetSitterInfos, {
         through: 'Reservations',
         foreignKey: 'userId',
         otherKey: 'petSitterId',
+      });
+      this.hasMany(models.Reservations, {
+        as: 'userReservationInfo',
+        sourceKey: 'id',
+        foreignKey: 'userId',
       });
     }
   }
