@@ -4,160 +4,68 @@ const ReservationService = require('../service/reservationService');
 class ReservationController {
   reservationService = new ReservationService();
 
-  viewreservation = async (req, res) => {
+  // 전체 조회
+  viewReservation = async (req, res) => {
     const { userId } = res.locals.payload;
 
-    const reservationDatas = await this.reservationService.viewreservation(
+    const result = await this.reservationService.viewReservation(userId);
+    return res.status(result.status).json({ message: result.message });
+  };
+
+  // 예약 등록
+  createReservation = async (req, res) => {
+    const { userId } = res.locals.payload;
+
+    const { startDate, endDate, petType, petSitterId, totalPrice } = req.body;
+
+    const result = await this.reservationService.createReservation(
       userId,
+      startDate,
+      endDate,
+      petType,
+      petSitterId,
+      totalPrice,
     );
-
-    try {
-      if (!reservationDatas.legth) {
-        return res.status(200).json({
-          Message: '예약된 정보가 없습니다.',
-        });
-      } else if (reservationDatas) {
-        return res.status(200).json({
-          reservationDatas,
-        });
-      }
-    } catch (err) {
-      return res.status(500).json({ message: 'Server Error' });
-    }
+    return res.status(result.status).json({ message: result.message });
   };
 
-  createreservation = async (req, res) => {
-    const { userId } = res.locals.payload;
-
-    const { startDate, endDate, petType, petSitterId, totalPrice } = req.body;
-
-    try {
-      if (!petSitterId) {
-        return res.status(400).json({ message: '펫시터를 정해주세요.' });
-      } else if (!startDate) {
-        return res
-          .status(400)
-          .json({ message: '예약 시작 날짜를 정해주세요.' });
-      } else if (!endDate) {
-        return res
-          .status(400)
-          .json({ message: '예약 마지막 날짜를 정해주세요.' });
-      } else if (!petType) {
-        return res
-          .status(400)
-          .json({ message: '어떤 반려동물인지 정해주세요.' });
-      }
-      const reservation = await this.reservationService.createreservation(
-        userId,
-        startDate,
-        endDate,
-        petType,
-        petSitterId,
-        totalPrice,
-      );
-      if (reservation) {
-        return res.status(200).json({ message: '예약 성공' });
-      } else if (!reservation) {
-        return res.status(400).json({ message: '예약 실패' });
-      }
-    } catch {
-      return res.status(500).json({ message: 'Server Error' });
-    }
-  };
-
-  viewonereservation = async (req, res) => {
+  // 예약 상세 조회
+  viewOneReservation = async (req, res) => {
     const { reservationId } = req.params;
-    const reservationData = await this.reservationService.viewonereservation(
+    const result = await this.reservationService.viewOneReservation(
       reservationId,
     );
-    try {
-      if (!reservationData) {
-        return res
-          .status(400)
-          .json({ message: '해당 예약 정보를 불러오는데 실패하였습니다.' });
-      }
-
-      if (reservationData) {
-        return res.status(200).json({
-          reservationData,
-        });
-      }
-    } catch {
-      return res.status(500).json({ message: 'Server Error' });
-    }
+    return res.status(result.status).json({ message: result.message });
   };
 
-  updatereservation = async (req, res) => {
+  // 예약 수정
+  updateReservation = async (req, res) => {
     const { userId } = res.locals.payload;
     const { reservationId } = req.params;
     const { startDate, endDate, petType, petSitterId, totalPrice } = req.body;
-    const reservationData = await this.reservationService.viewonereservation(
-      reservationId,
-    );
 
-    try {
-      if (!reservationData) {
-        return res
-          .status(400)
-          .json({ message: '존재하지 않는 예약 정보입니다.' });
-      } else if (userId !== reservationData.userId) {
-        return res.status(400).json({ message: '수정 권한이 없습니다.' });
-      } else if (!startDate) {
-        return res
-          .status(400)
-          .json({ message: '예약 시작 날짜를 정해주세요.' });
-      } else if (!endDate) {
-        return res
-          .status(400)
-          .json({ message: '예약 마지막 날짜를 정해주세요.' });
-      } else if (!petType) {
-        return res
-          .status(400)
-          .json({ message: '어떤 반려동물인지 정해주세요.' });
-      }
-      const updateReservation = await this.reservationService.updatereservation(
-        reservationId,
-        startDate,
-        endDate,
-        petType,
-        petSitterId,
-        totalPrice,
-      );
-      if (updateReservation) {
-        return res.status(200).json({ message: '예약 성공' });
-      } else if (!updateReservation) {
-        return res.status(400).json({ message: '예약 실패' });
-      }
-    } catch {
-      return res.status(500).json({ message: 'Server Error' });
-    }
+    const result = await this.reservationService.updateReservation(
+      userId,
+      reservationId,
+      startDate,
+      endDate,
+      petType,
+      petSitterId,
+      totalPrice,
+    );
+    return res.status(result.status).json({ message: result.message });
   };
 
-  deletereservation = async (req, res) => {
+  // 예약 취소
+  deleteReservation = async (req, res) => {
     const { userId } = res.locals.payload;
     const { reservationId } = req.params;
-    const reservationData = await this.reservationService.viewonereservation(
+
+    const result = await this.reservationService.deleteReservation(
+      userId,
       reservationId,
     );
-    try {
-      if (!reservationId) {
-        return res
-          .status(400)
-          .json({ message: '존재하지 않는 예약 정보입니다.' });
-      } else if (userId !== reservationData.userId) {
-        return res.status(400).json({ message: '삭제 권한이 없습니다.' });
-      }
-      const deleteReservation = await this.reservationService.deletereservation(
-        reservationId,
-      );
-      if (deleteReservation) {
-        return res.status(200).json({ message: '삭제 성공' });
-      } else if (!deleteReservation) {
-        return res.status(400).json({ message: '삭제 실패' });
-      }
-    } catch {
-      return res.status(500).json({ message: 'Server Error' });
-    }
+    return res.status(result.status).json({ message: result.message });
   };
 }
 

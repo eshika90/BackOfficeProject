@@ -22,7 +22,6 @@ class UserController {
 
       return res.status(201).json({ message: '회원 가입에 성공하였습니다.' });
     } catch (err) {
-      console.log(err);
       if (err.code) {
         return res.status(err.code).json({ messge: err.message });
       } else {
