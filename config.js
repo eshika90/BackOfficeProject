@@ -1,9 +1,9 @@
 const db =  {
   development: {
     username: 'root',
-    password: '',
+    password: '4321aaaa',
     database: 'BackOfficeProject',
-    host: '',
+    host: 'express-database.c6fzjazd8zwu.ap-northeast-2.rds.amazonaws.com',
     dialect: 'mysql',
   },
   test: {
@@ -23,7 +23,7 @@ const db =  {
 };
 
 const jwt = {
-  secretKey: '',
+  secretKey: '9pZiVZycziuxbGzlDEcQ',
   expireIn: '600s', // accesstoken 유효기간
   expireIn2: '7d', // refreshtoken 유효기간
 };

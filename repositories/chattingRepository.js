@@ -5,11 +5,16 @@ class ChattingRepository {
     makeChattingRoom = async (roomInfoObject) => {
         return await ChattingRooms.create(roomInfoObject);
     };
-
     //채팅방 유저추가
-    addUserToRoom = async (roomUserInfoArr, options) => {
+    addManyUserToRoom = async (roomUserInfoArr, options) => {
         return await Room_User.bulkCreate(roomUserInfoArr, options);
     };
+    addOneUserToRoom = async (roomUserInfo,options)=>{
+        return await Room_User.create(roomUserInfo,options);
+    }
+    getChattingRoom = async(roomOptions)=>{
+        return await ChattingRooms.findOne(roomOptions);
+    }
 
     //특정 유저가 속한 채팅방목록을 가져옴과 동시에 해당 채팅방에 속한 유저의 정보를 가져옴
     getRoomsAndUsers = async (userId) => {
@@ -17,14 +22,14 @@ class ChattingRepository {
             where: {
                 id: userId,
             },
-            attributes: ["id"],
+            attributes: ["id","nickname"],
             include: {
                 model: ChattingRooms,
                 through: { model: Room_User, attributes: [] },
                 include: [
                     {
                         model: Users,
-                        attributes: ["id", "name"],
+                        attributes: ["id", "nickname"],
                         through: { model: Room_User, attributes: [] },
                     },
                     {

@@ -3,7 +3,7 @@ const UserService = require('../service/userService');
 const userService = new UserService();
 const cookieParser = require('cookie-parser');
 const jwtInfo = require('../config.js').jwt;
-const { secretKey, expiresIn } = jwtInfo;
+const { secretKey, expireIn } = jwtInfo;
 const MakeError = require('../utils/makeErrorUtil');
 
 const authMiddlewareHttp = async (req, res, next) => {
@@ -13,12 +13,12 @@ const authMiddlewareHttp = async (req, res, next) => {
     ).split(' ');
     const [refreshTokenAuthType, refreshToken] = (
       req.cookies.refreshToken ?? ''
-    ).split('');
+    ).split(' ');
 
     if (
       accessTokenAuthType !== 'Bearer' ||
       !refreshToken ||
-      !refreshTokenAuthType !== 'Bearer' ||
+      refreshTokenAuthType !== 'Bearer' ||
       !accessToken
     ) {
       throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
@@ -29,6 +29,7 @@ const authMiddlewareHttp = async (req, res, next) => {
       accessToken,
       refreshToken,
       secretKey,
+      expireIn,
     );
 
     if (tokenAndUserId.newAccessToken) {
@@ -40,11 +41,46 @@ const authMiddlewareHttp = async (req, res, next) => {
   } catch (err) {
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
-    return res.status(401).json('로그인이 필요한 기능입니다');
+
+    return res.status(401).json('로그인이 필요한 기능1입니다');
   }
 };
 
-const authMiddlewareSocket = async (socket) => {};
+const authMiddlewareSocket = async (socket) => {
+  try {
+    //
+    let cookieValues = socket.handshake.headers.cookie;
+    let parsedCookies = cookieParser.parse(cookieValues);
+
+    const [refreshTokenAuthType, refreshToken] = (
+      parsedCookies.refreshToken ?? ''
+    ).split(' ');
+    const [accessTokenAuthType, accessToken] = (
+      parsedCookies.accessToken ?? ''
+    ).split(' ');
+
+    if (
+      !accessToken ||
+      !refreshToken ||
+      accessTokenAuthType !== 'Bearer' ||
+      refreshTokenAuthType !== 'Bearer'
+    ) {
+      throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
+    }
+
+    const tokenAndUserId = await verifyToken(
+      jwt,
+      accessToken,
+      refreshToken,
+      secretKey,
+      expireIn,
+    );
+      
+    return tokenAndUserId.userId;
+  } catch (err) {
+    return false;
+  }
+};
 
 //1.accessToken => verify해서 try/catch로 감싸서 에러처리  refreshToken
 function accessTokenVerify(jwt, accessToken) {
@@ -56,7 +92,13 @@ function accessTokenVerify(jwt, accessToken) {
     return { userId: null };
   }
 }
-const verifyToken = async (jwt, accessToken, refreshToken, secretKey) => {
+const verifyToken = async (
+  jwt,
+  accessToken,
+  refreshToken,
+  secretKey,
+  expiresIn,
+) => {
   try {
     const payload = accessTokenVerify(jwt, accessToken);
 
@@ -75,6 +117,7 @@ const verifyToken = async (jwt, accessToken, refreshToken, secretKey) => {
       return { userId: user.userId, newAccessToken };
     }
   } catch (err) {
+    console.log(err);
     throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
   }
 };
