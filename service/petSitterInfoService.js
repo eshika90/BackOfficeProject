@@ -2,6 +2,7 @@ const PetSitterInfoRepository = require('../repositories/petSitterInfoRepository
 const UserRepository = require('../repositories/userRepository.js');
 const careerCalculation = require('../utils/dateCalculationUtil.js');
 const { Users, Reservations } = require('../models');
+const { Op } = require('sequelize');
 
 class PetSitterInfoService {
   petSitterInfoRepository = new PetSitterInfoRepository();
@@ -45,8 +46,45 @@ class PetSitterInfoService {
     }
 
     try {
+      const canEndReservationDate = new Date('July 25, 2023 23:59:59'); // canStartReservationDate + 90일
+      const canStartReservationDate = new Date('July 19, 2023 23:59:59'); // 현재 날짜 다음날
       const petSitterData = await this.petSitterInfoRepository.findOnePetSitter(
-        { where: { id } },
+        {
+          where: { id },
+          include: [
+            {
+              as: 'petSitterUserInfo',
+              model: Users,
+              attributes: ['name'],
+            },
+            {
+              separate: true,
+              as: 'petSitterReservationInfo',
+              model: Reservations,
+              attributes: ['startDate', 'endDate'],
+              where: {
+                [Op.or]: [
+                  {
+                    startDate: {
+                      [Op.between]: [
+                        canStartReservationDate,
+                        canEndReservationDate,
+                      ],
+                    },
+                  },
+                  {
+                    endDate: {
+                      [Op.between]: [
+                        canStartReservationDate,
+                        canEndReservationDate,
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
       );
 
       if (!petSitterData) {
@@ -58,19 +96,9 @@ class PetSitterInfoService {
 
       const career = careerCalculation(petSitterData.career);
 
-      const userData = await this.userRepository.findUser(
-        { id: petSitterData.userId },
-        ['name'],
-      );
-
-      // reservation repository에서 가져오기
-      const reservationData = await Reservations.findAll({
-        where: { petSitterId: petSitterData.id },
-      });
-
       const petSitter = {
+        name: petSitterData.petSitterUserInfo.name,
         petSitterId: petSitterData.id,
-        name: userData.name,
         homeType: petSitterData.homeType,
         summaryTitle: petSitterData.summaryTitle,
         summary: petSitterData.summary,
@@ -79,7 +107,7 @@ class PetSitterInfoService {
         image: petSitterData.image,
         price: petSitterData.price,
         career,
-        reservationData,
+        reservation: petSitterData.petSitterReservationInfo,
       };
 
       return {

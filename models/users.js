@@ -16,6 +16,11 @@ module.exports = (sequelize, Datatypes) => {
         foreignKey: 'userId',
         otherKey: 'petSitterId',
       });
+      this.hasMany(models.Reservations, {
+        as: 'userReservationInfo',
+        sourceKey: 'id',
+        foreignKey: 'userId',
+      });
     }
   }
   Users.init(
