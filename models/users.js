@@ -3,19 +3,25 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, Datatypes) => {
   class Users extends Model {
     static associate(models) {
-      Users.hasMany(models.Reviews, {
+      this.hasMany(models.Reviews, {
         sourceKey: 'id',
         foreignKey: 'userId',
       });
-      Users.hasMany(models.PetSitterInfos, {
+      this.hasMany(models.PetSitterInfos, {
         sourceKey: 'id',
         foreignKey: 'userId',
       });
-      Users.belongsToMany(models.PetSitterInfos, {
+      this.belongsToMany(models.PetSitterInfos, {
         through: 'Reservations',
         foreignKey: 'userId',
         otherKey: 'petSitterId',
       });
+      this.hasMany(models.Reservations, {
+        as: 'userReservationInfo',
+        sourceKey: 'id',
+        foreignKey: 'userId',
+      });
+      
       Users.hasMany(models.Messages, {
         sourceKey: 'id',
         foreignKey: 'userId',
