@@ -75,7 +75,6 @@ const verifyToken = async (
       }
     }
   } catch (err) {
-    console.log(err);
     throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
   }
 };
