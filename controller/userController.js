@@ -1,7 +1,32 @@
 const UserService = require('../service/userService');
-const { authMiddlewareHttp } = require('../middlewares/auth-middleware.js');
 class UserController {
   userService = new UserService();
+  mailVerify = async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      await this.userService.mailVerify(email);
+      return res
+        .status(200)
+        .json({ message: '이메일로 인증번호가 전송되었습니다!' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server Error' });
+    }
+  };
+  mailCodeVerify = async (req, res, next) => {
+    try {
+      const { email, code } = req.body;
+      const codeConfirm = await this.userService.mailCodeVerify(email, code);
+      if (codeConfirm) {
+        return res
+          .status(200)
+          .json({ message: '이메일 인증이 완료되었습니다!' });
+      }
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server Error' });
+    }
+  };
   createUser = async (req, res, next) => {
     const {
       email,
