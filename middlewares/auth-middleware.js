@@ -41,7 +41,7 @@ const authMiddlewareHttp = async (req, res, next) => {
   }
 };
 
-// const authMiddlewareSocket = async (socket) => {};
+const authMiddlewareSocket = async (socket) => {};
 
 //1.accessToken => verify해서 try/catch로 감싸서 에러처리  refreshToken
 function accessTokenVerify(jwt, accessToken) {
@@ -78,5 +78,4 @@ const verifyToken = async (
     throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
   }
 };
-module.exports = { authMiddlewareHttp };
-// authMiddlewareSocket
+module.exports = { authMiddlewareHttp, authMiddlewareSocket };
