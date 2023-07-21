@@ -7,16 +7,14 @@ const app = express();
 const indexRouter = require('./routes/indexRoutes.js');
 const http = Server(app);
 
-app.use([express.json(), cookieParser()]);
-app.use('/api', indexRouter);
-
 app.use(
   cors({
     origin: '*',
     credentials: true,
   }),
 );
-
+app.use([express.json(), cookieParser()]);
+app.use('/api', indexRouter);
 app.use(express.static('public'));
 
 module.exports = http;

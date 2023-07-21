@@ -1,9 +1,9 @@
 const db = {
   development: {
-    username: '',
-    password: '',
+    username: 'root',
+    password: 'sparta1234',
     database: 'BackOfficeProject',
-    host: '',
+    host: 'express-database.chsegd7gavec.ap-northeast-2.rds.amazonaws.com',
     dialect: 'mysql',
   },
   test: {
@@ -30,4 +30,9 @@ const jwt = {
 
 const port = 3000;
 
-module.exports = { db, jwt, port };
+const mailer = {
+  user: 'eshika@kakao.com',
+  pass: 'tn102488',
+};
+
+module.exports = { db, jwt, port, mailer };

@@ -44,3 +44,64 @@ const clickPetSitter = (petSitterId) => {
 const clickMyPage = (userId) => {
   window.open('');
 };
+
+// 이메일 인증
+async function verifyEmail() {
+  const email = $('#signupEmail').val();
+  console.log(email);
+  const obj = { email: email };
+  const fetchData = await fetch('http://localhost:3000/api/users/verifyemail', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(obj),
+  }).then((d) => {
+    return d.json(fetchData);
+  });
+}
+async function verifyCode() {
+  const inputCode = $('#verifyCode').val();
+  const inputCodeData = { inputCode: code };
+  const fetchData = await fetch(
+    'http://localhost:3000/api/users/verifyemailcode',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputCodeData),
+    },
+  );
+}
+// 회원가입
+// async function signup() {
+//   if (!document.getElementById('verifyEmailBtn').disabled) {
+//     return alert('E-mail 인증 먼저 진행해주세요.');
+//   }
+//   const obj = {};
+//   obj.email = $('#signupEmail').val();
+//   obj.name = $('#signupName').val();
+//   obj.password = $('#signupPassword').val();
+//   obj.confirmpass = $('#signupConfirmpass').val();
+//   obj.isPetSitter = $('#signupIsPetSitter').val();
+//   obj.profileImage = $('#signupProfileImage').val();
+//   const option = {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(obj),
+//   };
+//   try {
+//     const fetchData = await fetch(
+//       'http://localhost:3000/users/signup',
+//       option,
+//     ).then((d) => {
+//       return d.json();
+//     });
+//     window.location.reload();
+//   } catch (err) {
+//     return err;
+//   }
+// }
