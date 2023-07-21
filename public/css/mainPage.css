@@ -1,0 +1,17 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+header {
+  margin: 20px;
+}
+
+h1 {
+  text-align: left;
+}
+
+.userBox {
+  float: right;
+}
