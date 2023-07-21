@@ -1,27 +1,62 @@
-const { Reservations, Users } = require('../models');
+const { Reservations, Users, PetSitterInfos } = require('../models');
+const { Op } = require('sequelize');
 
 class ReservationRepository {
   // 전체 조회
   viewReservation = async (userId) => {
     const reservationDatas = await Reservations.findAll({
       where: { userId },
-      attribute: [
+      attributes: [
         'id',
         'userId',
         'petSitterId',
         'startDate',
         'endDate',
         'totalPrice',
+        'petType',
+        'updatedAt',
       ],
       include: [
         {
           model: Users,
-          attribute: ['name'],
+          attributes: ['name'],
         },
       ],
     });
 
     return reservationDatas;
+  };
+
+  // 예약 중복 여부 확인
+  deteReservation = async (petSitterId, startDate, endDate) => {
+    const reservationDatas = await Reservations.findAll({
+      where: {
+        [Op.and]: [
+          { petSitterId },
+          {
+            startDate: {
+              [Op.between]: [startDate, endDate],
+            },
+          },
+          {
+            endDate: {
+              [Op.between]: [startDate, endDate],
+            },
+          },
+        ],
+      },
+      attributes: ['startDate', 'endDate'],
+    });
+    return reservationDatas;
+  };
+
+  // 펫시터 정보 확인
+  findsReservation = async (petSitterId) => {
+    const reservationData = await PetSitterInfos.findOne({
+      where: { id: petSitterId },
+    });
+
+    return reservationData;
   };
 
   // 예약 등록
@@ -31,7 +66,7 @@ class ReservationRepository {
     endDate,
     petType,
     petSitterId,
-    totalPrice,
+    totalPrices,
   ) => {
     const reservation = await Reservations.create({
       userId,
@@ -39,7 +74,7 @@ class ReservationRepository {
       endDate,
       petType,
       petSitterId,
-      totalPrice,
+      totalPrice: totalPrices,
     });
 
     return reservation;
@@ -49,18 +84,20 @@ class ReservationRepository {
   viewOneReservation = async (reservationId) => {
     const reservationData = await Reservations.findOne({
       where: { id: reservationId },
-      attribute: [
+      attributes: [
         'id',
         'userId',
         'petSitterId',
         'startDate',
         'endDate',
         'totalPrice',
+        'petType',
+        'updatedAt',
       ],
       include: [
         {
           model: Users,
-          attribute: ['name'],
+          attributes: ['name'],
         },
       ],
     });
@@ -86,7 +123,6 @@ class ReservationRepository {
       },
       { where: { id: reservationId } },
     );
-    console.log(updatereservation);
     return updatereservation;
   };
 
@@ -96,6 +132,13 @@ class ReservationRepository {
       where: { id: reservationId },
     });
     return deleteReservation;
+  };
+
+  a = async (petSitterId) => {
+    const e = await Reservations.findAll({
+      where: { petSitterId },
+    });
+    return e;
   };
 }
 

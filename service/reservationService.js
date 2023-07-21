@@ -1,4 +1,5 @@
 const ReservationRepository = require('../repositories/reservationRepository');
+const reservationDateCalculation = require('../utils/reservationDateCalculationUtil');
 
 class ReservationService {
   reservationRepository = new ReservationRepository();
@@ -27,10 +28,36 @@ class ReservationService {
     endDate,
     petType,
     petSitterId,
-    totalPrice,
   ) => {
     try {
-      if (!petSitterId) {
+      // 존재하는 예약 날짜인지 확인
+      const reservationDatas = await this.reservationRepository.deteReservation(
+        petSitterId,
+        startDate,
+        endDate,
+      );
+
+      // 펫시터 가격 확인
+      const reservationData = await this.reservationRepository.findsReservation(
+        petSitterId,
+      );
+      // 총 가격 계산
+      const totalPrices = reservationDateCalculation(
+        reservationData,
+        startDate,
+        endDate,
+      );
+
+      if (reservationDatas.length) {
+        return {
+          status: 400,
+          message:
+            reservationDatas[0].startDate +
+            ' ~ ' +
+            reservationDatas[0].endDate +
+            ' : 해당 날짜는 이미 예약된 날짜입니다.',
+        };
+      } else if (!petSitterId) {
         return { status: 400, message: '펫시터를 정해주세요.' };
       } else if (!startDate) {
         return { status: 400, message: '예약 시작 날짜를 정해주세요.' };
@@ -38,6 +65,8 @@ class ReservationService {
         return { status: 400, message: '예약 마지막 날짜를 정해주세요.' };
       } else if (!startDate) {
         return { status: 400, message: '어떤 반려동물인지 정해주세요.' };
+      } else if (totalPrices <= 0) {
+        return { status: 400, message: '예약 날짜를 확인해주세요' };
       }
 
       const reservation = await this.reservationRepository.createReservation(
@@ -46,7 +75,7 @@ class ReservationService {
         endDate,
         petType,
         petSitterId,
-        totalPrice,
+        totalPrices,
       );
       if (reservation) {
         return { status: 200, message: '예약 성공' };
@@ -91,16 +120,47 @@ class ReservationService {
     endDate,
     petType,
     petSitterId,
-    totalPrice,
   ) => {
     // 수정 권한 조회
-    const reservationData = await this.reservationRepository.viewOneReservation(
-      reservationId,
-    );
+
     try {
-      if (!reservationData) {
+      // 존재하는 예약 정보인지 확인
+      const reservation = await this.reservationRepository.viewOneReservation(
+        reservationId,
+      );
+
+      // 존재하는 예약 날짜인지 확인
+      const reservationDatas = await this.reservationRepository.deteReservation(
+        petSitterId,
+        startDate,
+        endDate,
+      );
+
+      // 펫시터 가격 확인
+      const reservationData = await this.reservationRepository.findsReservation(
+        petSitterId,
+      );
+      // 총 가격 계산
+      const totalPrices = reservationDateCalculation(
+        reservationData,
+        startDate,
+        endDate,
+      );
+      console.log(typeof reservation.userId);
+      console.log(typeof userId);
+
+      if (reservationDatas.length) {
+        return {
+          status: 400,
+          message:
+            reservationDatas[0].startDate +
+            ' ~ ' +
+            reservationDatas[0].endDate +
+            ' : 해당 날짜는 이미 예약된 날짜입니다.',
+        };
+      } else if (!reservation) {
         return { status: 400, message: '존재하지 않는 예약 정보입니다.' };
-      } else if (userId !== reservationData.userId) {
+      } else if (userId != reservation.userId) {
         return { status: 400, message: '수정 권한이 없습니다.' };
       } else if (!startDate) {
         return { status: 400, message: '예약 시작 날짜를 정해주세요.' };
@@ -108,6 +168,8 @@ class ReservationService {
         return { status: 400, message: '예약 마지막 날짜를 정해주세요.' };
       } else if (!petType) {
         return { status: 400, message: '어떤 반려동물인지 정해주세요.' };
+      } else if (totalPrices <= 0) {
+        return { status: 400, message: '예약 날짜를 확인해주세요' };
       }
       const updateReservation =
         await this.reservationRepository.updateReservation(
@@ -116,7 +178,7 @@ class ReservationService {
           endDate,
           petType,
           petSitterId,
-          totalPrice,
+          totalPrices,
         );
       if (updateReservation) {
         return { status: 200, message: '예약 수정 성공' };
@@ -124,6 +186,7 @@ class ReservationService {
         return { status: 400, message: '예약 수정 실패' };
       }
     } catch (err) {
+      console.log(err);
       return { status: 500, message: 'Server Error' };
     }
   };
@@ -137,7 +200,7 @@ class ReservationService {
     try {
       if (!reservationData) {
         return { status: 400, message: '존재하지 않는 예약 정보입니다.' };
-      } else if (userId !== reservationData.userId) {
+      } else if (userId != reservationData.userId) {
         return { status: 400, message: '예약 취소 권한이 없습니다.' };
       }
 

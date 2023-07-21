@@ -1,3 +1,3 @@
-function createReservationBtn() {
-  location.href = `http://localhost:3000/reservation/create`;
-}
+const updateReservationBtn = (id) => {
+  location.href = `http://localhost:3000/reservation/update?id=${id}`;
+};

@@ -19,8 +19,12 @@ app.use(
 
 app.use(express.static('public'));
 
-app.get('/reservation/create', (req, res) => {
-  res.sendFile(__dirname + '/public/html/createReservation.html');
+app.get('/reservation', (req, res) => {
+  res.sendFile(__dirname + '/public/mainReservation.html');
+});
+
+app.get('/reservation/update', (req, res) => {
+  res.sendFile(__dirname + '/public/updateReservation.html');
 });
 
 module.exports = http;

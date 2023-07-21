@@ -30,14 +30,14 @@ router.get(
 // 예약 수정
 router.put(
   '/reservation/:reservationId',
-  authMiddlewareHttp,
+  // authMiddlewareHttp,
   reservationController.updateReservation,
 );
 
 // 예약 취소
 router.delete(
   '/reservation/:reservationId',
-  authMiddlewareHttp,
+  // authMiddlewareHttp,
   reservationController.deleteReservation,
 );
 
