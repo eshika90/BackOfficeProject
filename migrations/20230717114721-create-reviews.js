@@ -13,11 +13,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         unique: true,
-        references: {
-          model: 'Reservations',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
+        // references: {
+        //   model: 'Reservations',
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
       },
       userId: {
         allowNull: false,
