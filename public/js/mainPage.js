@@ -1,5 +1,5 @@
 // 펫시터 목록
-async function petSitterInfos() {
+const petSitterInfos = async () => {
   const options = {
     method: 'get',
     headers: {
@@ -11,36 +11,32 @@ async function petSitterInfos() {
     .then((response) => response.json())
     .then((data) => {
       const petSitterList = data['petSitters'];
-      $('#petSitterInfos').empty();
+      $('#petSitterList').empty();
 
       petSitterList.forEach((petSitter) => {
+        const petSitterId = petSitter['id'];
         const image = petSitter['image'];
         const name = petSitter['petSitterUserInfo']['name'];
         const address = petSitter['address'];
         const homeType = petSitter['homeType'];
         const summaryTitle = petSitter['summaryTitle'];
 
-        const temp_html = `<div><img src="${image}">
+        const temp_html = `<div onclick="clickPetSitter(${petSitterId})" id="petSitterInfoBox"><img src="${image}">
                           <h5>${name} 펫시터</h5>
                           <p>${address}</p>
                           <p>${homeType}</p>
                           <p>${summaryTitle}</p>
                           </div>`;
-        $('#petSitterInfos').append(temp_html);
+        $('#petSitterList').append(temp_html);
       });
-      console.log(petSitterList);
     })
     .catch((err) => console.error(err));
   return;
-}
+};
 petSitterInfos();
 
-// 상세 페이지로 이동 : 파일명, petSitterId 받아오는 변수명 추가 수정하기
+// 상세 페이지로 이동
 const clickPetSitter = (petSitterId) => {
-  window.open('');
-};
-
-// 마이 페이지로 이동 : 파일명, userId 받아오는 변수명 추가 수정하기
-const clickMyPage = (userId) => {
-  window.open('');
+  localStorage.setItem('petSitterId', `${petSitterId}`);
+  location.href = 'http://localhost:3000/../petSitterPage.html';
 };
