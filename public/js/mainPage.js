@@ -40,3 +40,8 @@ const clickPetSitter = (petSitterId) => {
   localStorage.setItem('petSitterId', `${petSitterId}`);
   location.href = 'http://localhost:3000/../petSitterPage.html';
 };
+
+// 마이 페이지로 이동
+const clickMyPage = () => {
+  location.href = `http://localhost:3000/reservation`;
+};
