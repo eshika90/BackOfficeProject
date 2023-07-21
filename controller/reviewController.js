@@ -9,28 +9,14 @@ class ReviewController {
 
   createReview = async (req, res) => {
     console.log('111111');
-    const { userId, rating, comment, image } = req.body;
+    const { rating, comment, image } = req.body;
     const { reservationId } = req.params;
-    // const userId = res.locals.user.id;
-    // reservation 컨트롤러에서 가져오기
-    // params의 "예약id"에 해당하는 예약의 "펫시터id"와 "예약종료일"이  필요
-    // const reservationDatas = this.reservationController.viewreservation();
-    // const { petSitterId } = reservationDatas.petSitterId;
-    const petSitterId = 1;
-    console.log('2222222222');
-    const endDate = '2023-07-20';
+    const userId = res.locals.payload.userId;
 
     try {
-      if (
-        !reservationId ||
-        !userId ||
-        !rating ||
-        !comment ||
-        !petSitterId ||
-        !endDate
-      ) {
+      if (!reservationId || !userId || !rating || !comment) {
         res.status(400).json({
-          message: '리뷰 작성 실패',
+          message: '필수 데이터가 입력되지 않았습니다',
         });
       }
       if (isNaN(reservationId.trim())) {
@@ -41,11 +27,9 @@ class ReviewController {
       await this.reviewService.createReview({
         reservationId,
         userId,
-        petSitterId,
         rating,
         comment,
         image,
-        endDate,
       });
       return res.status(201).json({ message: '리뷰 작성 완료' });
     } catch (err) {
@@ -87,7 +71,7 @@ class ReviewController {
   };
 
   deleteReview = async (req, res) => {
-    const userId = res.locals.user.id;
+    const userId = res.locals.payload.userId;
     const { id } = req.params;
     try {
       if (!id || !userId) {

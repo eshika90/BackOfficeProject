@@ -27,21 +27,21 @@ class ReviewRepository {
       }
     } catch (err) {
       console.log(err);
-      return { errorMessage: 'review repository fail' };
+      return { errorMessage: '이미 해당 reservationId가 존재합니다' };
     }
   };
   findAllReview = async () => {
-    console.log('111');
     const reviews = await Reviews.findAll();
-    console.log(reviews);
     return reviews;
   };
   findPetSitterReview = async (petSitterId) => {
-    const review = await Reviews.findAll({ where: { petSitterId } });
-    return review;
+    const reviews = await Reviews.findAll({
+      where: { petSitterId },
+    });
+    return reviews;
   };
-  deleteReview = async (reviewData) => {
-    const deleteReview = await Reviews.destroy(reviewData);
+  deleteReview = async (deleteOptions) => {
+    const deleteReview = await Reviews.destroy(deleteOptions);
     return deleteReview;
   };
 }

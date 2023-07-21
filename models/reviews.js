@@ -1,5 +1,5 @@
 'use strict';
-const { Model, Sequelize } = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Reviews extends Model {
     /**
@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Reservations, {
         targetKey: 'id',
         foreignKey: 'reservationId',
+        onDelete: 'CASCADE',
       });
     }
   }
@@ -41,11 +42,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
         unique: true,
-        references: {
-          model: 'Reservations',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
+        // references: {
+        //   model: 'Reservations',
+        //   key: 'id',
+        // },
+        // onDelete: 'CASCADE',
       },
       userId: {
         allowNull: false,

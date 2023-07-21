@@ -16,7 +16,7 @@ router.get(
 // 리뷰 작성
 router.post(
   '/reservation/:reservationId/reviews',
-  // authMiddlewareHttp,
+  authMiddlewareHttp,
   reviewsController.createReview,
 );
 // 리뷰 삭제

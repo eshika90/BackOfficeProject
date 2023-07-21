@@ -1,25 +1,27 @@
 const MakeError = require('../utils/makeErrorUtil');
 const ReviewRepository = require('../repositories/reviewRepository');
+const ReservationService = require('../service/reservationService');
 const { Op } = require('sequelize');
 
 class ReviewService {
+  constructor() {
+    this.reservationService = new ReservationService();
+  }
   reviewRepository = new ReviewRepository();
 
-  createReview = async ({
-    reservationId,
-    userId,
-    petSitterId,
-    rating,
-    comment,
-    image,
-    endDate,
-  }) => {
+  createReview = async ({ reservationId, userId, rating, comment, image }) => {
     const now = new Date();
     try {
+      // 예약 서비스에 있는 예약 데이터 가져오기
+      const reservationReturnValue =
+        await this.reservationService.viewOneReservation(reservationId);
+      const reservationData = reservationReturnValue.message;
+      // reservationId에 해당하는 petSitterId 가져오기
+      const petSitterId = reservationData.petSitterId;
       if (!comment) {
         throw new MakeError('내용을 입력해주세요', 400, 'invalid comment');
       }
-      if (endDate < now) {
+      if (reservationData.endDate > now) {
         throw new MakeError('종료되지 않은 예약입니다', 400, 'invalid date');
       }
       const createReviewData = await this.reviewRepository.createReview({
@@ -33,7 +35,7 @@ class ReviewService {
       return {
         userId: createReviewData.userId,
         reservationId: createReviewData.reservationId,
-        petSitterId: createReviewData.petSitterId,
+        petSitterId: petSitterId,
         rating: createReviewData.rating,
         comment: createReviewData.comment,
         image: createReviewData.image,
@@ -45,7 +47,6 @@ class ReviewService {
 
   findAllReview = async () => {
     const allReview = await this.reviewRepository.findAllReview();
-    console.log(allReview);
     allReview.sort((a, b) => {
       return b.createdAt - a.createdAt;
     });
@@ -111,7 +112,9 @@ class ReviewService {
           'invalid userId',
         );
       }
-      const deleteCount = await reviewRepository.deleteReview(deleteOptions);
+      const deleteCount = await this.reviewRepository.deleteReview(
+        deleteOptions,
+      );
       if (!deleteCount) {
         throw new MakeError(
           '리뷰 삭제에 실패하였습니다',
