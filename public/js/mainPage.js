@@ -1,3 +1,5 @@
+const { response } = require('express');
+
 // 펫시터 목록
 async function petSitterInfos() {
   const options = {
@@ -48,17 +50,19 @@ const clickMyPage = (userId) => {
 // 이메일 인증
 async function verifyEmail() {
   const email = $('#signupEmail').val();
-  console.log(email);
   const obj = { email: email };
-  const fetchData = await fetch('http://localhost:3000/api/users/verifyemail', {
+  let fetchData;
+  await fetch('http://localhost:3000/api/users/verifyemail', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(obj),
-  }).then((d) => {
-    return d.json(fetchData);
-  });
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      return (fetchData = response.message);
+    });
 }
 async function verifyCode() {
   const inputCode = $('#verifyCode').val();

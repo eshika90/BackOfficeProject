@@ -7,6 +7,7 @@ const isEmailVerified = {};
 class MailSender {
   sendKaKaoemail = async (email) => {
     isEmailVerified[email] = false;
+    console.log(isEmailVerified);
     const transporter = nodemailer.createTransport({
       service: 'kakao',
       port: 465,
