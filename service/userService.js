@@ -15,6 +15,9 @@ class UserService {
         throw new MakeError(400, '중복되는 이메일입니다.', 'invalid request');
       }
       await this.mailSender.sendKaKaoemail(email);
+      setTimeout(() => {
+        delete codeObject[email];
+      }, 180000);
       return true;
     } catch (err) {
       throw err;
@@ -22,22 +25,16 @@ class UserService {
   };
   mailCodeVerify = async (email, code) => {
     try {
-      if (
-        Object.keys(codeObject) == email &&
-        Object.values(codeObject) == code
-      ) {
+      console.log('타임아웃', codeObject);
+      if (codeObject[email] && codeObject[email] == code) {
         return true;
-      } else if (
-        Object.keys(codeObject) != email ||
-        Object.values(codeObject) != code
-      ) {
-        throw new MakeError(
+      } else {
+        throw new MakeError( // 코드를 클라이언트가 실수로 잘 못 입력하였을 경우
           400,
           '보낸 코드와 일치하지 않습니다.',
           'invalid request',
         );
       }
-      return delete codeObject.email;
     } catch (err) {
       throw err;
     }
