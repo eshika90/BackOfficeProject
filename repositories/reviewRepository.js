@@ -1,4 +1,5 @@
 const { Reviews } = require('../models');
+const { Op } = require('sequelize');
 
 class ReviewRepository {
   createReview = async ({
@@ -11,7 +12,9 @@ class ReviewRepository {
   }) => {
     try {
       const isReview = await Reviews.findOne({
-        where: { reservationId, userId },
+        where: {
+          [Op.and]: [{ reservationId }, { userId }],
+        },
       });
 
       if (!isReview) {

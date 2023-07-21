@@ -11,6 +11,7 @@ class ReviewService {
 
   createReview = async ({ reservationId, userId, rating, comment, image }) => {
     const now = new Date();
+    const loginUserId = userId;
     try {
       // 예약 서비스에 있는 예약 데이터 가져오기
       const reservationReturnValue =
@@ -24,22 +25,25 @@ class ReviewService {
       if (reservationData.endDate > now) {
         throw new MakeError('종료되지 않은 예약입니다', 400, 'invalid date');
       }
-      const createReviewData = await this.reviewRepository.createReview({
-        reservationId,
-        userId,
-        petSitterId,
-        rating,
-        comment,
-        image,
-      });
-      return {
-        userId: createReviewData.userId,
-        reservationId: createReviewData.reservationId,
-        petSitterId: petSitterId,
-        rating: createReviewData.rating,
-        comment: createReviewData.comment,
-        image: createReviewData.image,
-      };
+      // 예약 userId와 로그인한 유저의 id가 일치할때
+      if (reservationData.userId == loginUserId) {
+        const createReviewData = await this.reviewRepository.createReview({
+          reservationId,
+          userId,
+          petSitterId,
+          rating,
+          comment,
+          image,
+        });
+        return {
+          userId: createReviewData.userId,
+          reservationId: createReviewData.reservationId,
+          petSitterId: petSitterId,
+          rating: createReviewData.rating,
+          comment: createReviewData.comment,
+          image: createReviewData.image,
+        };
+      }
     } catch (err) {
       throw err;
     }

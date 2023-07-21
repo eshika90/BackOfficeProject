@@ -1,14 +1,11 @@
 const ReviewService = require('../service/reviewService');
-// const ReservationController = require('../controller/reservationController');
 
 class ReviewController {
   constructor() {
     this.reviewService = new ReviewService();
-    // this.reservationController = new ReservationController();
   }
 
   createReview = async (req, res) => {
-    console.log('111111');
     const { rating, comment, image } = req.body;
     const { reservationId } = req.params;
     const userId = res.locals.payload.userId;
