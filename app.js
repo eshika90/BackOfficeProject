@@ -3,10 +3,10 @@ const { Server } = require('http');
 const cookieParser = require('cookie-parser');
 
 const app = express();
-const router = require('./routes/indexRoutes.js');
+const indexRouter = require('./routes/indexRoutes.js');
 const http = Server(app);
 
 app.use([express.json(), cookieParser()]);
-app.use('/api', router);
+app.use('/api', indexRouter);
 
 module.exports = http;

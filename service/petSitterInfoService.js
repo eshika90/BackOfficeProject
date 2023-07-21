@@ -1,12 +1,10 @@
 const PetSitterInfoRepository = require('../repositories/petSitterInfoRepository.js');
-const UserRepository = require('../repositories/userRepository.js');
 const careerCalculation = require('../utils/dateCalculationUtil.js');
 const { Users, Reservations } = require('../models');
 const { Op } = require('sequelize');
 
 class PetSitterInfoService {
   petSitterInfoRepository = new PetSitterInfoRepository();
-  userRepository = new UserRepository();
 
   // 펫시터 목록 조회
   findPetSitters = async () => {

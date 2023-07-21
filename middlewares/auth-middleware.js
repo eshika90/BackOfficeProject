@@ -78,5 +78,4 @@ const verifyToken = async (
     throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
   }
 };
-module.exports = { authMiddlewareHttp };
-// authMiddlewareSocket
+module.exports = { authMiddlewareHttp, authMiddlewareSocket };
