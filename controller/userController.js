@@ -1,4 +1,5 @@
 const UserService = require('../service/userService');
+const MakeError = require('../utils/makeErrorUtil');
 class UserController {
   userService = new UserService();
   mailVerify = async (req, res, next) => {
@@ -23,6 +24,9 @@ class UserController {
           .json({ message: '이메일 인증이 완료되었습니다!' });
       }
     } catch (err) {
+      // if (err instanceof MakeError) {
+      //   return res.status(err.code).json({ message: err.message });
+      // }
       console.log(err);
       return res.status(500).json({ message: 'Server Error' });
     }
