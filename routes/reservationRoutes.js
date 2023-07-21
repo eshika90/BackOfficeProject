@@ -9,35 +9,35 @@ const reservationController = new ReservationController();
 // 전체 조회
 router.get(
   '/reservation',
-  authMiddlewareHttp,
+  // authMiddlewareHttp,
   reservationController.viewReservation,
 );
 
 // 예약 등록
 router.post(
   '/reservation',
-  authMiddlewareHttp,
+  // authMiddlewareHttp,
   reservationController.createReservation,
 );
 
 // 예약 상세 조회
 router.get(
   '/reservation/:reservationId',
-  authMiddlewareHttp,
+  // authMiddlewareHttp,
   reservationController.viewOneReservation,
 );
 
 // 예약 수정
 router.put(
   '/reservation/:reservationId',
-  authMiddlewareHttp,
+  // authMiddlewareHttp,
   reservationController.updateReservation,
 );
 
 // 예약 취소
 router.delete(
   '/reservation/:reservationId',
-  authMiddlewareHttp,
+  // authMiddlewareHttp,
   reservationController.deleteReservation,
 );
 

@@ -41,6 +41,6 @@ const clickPetSitter = (petSitterId) => {
 };
 
 // 마이 페이지로 이동 : 파일명, userId 받아오는 변수명 추가 수정하기
-const clickMyPage = (userId) => {
-  window.open('');
+const clickMyPage = () => {
+  location.href = `http://localhost:3000/reservation`;
 };
