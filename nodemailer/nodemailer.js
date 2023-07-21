@@ -1,9 +1,11 @@
 const nodemailer = require('nodemailer');
 const { mailer } = require('../config');
 const codeObject = {};
+const isEmailVerified = {}
 
 class MailSender {
   sendKaKaoemail = async (email) => {
+    isEmailVerified[email]=false;
     const transporter = nodemailer.createTransport({
       service: 'kakao',
       port: 465,
@@ -17,7 +19,6 @@ class MailSender {
     });
     const verifyNum = Math.ceil(Math.random() * 1000000);
     codeObject[email] = verifyNum;
-    console.log('여기는 노드메일러', codeObject);
 
     transporter.sendMail({
       from: mailer.user,
@@ -33,6 +34,7 @@ class MailSender {
     });
   };
   sendGmail = async (email) => {
+    isEmailVerified[email]=false;
     const transporter = nodemailer.createTransport({
       service: 'gamil',
       port: 587,
@@ -61,4 +63,4 @@ class MailSender {
   };
 }
 
-module.exports = { MailSender, codeObject };
+module.exports = { MailSender, codeObject,isEmailVerified };
