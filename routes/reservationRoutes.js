@@ -9,21 +9,21 @@ const reservationController = new ReservationController();
 // 전체 조회
 router.get(
   '/reservation',
-  authMiddlewareHttp,
+  // authMiddlewareHttp,
   reservationController.viewReservation,
 );
 
 // 예약 등록
 router.post(
   '/reservation',
-  authMiddlewareHttp,
+  // authMiddlewareHttp,
   reservationController.createReservation,
 );
 
 // 예약 상세 조회
 router.get(
   '/reservation/:reservationId',
-  authMiddlewareHttp,
+  // authMiddlewareHttp,
   reservationController.viewOneReservation,
 );
 

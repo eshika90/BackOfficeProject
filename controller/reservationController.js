@@ -6,15 +6,17 @@ class ReservationController {
 
   // 전체 조회
   viewReservation = async (req, res) => {
-    const { userId } = res.locals.payload;
+    // const { userId } = res.locals.payload;
+    const userId = req.query.userId;
 
-    const result = await this.reservationService.viewReservation(userId);
-    return res.status(result.status).json({ message: result.message });
+    const { result } = await this.reservationService.viewReservation(userId);
+    return res.status(result.status).json(result.message);
   };
 
   // 예약 등록
   createReservation = async (req, res) => {
-    const { userId } = res.locals.payload;
+    // const { userId } = res.locals.payload;
+    const userId = req.query.userId;
 
     const { startDate, endDate, petType, petSitterId, totalPrice } = req.body;
 

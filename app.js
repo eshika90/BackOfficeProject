@@ -16,4 +16,8 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/html/mainReservation.html');
 });
 
+app.get('/reservation/create', (req, res) => {
+  res.sendFile(__dirname + '/public/html/createReservation.html');
+});
+
 module.exports = http;

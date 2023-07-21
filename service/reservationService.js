@@ -10,7 +10,7 @@ class ReservationService {
     );
 
     try {
-      if (!reservationDatas.legth) {
+      if (!reservationDatas.length) {
         return { status: 200, message: '예약된 정보가 없습니다.' };
       } else if (reservationDatas) {
         return { status: 200, message: reservationDatas };
@@ -130,7 +130,6 @@ class ReservationService {
 
   // 예약 취소
   deleteReservation = async (userId, reservationId) => {
-    console.log(reservationId);
     // 취소 권한 조회
     const reservationData = await this.reservationRepository.viewOneReservation(
       reservationId,
