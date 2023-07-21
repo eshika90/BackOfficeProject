@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pet Sitters</title>
+    <title>Main</title>
     <link rel="stylesheet" type="text/css" href="./css/mainPage.css" />
     <link
       rel="stylesheet"
@@ -13,8 +13,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     /> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./js/mainPage.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </head>
@@ -33,8 +33,6 @@
           로그인
         </button>
         <button>회원가입</button>
-        <!-- 기능 구현 안함 -->
-        <!-- <button>펫시터 지원</button> -->
         <button onclick="clickMyPage()">마이페이지</button>
       </div>
     </header>
@@ -42,7 +40,7 @@
     <main>
       <div>
         <h2>모든 펫시터를 만나보세요</h2>
-        <div id="petSitterInfos">펫시터 리스트</div>
+        <div id="petSitterList">펫시터 리스트</div>
       </div>
 
       <!-- 로그인 모달창 -->
@@ -105,8 +103,6 @@
       </div>
     </main>
 
-    <footer>
-      <!-- 페이지네이션? -->
-    </footer>
+    <footer></footer>
   </body>
 </html>
