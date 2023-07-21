@@ -3,7 +3,7 @@ const MakeError = require('../utils/makeErrorUtil');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { secretKey, expireIn, expireIn2 } = require('../config').jwt;
-const { MailSender, codeObject } = require('../nodemailer/nodemailer');
+const { MailSender, codeObject,isEmailVerified } = require('../nodemailer/nodemailer');
 
 class UserService {
   userRepository = new UserRepository();
@@ -25,8 +25,8 @@ class UserService {
   };
   mailCodeVerify = async (email, code) => {
     try {
-      console.log('타임아웃', codeObject);
-      if (codeObject[email] && codeObject[email] == code) {
+      if (codeObject[email] && codeObject[email] === code) {
+        isEmailVerified[email]=true;
         return true;
       } else {
         throw new MakeError( // 코드를 클라이언트가 실수로 잘 못 입력하였을 경우
@@ -76,7 +76,11 @@ class UserService {
           'invalid request',
         );
       }
+      if(!isEmailVerified[email]){
+        throw new MakeError(401,'이메일 인증을 완료해주세요','invalid email verify')
+      }
       const hashedPassword = bcrypt.hashSync(password, 10);
+      delete isEmailVerified[email]
       return this.userRepository.createUser(
         email,
         name,
@@ -129,6 +133,7 @@ class UserService {
       });
       return { accessToken, refreshToken };
     } catch (err) {
+      console.log(err)
       throw err;
     }
   };
@@ -167,11 +172,11 @@ class UserService {
     password,
     updatepassword,
   ) => {
+    try {
     const userId = payloadData.userId;
     const foundUser = await this.userRepository.findUser({ id: userId }, [
       'password',
     ]);
-    try {
       if (!password.match(/^(?=.*[a-zA-Z])(?=.*[0-9]).{4,8}$/)) {
         throw new MakeError(
           400,
@@ -224,3 +229,4 @@ class UserService {
   };
 }
 module.exports = UserService;
+
