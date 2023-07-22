@@ -51,18 +51,17 @@ const clickMyPage = (userId) => {
 async function verifyEmail() {
   const email = $('#signupEmail').val();
   const obj = { email: email };
-  let fetchData;
-  await fetch('http://localhost:3000/api/users/verifyemail', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+  let verifyEmailResult = await fetch(
+    'http://localhost:3000/api/users/verifyemail',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(obj),
     },
-    body: JSON.stringify(obj),
-  })
-    .then((response) => response.json())
-    .then((response) => {
-      return (fetchData = response.message);
-    });
+  );
+  verifyEmailResult = await verifyEmailResult.json();
 }
 async function verifyCode() {
   const inputCode = $('#verifyCode').val();
