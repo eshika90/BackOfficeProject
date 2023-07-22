@@ -3,6 +3,7 @@ const MakeError = require('../utils/makeErrorUtil');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { secretKey, expireIn, expireIn2 } = require('../config').jwt;
+
 const {
   MailSender,
   codeObject,
