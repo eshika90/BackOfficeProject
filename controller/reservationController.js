@@ -15,9 +15,9 @@ class ReservationController {
   // 예약 등록
   createReservation = async (req, res) => {
     // const { userId } = res.locals.payload;
-    // const petSitterId = req.query.petSitterId;
-    // const userId = req.query.userId;
-    const { userId, startDate, endDate, petType, petSitterId } = req.body;
+    const petSitterId = req.query.petSitterId;
+    const userId = req.query.userId;
+    const { startDate, endDate, petType } = req.body;
 
     const result = await this.reservationService.createReservation(
       userId,

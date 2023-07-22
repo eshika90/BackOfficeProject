@@ -16,13 +16,14 @@ const petSitterInfo = async () => {
 
       $('#petSitterInfo').empty();
       const temp_html = `<div><img src="${petSitterInfo.image}">
-                        <p>${petSitterInfo.address} 펫시터 · ${petSitterInfo.name}님</p>
-                        <p>펫시터 경력 : ${petSitterInfo.career}</p>
-                        <p>홈타입 : ${petSitterInfo.homeType}</p>
-                        <p>${petSitterInfo.introduction}</p>
-                        <p>1일 가격 : ${petSitterInfo.price}</p>
-                        <p>${petSitterInfo.summary}</p>
-                        <p>${petSitterInfo.summaryTitle}</p>
+                          <p>${petSitterInfo.address} 펫시터 · ${petSitterInfo.name}님</p>
+                          <p>펫시터 경력 : ${petSitterInfo.career}</p>
+                          <p>홈타입 : ${petSitterInfo.homeType}</p>
+                          <p>${petSitterInfo.introduction}</p>
+                          <p>1일 가격 : ${petSitterInfo.price}</p>
+                          <p>${petSitterInfo.summary}</p>
+                          <p>${petSitterInfo.summaryTitle}</p>
+                          <button onclick="createReservationBtn(${petSitterInfo.petSitterId})">예약하기</button>
                         </div>`;
       $('#petSitterInfo').append(temp_html);
 
