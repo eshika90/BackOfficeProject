@@ -1,6 +1,7 @@
 const MakeError = require('../utils/makeErrorUtil');
 const ReviewRepository = require('../repositories/reviewRepository');
 const ReservationService = require('../service/reservationService');
+
 const { Op } = require('sequelize');
 
 class ReviewService {
@@ -49,17 +50,19 @@ class ReviewService {
     }
   };
 
+  // 1. 예약 테이블에 있는 정보 다 받아오기
   findAllReview = async () => {
     const allReview = await this.reviewRepository.findAllReview();
-    allReview.sort((a, b) => {
-      return b.createdAt - a.createdAt;
-    });
-
+    // allReview.sort((a, b) => {
+    //   return b.createdAt - a.createdAt;
+    // });
+    console.log(allReview);
     return allReview.map((review) => {
       return {
         id: review.id,
         reservationId: review.reservationId,
         userId: review.userId,
+        Reviewer: review.User.name,
         petSitterId: review.petSitterId,
         rating: review.rating,
         comment: review.comment,
