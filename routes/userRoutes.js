@@ -9,6 +9,7 @@ router.post('/verifyemail', userController.mailVerify);
 router.post('/verifyemailcode', userController.mailCodeVerify);
 router.post('/signup', userController.createUser);
 router.post('/login', userController.login);
+router.get('/logout', userController.logout);
 router.get('/getuser', authMiddlewareHttp, userController.showUserInfo);
 router.put('/password', authMiddlewareHttp, userController.modifyUserPass);
 router.put('/', authMiddlewareHttp, userController.modifyUserInfo);

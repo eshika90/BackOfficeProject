@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Page</title>
+    <link rel="stylesheet" type="text/css" href="./css/myPage.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script src="./js/myPage.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>로고</h1>
+      <div class="userBox">
+        <!-- 로그인 하면 로그아웃 버튼으로 -->
+        <button id="logoutBtn" onclick="logout()">로그아웃</button>
+        <button
+          id="passModiBtn"
+          data-toggle="modal"
+          data-target="#passwordModal"
+        >
+          비밀번호 변경
+        </button>
+        <!-- 기능 구현 안함 -->
+        <!-- <button>펫시터 지원</button> -->
+      </div>
+    </header>
+    <main>
+      <!-- 비밀번호 변경 모달 창 -->
+      <div
+        class="modal fade"
+        id="passwordModal"
+        tabindex="-1"
+        aria-labelledby="passwordModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="passwordModal">
+                비밀번호 변경 하기
+              </h1>
+            </div>
+            <div class="modal-body">
+              <form id="loginForm">
+                <div class="mb-3">
+                  <label for="currentPwLabel" class="form-label"
+                    >현재 비밀번호</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="currentPassword"
+                    placeholder="영어+숫자 조합 4-8글자"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="modifyPw" class="form-label"
+                    >변경할 비밀번호</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="modifyPassword"
+                    placeholder="영어+숫자 조합 4-8글자"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="modifyConfirm" class="form-label"
+                    >확인 비밀번호</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="modifyConfirmPass"
+                    placeholder="영어+숫자 조합 4-8글자"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                onclick="passModify()"
+              >
+                변경
+              </button>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="loginInfo">
+        <div>
+          <img id="profileImg" src="null" />
+          <button onclick="profileimgModify()">프로필이미지 수정하기</button>
+          <p id="email"></p>
+          <p id="name"></p>
+          <p id="isPetsitter"></p>
+        </div>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+</html>
