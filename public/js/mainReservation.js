@@ -32,6 +32,7 @@ function viewReservation() {
             <div id="">시작일 : ${startDate}</div>
             <div id="">종료일 : ${endDate}</div>
             <div id="">총 금액 : ${totalPrice}</div>
+            <div id="">입금 계좌 : 농협 (351-0857-5423-13)</div>
             <div id="">예약 날짜 : ${updatedAts}</div>
             <div id="reservationBtn" onclick="updateReservationBtn(${id})">예약 수정하기</div>
             <div id="reservationBtn" onclick="deleteReservationBtn(${id})">예약 취소하기</div>
