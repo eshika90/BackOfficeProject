@@ -31,11 +31,12 @@ class ReservationService {
   ) => {
     try {
       // 존재하는 예약 날짜인지 확인
-      const reservationDatas = await this.reservationRepository.deteReservation(
+      const reservationDatas = await this.reservationRepository.dateReservation(
         petSitterId,
         startDate,
         endDate,
       );
+      console.log(reservationDatas);
 
       // 펫시터 가격 확인
       const reservationData = await this.reservationRepository.findsReservation(
@@ -121,8 +122,6 @@ class ReservationService {
     petType,
     petSitterId,
   ) => {
-    // 수정 권한 조회
-
     try {
       // 존재하는 예약 정보인지 확인
       const reservation = await this.reservationRepository.viewOneReservation(
@@ -130,11 +129,13 @@ class ReservationService {
       );
 
       // 존재하는 예약 날짜인지 확인
-      const reservationDatas = await this.reservationRepository.deteReservation(
+      const reservationDatas = await this.reservationRepository.dateReservation(
         petSitterId,
         startDate,
         endDate,
       );
+
+      console.log(reservationDatas);
 
       // 펫시터 가격 확인
       const reservationData = await this.reservationRepository.findsReservation(
@@ -146,8 +147,6 @@ class ReservationService {
         startDate,
         endDate,
       );
-      console.log(typeof reservation.userId);
-      console.log(typeof userId);
 
       if (reservationDatas.length) {
         return {
@@ -169,7 +168,7 @@ class ReservationService {
       } else if (!petType) {
         return { status: 400, message: '어떤 반려동물인지 정해주세요.' };
       } else if (totalPrices <= 0) {
-        return { status: 400, message: '예약 날짜를 확인해주세요' };
+        return { status: 400, message: '예약 날짜를 확인해주세요.' };
       }
       const updateReservation =
         await this.reservationRepository.updateReservation(
@@ -186,7 +185,6 @@ class ReservationService {
         return { status: 400, message: '예약 수정 실패' };
       }
     } catch (err) {
-      console.log(err);
       return { status: 500, message: 'Server Error' };
     }
   };
