@@ -28,20 +28,22 @@ class ReservationRepository {
   };
 
   // 예약 중복 여부 확인
-  deteReservation = async (petSitterId, startDate, endDate) => {
+  dateReservation = async (petSitterId, startDates, endDates) => {
     const reservationDatas = await Reservations.findAll({
       where: {
         [Op.and]: [
           { petSitterId },
           {
-            startDate: {
-              [Op.between]: [startDate, endDate],
-            },
+            [Op.or]: [
+              // 작거나 같음
+              { startDate: { [Op.lte]: endDates } },
+            ],
           },
           {
-            endDate: {
-              [Op.between]: [startDate, endDate],
-            },
+            [Op.or]: [
+              // 크거나 같음
+              { endDate: { [Op.gte]: startDates } },
+            ],
           },
         ],
       },
