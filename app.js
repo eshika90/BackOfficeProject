@@ -17,4 +17,12 @@ app.use([express.json(), cookieParser()]);
 app.use('/api', indexRouter);
 app.use(express.static('public'));
 
+app.get('/reservation', (req, res) => {
+  res.sendFile(__dirname + '/public/mainReservation.html');
+});
+
+app.get('/reservation/update', (req, res) => {
+  res.sendFile(__dirname + '/public/updateReservation.html');
+});
+
 module.exports = http;
