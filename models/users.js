@@ -21,7 +21,7 @@ module.exports = (sequelize, Datatypes) => {
         sourceKey: 'id',
         foreignKey: 'userId',
       });
-      
+
       Users.hasMany(models.Messages, {
         sourceKey: 'id',
         foreignKey: 'userId',

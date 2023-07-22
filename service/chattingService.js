@@ -89,11 +89,15 @@ class ChattingServiceSocket {
 
   handleDisconnect = (socket, isOnline, rooms) => {
     return socket.on('disconnection', () => {
-      const userId = socket.userId;
-      isOnline[userId].forEach((roomId) => {
-        delete rooms[roomId][userId];
-      });
-      delete isOnline[userId];
+      try {
+        const userId = socket.userId;
+        isOnline[userId].forEach((roomId) => {
+          delete rooms[roomId][userId];
+        });
+        delete isOnline[userId];
+      } catch (err) {
+        throw err;
+      }
     });
   };
 
