@@ -96,6 +96,7 @@ async function logIn() {
   });
   loginResult = await loginResult.json();
   alert(`${loginResult.message}`);
+  window.location.reload();
   buttons();
 }
 // 로그인 후 버튼 바뀜
