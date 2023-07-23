@@ -32,8 +32,8 @@ function findAllReviews() {
       const reviews = res.reviews;
       reviews.map((review) => {
         image = review.image;
-        if (review.comment.length > 30) {
-          comment = review.comment.substring(0, 31) + ' ...';
+        if (review.comment.length > 254) {
+          comment = review.comment.substring(0, 255) + ' ...';
         } else {
           comment = review.comment;
         }
