@@ -26,9 +26,3 @@ header {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
   color: #000;
 }
-
-#startDate,
-#endDate {
-  font-size: 16px;
-  font-family: Consolas, sans-serif;
-}

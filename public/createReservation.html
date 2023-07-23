@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/createReservation.css" />
+
+    <title>예약</title>
+  </head>
+  <body>
+    <header>
+      <h1 class="mainTitle">예약</h1>
+    </header>
+    <div id="container">
+      <form id="reservaionForm">
+        <div>반려동물 :
+          <select name="petType">
+            <option ></option>
+            <option value="개">개</option>
+            <option value="고양이">고양이</option>
+          </select>
+        </div>
+        <div id="startDate">
+          <p>시작 날짜 :
+            <input type="date" name="startDate"">
+          </p>
+        </div>
+        <div id="endDate">
+          <p>종료 날짜 :
+            <input type="date" name="endDate">
+          </p>
+        </div>
+        <div id="totalPrice">총 금액 : </div>
+        <div id="reservationBtn" onclick="createCompleteBtn()">예약 완료</div>
+        <div id="reservationBtn" onclick="createCancleBtn()">예약 취소</div>
+      </form>
+    </div>
+    <script src="/js/createReservation.js" defer></script>
+  </body>
+</html>
