@@ -29,27 +29,26 @@
           <option value="4">4</option>
           <option value="5">5</option>
         </select>
-        <!-- <label for='files'></label>
-        <input type="file" name="image" id="image"> -->
-        <p class="image">이미지</p>
-        <input type="submit" class="create-review">리뷰 작성하기</input>
+        <label for="files"></label>
+        <input type="file" name="image" id="image" />
+        <p class="image">이미지 추가</p>
+        <input type="submit" class="create-review" />리뷰 작성하기
       </form>
     </div>
 
     <script src="/js/updateReservation.js" defer></script>
     <script src="./js/reviews.js"></script>
     <script>
-
       // reservationId 구하기
       const pageUrl = 'localhost:3000/reservation/55555';
-      let startIndex = reservationId.indexOf('reservation/')+12 ;      
+      let startIndex = reservationId.indexOf('reservation/') + 12;
       console.log(pageUrl.substring(startIndex));
 
-      const reservationId = ageUrl.substring(startIndex)
-      
-      // reviewId 가져오기
-      const reviewDataSet = document.querySelector('.delete-btn').dataset.reviewId;
+      const reservationId = ageUrl.substring(startIndex);
 
+      // reviewId 가져오기
+      const reviewDataSet =
+        document.querySelector('.delete-btn').dataset.reviewId;
 
       $('document').ready(function () {
         findReservationReviews(reservationId);

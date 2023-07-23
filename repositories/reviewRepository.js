@@ -38,11 +38,10 @@ class ReviewRepository {
       include: [
         {
           model: Users,
-          attributes: ['name', 'isPetSitter'],
+          attributes: ['name'],
         },
       ],
     });
-    // console.log(JSON.stringify(reviews));
     return reviews;
   };
   findReservationReview = async (reservationId) => {
@@ -52,13 +51,6 @@ class ReviewRepository {
         {
           model: Users,
           attributes: ['name'],
-        },
-        {
-          model: Users,
-          attributes: ['name'],
-          where: {
-            isPetSitter: true,
-          },
         },
       ],
     });

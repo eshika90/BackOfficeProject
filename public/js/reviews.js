@@ -51,8 +51,9 @@ function findAllReviews() {
           comment = review.comment;
         }
         createdAt = review.createdAt.substring(0, 10);
-        petSitter = review.petSitterId;
+        petSitter = review.petSitter;
         reviewer = review.reviewer;
+        petSitterId = review.petSitterId;
 
         const template = `<li class="review-card">
                             <img
@@ -61,7 +62,7 @@ function findAllReviews() {
                               onerror="this.src='http://placehold.it/300x300'"
                             />
                             <h3>
-                              <a href="/petSitterInfo/${petSitterId}">${petSitter}</a>
+                              <a href="#" onclick="clickPetSitter(${petSitterId})">${petSitter}</a>
                             </h3>
                             <p>내용 : ${comment}</p>
                             <p>작성일 : ${createdAt}</p>
@@ -96,36 +97,7 @@ function findReservationReviews(reservationId) {
                             <p>내용 : ${comment}</p>
                             <p>작성일 : ${createdAt}</p>
                             <p>작성자 : ${reviewer}</p>
-                            <button class="delete-btn" onclick="deleteReview()" data-reviewId="${reviewId}">삭제<button>
-                          </li>`;
-
-        $('.review-list').append(template);
-      });
-    },
-  });
-}
-
-function findPetSitterReviews(petSitterId) {
-  $.ajax({
-    type: 'GET',
-    url: `/api/petSitterInfo/${petSitterId}/reviews`,
-    success: function (res) {
-      const reviews = res.reviews;
-      reviews.map((review) => {
-        image = review.image;
-        comment = review.comment;
-        createdAt = review.createdAt.substring(0, 10);
-        reviewer = review.reviewer;
-
-        const template = `<li class="review-card">
-                            <img
-                              src="${image}"
-                              alt="review-image"
-                              onerror="this.src='http://placehold.it/300x300'"
-                            />
-                            <p>내용 : ${comment}</p>
-                            <p>작성일 : ${createdAt}</p>
-                            <p>작성자 : ${reviewer}</p>
+                            <button class="delete-btn" onclick="deleteReview(${reviewId})" data-reviewId="${reviewId}">삭제<button>
                           </li>`;
 
         $('.review-list').append(template);

@@ -30,17 +30,20 @@
     </main>
     <footer></footer>
     <script src="./js/reservationBtn.js" defer></script>
-    <script src="./js/reviews.js" defer></script>
+    <script src="./js/petSitterReviews.js" defer></script>
     <script>
       // petSitterId 구하기
-      const pageUrl = 'localhost:3000/reservation/55555';
-      let startIndex = pageUrl.indexOf('reservation/') + 12;
-      console.log(pageUrl.substring(startIndex));
+      // const pageUrl = 'localhost:3000/reservation/55555';
+      // let startIndex = pageUrl.indexOf('reservation/') + 12;
+      // console.log(pageUrl.substring(startIndex));
 
-      const petSitterId = pageUrl.substring(startIndex);
-      $('document').ready(function () {
-        findPetSitterReviews(petSitterId);
-      });
+      // const petSitterId = pageUrl.substring(startIndex);
+      // const petSitterId = localStorage.getItem('petSitterId');
+
+      // $(document).ready(function () {
+      //   console.log(petSitterId);
+      //   findPetSitterReviews(petSitterId);
+      // });
     </script>
   </body>
 </html>
