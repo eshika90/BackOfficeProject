@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Orbit&display=swap');
-
 * {
   font-family: 'Orbit', sans-serif;
 }
@@ -12,8 +11,10 @@ body {
 
 header {
   padding: 20px;
-  display: inline-block;
-  position: relative;
+  height: 800px;
+  background: url(../img/header.png) center top repeat-x;
+  background-position: center;
+  background-size: cover;
 }
 
 header > h1 {
@@ -30,12 +31,36 @@ main {
   padding-top: 50px;
 }
 
-.maintext {
+.maintitle {
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-size: 50px;
+  margin-top: 250px;
+}
+
+.maintitle2 {
+  display: flex;
+  justify-content: center;
+  font-size: 50px;
+}
+
+.maintitle3 {
+  display: flex;
+  justify-content: center;
+  font-size: 50px;
+}
+
+footer {
+  height: 50px;
+  background-color: rgb(93, 155, 255);
+}
+
+.image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+  height: 10px;
 }
 
 .userBox {
@@ -43,11 +68,10 @@ main {
   flex-direction: row;
   align-items: center;
   justify-content: right;
-
   position: absolute;
   top: 30px;
   right: 20px;
-  /* margin-bottom: 10px; */
+  padding: 10px;
   font-size: large;
 }
 
@@ -58,15 +82,35 @@ main {
 
 #petSitterList {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 15px;
-
   margin: 50px 30px 0px 30px;
+}
+
+#petSitterInfoBox {
+  justify-content: space-between;
+  gap: 24px;
+  border: 1px solid #ebeaec;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  margin: 10px;
+}
+
+#petSitterInfoBox:hover {
+  cursor: pointer;
+  transition: 0.5s;
+  background-color: #bad1f3;
+}
+
+#petSitterInfoBox:active {
+  cursor: pointer;
+  background-color: #ebeaec;
 }
 
 #petSitterList > div > p:nth-child(3) {
   font-weight: bold;
-  /* font-size: 25px; */
 }
 
 .footer-title {
