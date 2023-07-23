@@ -1,9 +1,9 @@
 const db = {
   development: {
-    username: 'bbi',
-    password: 'quddlf12rne',
+    username: 'root',
+    password: '',
     database: 'BackOfficeProject',
-    host: 'express-database.cncwjlb3jqev.ap-northeast-2.rds.amazonaws.com',
+    host: '',
     dialect: 'mysql',
   },
   test: {
