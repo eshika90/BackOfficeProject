@@ -1,6 +1,8 @@
 function createCompleteBtn() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const petSitterId = urlParams.get('petSitterId');
+  // const urlParams = new URLSearchParams(window.location.search);
+  // const petSitterId = urlParams.get('petSitterId');
+
+  const petSitterId = sessionStorage.getItem('petSitterId');
 
   const form = document.getElementById('reservaionForm');
 
@@ -9,7 +11,7 @@ function createCompleteBtn() {
   const myForm = {};
   payload.forEach((value, key) => (myForm[key] = value));
 
-  fetch(`http://localhost:3000/api/reservation/?petSitterId=7&userId=2`, {
+  fetch(`http://localhost:3000/api/reservation/?petSitterId=${petSitterId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -31,10 +33,14 @@ function createCompleteBtn() {
         alert(res);
       } else if (res == '예약 성공') {
         alert(res);
-        location.href = `http://localhost:3000/reservation`;
+        location.href = `http://localhost:3000/../mypage.html`;
       } else {
         alert(res);
         location.reload();
       }
     });
 }
+
+const createCancleBtn = () => {
+  location.href = 'http://localhost:3000';
+};

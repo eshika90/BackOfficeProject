@@ -27,8 +27,41 @@ class ReservationRepository {
     return reservationDatas;
   };
 
-  // 예약 중복 여부 확인
-  dateReservation = async (petSitterId, startDates, endDates) => {
+  // 예약 날짜 중복 여부 확인
+  updatedateReservation = async (
+    reservationId,
+    petSitterId,
+    startDates,
+    endDates,
+  ) => {
+    // const id = Number(reservationId);
+    const reservationDatas = await Reservations.findAll({
+      where: {
+        [Op.and]: [
+          { id: { [Op.notIn]: [reservationId] } },
+          { petSitterId },
+          {
+            [Op.or]: [
+              // 작거나 같음
+              { startDate: { [Op.lte]: endDates } },
+            ],
+          },
+          {
+            [Op.or]: [
+              // 크거나 같음
+              { endDate: { [Op.gte]: startDates } },
+            ],
+          },
+        ],
+      },
+      attributes: ['startDate', 'endDate'],
+    });
+    console.log(reservationDatas);
+    return reservationDatas;
+  };
+
+  //예약 날짜, 유저 중복 확인
+  createdateReservation = async (petSitterId, startDates, endDates) => {
     const reservationDatas = await Reservations.findAll({
       where: {
         [Op.and]: [
@@ -49,6 +82,7 @@ class ReservationRepository {
       },
       attributes: ['startDate', 'endDate'],
     });
+    console.log(reservationDatas);
     return reservationDatas;
   };
 
