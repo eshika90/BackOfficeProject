@@ -1,16 +1,16 @@
-const { ChattingRooms, Room_User, Users, Messages } = require("../models");
+const { ChattingRooms, Room_Users, Users, Messages } = require("../models");
 
 class ChattingRepository {
     //채팅방 생성
-    makeChattingRoom = async (roomInfoObject) => {
-        return await ChattingRooms.create(roomInfoObject);
+    makeChattingRoom = async (roomInfoObject,options) => {
+        return await ChattingRooms.create(roomInfoObject,options);
     };
     //채팅방 유저추가
     addManyUserToRoom = async (roomUserInfoArr, options) => {
-        return await Room_User.bulkCreate(roomUserInfoArr, options);
+        return await Room_Users.bulkCreate(roomUserInfoArr, options);
     };
     addOneUserToRoom = async (roomUserInfo,options)=>{
-        return await Room_User.create(roomUserInfo,options);
+        return await Room_Users.create(roomUserInfo,options);
     }
     getChattingRoom = async(roomOptions)=>{
         return await ChattingRooms.findOne(roomOptions);
@@ -22,15 +22,15 @@ class ChattingRepository {
             where: {
                 id: userId,
             },
-            attributes: ["id","nickname"],
+            attributes: ["id","name"],
             include: {
                 model: ChattingRooms,
-                through: { model: Room_User, attributes: [] },
+                through: { model: Room_Users, attributes: [] },
                 include: [
                     {
                         model: Users,
-                        attributes: ["id", "nickname"],
-                        through: { model: Room_User, attributes: [] },
+                        attributes: ["id", "name"],
+                        through: { model: Room_Users, attributes: [] },
                     },
                     {
                         model: Messages,
@@ -55,7 +55,7 @@ class ChattingRepository {
 
     //채팅방 탈퇴
     exitChattingRoom = async (options) => {
-        return await Room_User.destroy(options);
+        return await Room_Users.destroy(options);
     };
 }
 

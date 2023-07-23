@@ -10,14 +10,16 @@ class UserController {
         .status(200)
         .json({ message: '이메일로 인증번호가 전송되었습니다!' });
     } catch (err) {
-      console.log(err);
+      if (err instanceof MakeError) {
+        return res.status(err.code).json({ message: err.message });
+      }
       return res.status(500).json({ message: 'Server Error' });
     }
   };
   mailCodeVerify = async (req, res, next) => {
     try {
       const { email, code } = req.body;
-      const codeConfirm = await this.userService.mailCodeVerify(email, code);
+      const codeConfirm = await this.userService.mailCodeVerify(email, Number(code));
       if (codeConfirm) {
         return res
           .status(200)
@@ -27,11 +29,15 @@ class UserController {
       if (err instanceof MakeError) {
         return res.status(err.code).json({ message: err.message });
       }
+<<<<<<< Updated upstream
       console.log(err);
+=======
+>>>>>>> Stashed changes
       return res.status(500).json({ message: 'Server Error' });
     }
   };
   createUser = async (req, res, next) => {
+<<<<<<< Updated upstream
     const {
       email,
       name,
@@ -41,7 +47,17 @@ class UserController {
       profileImage,
     } = req.body;
     console.log(req.body);
+=======
+>>>>>>> Stashed changes
     try {
+      const {
+        email,
+        name,
+        password,
+        confirmpassword,
+        isPetSitter,
+        profileImage,
+      } = req.body;
       const createUserData = await this.userService.createUser(
         email,
         name,
@@ -53,7 +69,11 @@ class UserController {
 
       return res.status(201).json({ message: '회원 가입에 성공하였습니다.' });
     } catch (err) {
+<<<<<<< Updated upstream
       if (err.code) {
+=======
+      if (err instanceof MakeError) {
+>>>>>>> Stashed changes
         return res.status(err.code).json({ message: err.message });
       } else {
         return res.status(500).json({ message: 'Server Error' });
@@ -65,13 +85,14 @@ class UserController {
     try {
       const userData = await this.userService.login(email, password);
       if (userData) {
-        res.cookie('accessToken', `Bearer ${userData.accessToken}`);
-        res.cookie('refreshToken', `Bearer ${userData.refreshToken}`);
+        res.cookie('accessToken', `Bearer ${userData.accessToken}`, { httpOnly: true });
+        res.cookie('refreshToken', `Bearer ${userData.refreshToken}`, { httpOnly: true });
         res.status(200).json({ message: '로그인에 성공하였습니다.' });
       }
     } catch (err) {
       if (err instanceof MakeError) {
         return res.status(err.code).json({ message: err.message });
+<<<<<<< Updated upstream
       }
       return res.status(500).json({ message: 'Server Error' });
     }
@@ -85,6 +106,11 @@ class UserController {
         return res.status(err.code).json({ message: err.message });
       }
       return res.status(500).json({ message: 'Server Error' });
+=======
+      } else {
+        return res.status(500).json({ message: 'Server Error' });
+      }
+>>>>>>> Stashed changes
     }
   };
   showUserInfo = async (req, res, next) => {
@@ -97,7 +123,11 @@ class UserController {
       );
       return res.status(200).json({ 'Users detail': foundUserInfos });
     } catch (err) {
-      return res.status(500).json({ message: 'Server Error' });
+      if (err instanceof MakeError) {
+        return res.status(err.code).json({ message: err.message });
+      } else {
+        return res.status(500).json({ message: 'Server Error' });
+      }
     }
   };
   modifyUserPass = async (req, res, next) => {
@@ -114,8 +144,14 @@ class UserController {
     } catch (err) {
       if (err instanceof MakeError) {
         return res.status(err.code).json({ message: err.message });
+<<<<<<< Updated upstream
       }
       return res.status(500).json({ message: 'Server Error' });
+=======
+      } else {
+        return res.status(500).json({ message: 'Server Error' });
+      }
+>>>>>>> Stashed changes
     }
   };
   modifyUserInfo = async (req, res, next) => {
