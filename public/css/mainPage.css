@@ -49,10 +49,6 @@ footer {
   margin: 0px 5px 0px 5px;
 }
 
-/* #loginModal {
-  display: none;
-} */
-
 #petSitterList {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
