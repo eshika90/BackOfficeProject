@@ -28,7 +28,7 @@ class ReservationRepository {
   };
 
   // 예약 날짜 중복 여부 확인
-  dateReservation = async (
+  updatedateReservation = async (
     reservationId,
     petSitterId,
     startDates,
@@ -61,7 +61,7 @@ class ReservationRepository {
   };
 
   //예약 날짜, 유저 중복 확인
-  dateReservation = async (petSitterId, startDates, endDates) => {
+  createdateReservation = async (petSitterId, startDates, endDates) => {
     const reservationDatas = await Reservations.findAll({
       where: {
         [Op.and]: [

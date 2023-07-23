@@ -41,11 +41,12 @@ class ReservationService {
         return { status: 400, message: '어떤 반려동물인지 정해주세요.' };
       }
       // 존재하는 예약 날짜인지 확인
-      const reservationDatas = await this.reservationRepository.dateReservation(
-        petSitterId,
-        startDate,
-        endDate,
-      );
+      const reservationDatas =
+        await this.reservationRepository.createdateReservation(
+          petSitterId,
+          startDate,
+          endDate,
+        );
 
       // 펫시터 가격 확인
       const reservationData = await this.reservationRepository.findsReservation(
@@ -137,12 +138,13 @@ class ReservationService {
       );
 
       // 존재하는 예약 날짜인지 확인
-      const reservationDatas = await this.reservationRepository.dateReservation(
-        reservationId,
-        petSitterId,
-        startDate,
-        endDate,
-      );
+      const reservationDatas =
+        await this.reservationRepository.updatedateReservation(
+          reservationId,
+          petSitterId,
+          startDate,
+          endDate,
+        );
 
       // 펫시터 가격 확인
       const reservationData = await this.reservationRepository.findsReservation(
