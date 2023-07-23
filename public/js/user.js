@@ -94,6 +94,14 @@ async function logIn() {
     },
     body: JSON.stringify(loginUpInfo),
   });
+  try {
+    const status = response.status;
+    if (status === 200) {
+      readyToChatting();
+    }
+  } catch (err) {
+    console.log('소켓연결실패');
+  }
   loginResult = await loginResult.json();
   alert(`${loginResult.message}`);
   window.location.reload();
@@ -124,6 +132,7 @@ function buttons() {
 }
 // 로그아웃
 async function logout() {
+  logoutSocket();
   let logoutResult = await fetch('http://localhost:3000/api/users/logout', {
     method: 'GET',
     headers: {
