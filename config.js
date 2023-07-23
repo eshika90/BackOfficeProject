@@ -23,7 +23,7 @@ const db = {
 };
 
 const jwt = {
-  secretKey: '',
+  secretKey: 'qwe',
   expireIn: '600s', // accesstoken 유효기간
   expireIn2: '7d', // refreshtoken 유효기간
 };

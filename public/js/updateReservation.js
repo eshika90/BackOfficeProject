@@ -4,7 +4,7 @@ function viewOneReservation() {
   const urlParams = new URLSearchParams(window.location.search);
   const reservationId = urlParams.get('id');
 
-  fetch(`http://localhost:3000/api/reservation/${reservationId}?userId=2`, {
+  fetch(`http://localhost:3000/api/reservation/${reservationId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ function viewOneReservation() {
           </div>
           <div id="totalPrice">총 금액 : ${totalPrice}</div>
           <div id="updatedAt">예약 날짜 : ${updatedAts}</div>
-          <div id="reservationBtn" onclick="updateCompleteBtn(${id})">수정 완료</div>
+          <div id="reservationBtn" onclick="updateCompleteBtn(${petSitterId})">수정 완료</div>
           <div id="reservationBtn" onclick="updateCancleBtn(${id})">수정 취소</div>
         </form>
           `;
@@ -56,11 +56,9 @@ function viewOneReservation() {
     });
 }
 
-function updateCompleteBtn() {
+function updateCompleteBtn(petSitterId) {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get('id');
-  const a = 7;
-  const b = 2;
 
   const form = document.getElementById('reservaionForm');
 
@@ -70,7 +68,7 @@ function updateCompleteBtn() {
   payload.forEach((value, key) => (myForm[key] = value));
 
   fetch(
-    `http://localhost:3000/api/reservation/${id}?petSitterId=${a}&userId=${b}`,
+    `http://localhost:3000/api/reservation/${id}?petSitterId=${petSitterId}`,
     {
       method: 'PUT',
       headers: {
@@ -101,7 +99,7 @@ function updateCompleteBtn() {
         location.reload();
       } else if (res == '예약 수정 성공') {
         alert('예약 수정 성공');
-        location.href = `http://localhost:3000/reservation`;
+        location.href = `http://localhost:3000/../mypage.html`;
       } else {
         alert(res);
         location.reload();
@@ -110,5 +108,5 @@ function updateCompleteBtn() {
 }
 
 const updateCancleBtn = () => {
-  location.href = `http://localhost:3000/reservation`;
+  location.href = 'http://localhost:3000/../mypage.html';
 };
