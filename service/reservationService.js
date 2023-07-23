@@ -81,11 +81,7 @@ class ReservationService {
       if (reservationDatas.length) {
         return {
           status: 400,
-          message:
-            reservationDatas[0].startDate +
-            ' ~ ' +
-            reservationDatas[0].endDate +
-            ' : 해당 날짜는 이미 예약된 날짜입니다.',
+          message: '예약 현황을 확인해 주세요.',
         };
       } else if (totalPrices <= 0) {
         return { status: 400, message: '예약 날짜를 확인해주세요' };
@@ -201,11 +197,7 @@ class ReservationService {
       } else if (reservationDatas.length) {
         return {
           status: 400,
-          message:
-            reservationDatas[0].startDate +
-            ' ~ ' +
-            reservationDatas[0].endDate +
-            ' : 해당 날짜는 이미 예약된 날짜입니다.',
+          message: '예약 현황을 확인해 주세요',
         };
       } else if (userId != reservation.userId) {
         return { status: 400, message: '수정 권한이 없습니다.' };
