@@ -21,7 +21,8 @@ const petSitterInfos = async () => {
         const homeType = petSitter['homeType'];
         const summaryTitle = petSitter['summaryTitle'];
 
-        const petSitterInfo = `<div onclick="clickPetSitter(${petSitterId})" id="petSitterInfoBox"><img src="${image}">
+        const petSitterInfo = `<div onclick="clickPetSitter(${petSitterId})" id="petSitterInfoBox">
+                          <img src="${image}" style="width:200px; height:200px;">
                           <h5>${name} 펫시터</h5>
                           <p>${address}</p>
                           <p>${homeType}</p>
@@ -53,14 +54,13 @@ const petSitterInfo = async () => {
       const price = petSitterInfo.price.toLocaleString();
 
       $('#petSitterInfo').empty();
-      const petSitterList = `<div><img src="${petSitterInfo.image}">
-                              <p>${petSitterInfo.address} 펫시터 · ${petSitterInfo.name}님</p>
+      const petSitterList = `<div><img src="${petSitterInfo.image}" style="width:300px; height:300px;">
+                              <p>${petSitterInfo.address} ${petSitterInfo.introduction} · ${petSitterInfo.name}님</p>
                               <p>펫시터 경력 : ${petSitterInfo.career}</p>
-                              <p>홈타입 : ${petSitterInfo.homeType}</p>
-                              <p>${petSitterInfo.introduction}</p>
-                              <p>1박 가격 : ${price}</p>
-                              <p>${petSitterInfo.summary}</p>
+                              <p>주거환경 : ${petSitterInfo.homeType}</p>
                               <p>${petSitterInfo.summaryTitle}</p>
+                              <p>${petSitterInfo.summary}</p>
+                              <p>1박 가격 : ${price}원</p>
                             </div>`;
       $('#petSitterInfo').append(petSitterList);
 

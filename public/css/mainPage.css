@@ -15,6 +15,8 @@ header {
   background: url(../img/header.png) center top repeat-x;
   background-position: center;
   background-size: cover;
+  display: inline-block;
+  position: relative;
 }
 
 header > h1 {
@@ -111,6 +113,17 @@ footer {
 
 #petSitterList > div > p:nth-child(3) {
   font-weight: bold;
+}
+
+#petSitterInfoBox {
+  justify-content: space-between;
+  gap: 24px;
+  border: 1px solid #ebeaec;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  margin: 10px;
 }
 
 .footer-title {
