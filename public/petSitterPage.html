@@ -34,40 +34,45 @@
     </header>
 
     <main>
-      <div id="petSitterInfo">펫시터 정보</div>
-      <div>
-        <p>예약 현황</p>
-        <div id="reservationInfo"></div>
-      </div>
+      <div class="petSitterAndReservation">
+        <div class="petSitterInfoContainer">
+          <div id="petSitterInfo">펫시터 정보</div>
+        </div>
 
-      <!-- 예약하기 -->
-      <div id="reservaionContainer">
-        <form id="reservaionForm">
-          <p class="mainTitle">예약하기</p>
-          <div>
-            반려동물 :
-            <select name="petType">
-              <option></option>
-              <option value="개">개</option>
-              <option value="고양이">고양이</option>
-            </select>
-          </div>
-          <div id="startDate">
-            <p>
-              시작 날짜 :
-              <input type="date" name="startDate" />
-            </p>
-          </div>
-          <div id="endDate">
-            <p>
-              종료 날짜 :
-              <input type="date" name="endDate" />
-            </p>
-          </div>
-          <div id="totalPrice">총 금액 :</div>
-          <div id="reservationBtn" onclick="createCompleteBtn()">예약 완료</div>
-          <div id="reservationBtn" onclick="createCancleBtn()">예약 취소</div>
-        </form>
+        <!-- 예약하기 -->
+        <div id="reservaionContainer">
+          <form id="reservaionForm">
+            <p class="mainTitle">예약하기</p>
+            <div>
+              반려동물 :
+              <select name="petType">
+                <option></option>
+                <option value="개">개</option>
+                <option value="고양이">고양이</option>
+              </select>
+            </div>
+            <div id="startDate">
+              <p>
+                시작 날짜 :
+                <input type="date" name="startDate" />
+              </p>
+            </div>
+            <div id="endDate">
+              <p>
+                종료 날짜 :
+                <input type="date" name="endDate" />
+              </p>
+            </div>
+            <div id="reservationBtn" onclick="createCompleteBtn()">
+              예약 완료
+            </div>
+            <div id="reservationBtn" onclick="createCancleBtn()">예약 취소</div>
+            <div class="reservationInfoBox">
+              <p>예약 현황</p>
+              <div id="reservationInfo"></div>
+            </div>
+          </form>
+        </div>
       </div>
 
       <!-- 채팅하기 -->
