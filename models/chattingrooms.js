@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey:'roomId',
                 as:'ChattingMessages'
             })
-            ChattingRooms.hasMany(models.Room_User,{
+            ChattingRooms.hasMany(models.Room_Users,{
                 sourceKey:'id',
                 foreignKey:'roomId',
                 as: 'RoomUsers'
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
                 otherKey:'userId'
             })
             ChattingRooms.belongsToMany(models.Users,{
-                through:'Room_User',
+                through:'Room_Users',
                 foreignKey:'roomId',
                 otherKey:'userId'
             })
