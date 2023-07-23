@@ -1,11 +1,13 @@
 const nodemailer = require('nodemailer');
+const util = require('util'); // nodejs 내장 모듈 / 콜백패턴을 프로미스 패턴으로 변환하는기능
 const { mailer } = require('../config');
 const codeObject = {};
-const isEmailVerified = {}
+const isEmailVerified = {};
 
 class MailSender {
   sendKaKaoemail = async (email) => {
-    isEmailVerified[email]=false;
+    isEmailVerified[email] = false;
+    console.log(isEmailVerified);
     const transporter = nodemailer.createTransport({
       service: 'kakao',
       port: 465,
@@ -17,6 +19,7 @@ class MailSender {
         pass: mailer.password,
       },
     });
+    const sendMailAsync = util.promisify(transporter.sendMail);
     const verifyNum = Math.ceil(Math.random() * 1000000);
     codeObject[email] = verifyNum;
 
@@ -34,7 +37,7 @@ class MailSender {
     });
   };
   sendGmail = async (email) => {
-    isEmailVerified[email]=false;
+    isEmailVerified[email] = false;
     const transporter = nodemailer.createTransport({
       service: 'gamil',
       port: 587,
@@ -63,4 +66,4 @@ class MailSender {
   };
 }
 
-module.exports = { MailSender, codeObject,isEmailVerified };
+module.exports = { MailSender, codeObject, isEmailVerified };
