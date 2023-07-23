@@ -1,7 +1,7 @@
 viewReservation();
 
 function viewReservation() {
-  fetch(`http://localhost:3000/api/reservation?userId=2`, {
+  fetch(`http://localhost:3000/api/reservation`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ function viewReservation() {
             <div id="">총 금액 : ${totalPrice}</div>
             <div id="">입금 계좌 : 농협 (351-0857-5423-13)</div>
             <div id="">예약 날짜 : ${updatedAts}</div>
-            <div id="reservationBtn" onclick="updateReservationBtn(${id})">예약 수정하기</div>
+            <div id="reservationBtn" onclick="updateReservationBtn(${id},${petSitterId})">예약 수정하기</div>
             <div id="reservationBtn" onclick="deleteReservationBtn(${id})">예약 취소하기</div>
           </div
         `;
@@ -44,7 +44,7 @@ function viewReservation() {
 }
 
 function deleteReservationBtn(id) {
-  fetch(`http://localhost:3000/api/reservation/${id}?userId=2`, {
+  fetch(`http://localhost:3000/api/reservation/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
