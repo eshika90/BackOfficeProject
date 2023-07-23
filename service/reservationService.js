@@ -30,8 +30,27 @@ class ReservationService {
     petSitterId,
   ) => {
     try {
-      console.log(petSitterId);
-      if (!petSitterId) {
+      const today = new Date();
+      const startDates = new Date(startDate);
+      const endDates = new Date(endDate);
+      const canStartReservationDate = new Date(
+        today.setDate(today.getDate() + 1),
+      );
+      const canEndReservationDate = new Date(
+        today.setDate(today.getDate() + 91),
+      );
+
+      if (startDates < canStartReservationDate) {
+        return {
+          status: 400,
+          message: '시작 날짜는 내일부터 가능합니다.',
+        };
+      } else if (endDates > canEndReservationDate) {
+        return {
+          status: 400,
+          message: '마지막 날짜는 90일이전까지 가능합니다.',
+        };
+      } else if (!petSitterId) {
         return { status: 400, message: '펫시터가 올바르지 않습니다.' };
       } else if (!startDate) {
         return { status: 400, message: '예약 시작 날짜를 정해주세요.' };
@@ -86,6 +105,7 @@ class ReservationService {
         return { status: 400, message: '예약 실패' };
       }
     } catch (err) {
+      console.log(err);
       return { status: 500, message: 'Server Error' };
     }
   };
@@ -125,7 +145,27 @@ class ReservationService {
     petSitterId,
   ) => {
     try {
-      if (!startDate) {
+      const today = new Date();
+      const startDates = new Date(startDate);
+      const endDates = new Date(endDate);
+      const canStartReservationDate = new Date(
+        today.setDate(today.getDate() + 1),
+      );
+      const canEndReservationDate = new Date(
+        today.setDate(today.getDate() + 91),
+      );
+
+      if (startDates < canStartReservationDate) {
+        return {
+          status: 400,
+          message: '시작 날짜는 내일부터 가능합니다.',
+        };
+      } else if (endDates > canEndReservationDate) {
+        return {
+          status: 400,
+          message: '마지막 날짜는 90일이전까지 가능합니다.',
+        };
+      } else if (!startDate) {
         return { status: 400, message: '예약 시작 날짜를 정해주세요.' };
       } else if (!endDate) {
         return { status: 400, message: '예약 마지막 날짜를 정해주세요.' };
