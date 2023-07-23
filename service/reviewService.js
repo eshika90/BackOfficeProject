@@ -56,13 +56,49 @@ class ReviewService {
     // allReview.sort((a, b) => {
     //   return b.createdAt - a.createdAt;
     // });
-    console.log(allReview);
+    // console.log(JSON.stringify(allReview));
+    return allReview.map((review, i) => {
+      console.log(JSON.stringify(review.User.name));
+      let reviewer = '';
+      let petSitter = '';
+      if (review.User.isPetSitter == false) {
+        reviewer = review.User.name;
+      } else {
+        petSitter = review.User.name;
+      }
+      // console.log(reviewer);
+      // console.log(petSitter);
+      return {
+        id: review.id,
+        reservationId: review.reservationId,
+        userId: review.userId,
+        reviewer: reviewer,
+        petSitterId: review.petSitterId,
+        petSitter: petSitter,
+        rating: review.rating,
+        comment: review.comment,
+        image: review.image,
+        createdAt: review.createdAt,
+        updatedAt: review.updatedAt,
+      };
+    });
+  };
+
+  findReservationReview = async (reservationId) => {
+    const allReview = await this.reviewRepository.findReservationReview(
+      reservationId,
+    );
+
+    allReview.sort((a, b) => {
+      return b.createdAt - a.createdAt;
+    });
+
     return allReview.map((review) => {
       return {
         id: review.id,
         reservationId: review.reservationId,
         userId: review.userId,
-        Reviewer: review.User.name,
+        reviewer: review.User.name,
         petSitterId: review.petSitterId,
         rating: review.rating,
         comment: review.comment,
@@ -87,6 +123,7 @@ class ReviewService {
         id: review.id,
         reservationId: review.reservationId,
         userId: review.userId,
+        reviewer: review.User.name,
         petSitterId: review.petSitterId,
         rating: review.rating,
         comment: review.comment,

@@ -43,6 +43,13 @@
         <div id="petSitterList">펫시터 리스트</div>
       </div>
 
+      <!-- 리뷰 박스 -->
+      <div class="review-box">
+        <ul class="review-list">
+          <!-- 리뷰 템플릿 추가 -->
+        </ul>
+      </div>
+
       <!-- 로그인 모달창 -->
       <div
         class="modal fade"
@@ -104,5 +111,12 @@
     </main>
 
     <footer></footer>
+
+    <script src="./js/reviews.js"></script>
+    <script>
+      $('document').ready(function () {
+        findAllReviews();
+      });
+    </script>
   </body>
 </html>

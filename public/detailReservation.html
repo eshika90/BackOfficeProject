@@ -7,11 +7,53 @@
     <title>예약 수정</title>
     <link rel="stylesheet" type="text/css" href="/css/updateReservation.css" />
   </head>
+  <style>
+    .blind {
+      display: hidden;
+    }
+  </style>
   <body>
     <header>
       <h1 class="mainTitle">예약 수정</h1>
     </header>
     <div id="container"></div>
+
+    <!-- 해당 예약의 리뷰 보기, 작성, 삭제 -->
+    <div class="review-box">
+      <form action="" class="review-form">
+        <textarea class="comment"></textarea>
+        <select name="rating" id="rating">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <!-- <label for='files'></label>
+        <input type="file" name="image" id="image"> -->
+        <p class="image">이미지</p>
+        <input type="submit" class="create-review">리뷰 작성하기</input>
+      </form>
+    </div>
+
     <script src="/js/updateReservation.js" defer></script>
+    <script src="./js/reviews.js"></script>
+    <script>
+
+      // reservationId 구하기
+      const pageUrl = 'localhost:3000/reservation/55555';
+      let startIndex = reservationId.indexOf('reservation/')+12 ;      
+      console.log(pageUrl.substring(startIndex));
+
+      const reservationId = ageUrl.substring(startIndex)
+      
+      // reviewId 가져오기
+      const reviewDataSet = document.querySelector('.delete-btn').dataset.reviewId;
+
+
+      $('document').ready(function () {
+        findReservationReviews(reservationId);
+      });
+    </script>
   </body>
 </html>

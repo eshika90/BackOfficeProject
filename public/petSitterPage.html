@@ -20,8 +20,27 @@
         <ul id="reservationInfo"></ul>
       </div>
       <button onclick="chattingPetSitter()">채팅하기</button>
+
+      <!-- 해당 펫시터의 리뷰 불러오기 -->
+      <div class="review-box" style="margin-top: 100px">
+        <ul class="review-list">
+          <!-- 리뷰 템플릿 추가 -->
+        </ul>
+      </div>
     </main>
     <footer></footer>
     <script src="./js/reservationBtn.js" defer></script>
+    <script src="./js/reviews.js" defer></script>
+    <script>
+      // petSitterId 구하기
+      const pageUrl = 'localhost:3000/reservation/55555';
+      let startIndex = pageUrl.indexOf('reservation/') + 12;
+      console.log(pageUrl.substring(startIndex));
+
+      const petSitterId = pageUrl.substring(startIndex);
+      $('document').ready(function () {
+        findPetSitterReviews(petSitterId);
+      });
+    </script>
   </body>
 </html>

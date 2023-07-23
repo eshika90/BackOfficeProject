@@ -38,16 +38,41 @@ class ReviewRepository {
       include: [
         {
           model: Users,
-          attributes: ['name'],
+          attributes: ['name', 'isPetSitter'],
         },
       ],
-      order: [['createdAt', 'DESC']],
+    });
+    // console.log(JSON.stringify(reviews));
+    return reviews;
+  };
+  findReservationReview = async (reservationId) => {
+    const reviews = await Reviews.findAll({
+      where: { reservationId },
+      include: [
+        {
+          model: Users,
+          attributes: ['name'],
+        },
+        {
+          model: Users,
+          attributes: ['name'],
+          where: {
+            isPetSitter: true,
+          },
+        },
+      ],
     });
     return reviews;
   };
   findPetSitterReview = async (petSitterId) => {
     const reviews = await Reviews.findAll({
       where: { petSitterId },
+      include: [
+        {
+          model: Users,
+          attributes: ['name'],
+        },
+      ],
     });
     return reviews;
   };
