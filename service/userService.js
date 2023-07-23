@@ -30,7 +30,7 @@ class UserService {
   };
   mailCodeVerify = async (email, code) => {
     try {
-      if (codeObject[email] && codeObject[email] === code) {
+      if (codeObject[email] && codeObject[email] == code) {
         isEmailVerified[email] = true;
         return true;
       } else {
@@ -177,8 +177,8 @@ class UserService {
   };
   modifyUserPass = async (
     payloadData,
-    confirmpassword,
     password,
+    confirmpassword,
     updatepassword,
   ) => {
     try {
@@ -200,8 +200,8 @@ class UserService {
           'invalid request',
         );
       }
-      if (password !== confirmpassword) {
-        const error = new MakeError(
+      if (updatepassword !== confirmpassword) {
+        throw new MakeError(
           400,
           '패스워드와 패스워드 확인 값이 일치하지 않습니다.',
           'invalid request',

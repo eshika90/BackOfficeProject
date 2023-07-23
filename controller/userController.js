@@ -24,9 +24,9 @@ class UserController {
           .json({ message: '이메일 인증이 완료되었습니다!' });
       }
     } catch (err) {
-      // if (err instanceof MakeError) {
-      //   return res.status(err.code).json({ message: err.message });
-      // }
+      if (err instanceof MakeError) {
+        return res.status(err.code).json({ message: err.message });
+      }
       console.log(err);
       return res.status(500).json({ message: 'Server Error' });
     }
@@ -40,6 +40,7 @@ class UserController {
       isPetSitter,
       profileImage,
     } = req.body;
+    console.log(req.body);
     try {
       const createUserData = await this.userService.createUser(
         email,
@@ -53,7 +54,7 @@ class UserController {
       return res.status(201).json({ message: '회원 가입에 성공하였습니다.' });
     } catch (err) {
       if (err.code) {
-        return res.status(err.code).json({ messge: err.message });
+        return res.status(err.code).json({ message: err.message });
       } else {
         return res.status(500).json({ message: 'Server Error' });
       }
@@ -69,7 +70,20 @@ class UserController {
         res.status(200).json({ message: '로그인에 성공하였습니다.' });
       }
     } catch (err) {
-      console.log(err);
+      if (err instanceof MakeError) {
+        return res.status(err.code).json({ message: err.message });
+      }
+      return res.status(500).json({ message: 'Server Error' });
+    }
+  };
+  logout = async (req, res, next) => {
+    try {
+      res.clearCookie('accessToken', 'refreshToken');
+      res.status(200).json({ message: '로그아웃 하였습니다.' });
+    } catch (err) {
+      if (err instanceof MakeError) {
+        return res.status(err.code).json({ message: err.message });
+      }
       return res.status(500).json({ message: 'Server Error' });
     }
   };
@@ -87,15 +101,22 @@ class UserController {
     }
   };
   modifyUserPass = async (req, res, next) => {
-    const payloadData = res.locals.payload;
-    const { password, confirmpassword, updatepassword } = req.body;
-    await this.userService.modifyUserPass(
-      payloadData,
-      password,
-      confirmpassword,
-      updatepassword,
-    );
-    return res.status(200).json({ message: '비밀번호를 수정하였습니다.' });
+    try {
+      const payloadData = res.locals.payload;
+      const { password, confirmpassword, updatepassword } = req.body;
+      await this.userService.modifyUserPass(
+        payloadData,
+        password,
+        confirmpassword,
+        updatepassword,
+      );
+      return res.status(200).json({ message: '비밀번호를 수정하였습니다.' });
+    } catch (err) {
+      if (err instanceof MakeError) {
+        return res.status(err.code).json({ message: err.message });
+      }
+      return res.status(500).json({ message: 'Server Error' });
+    }
   };
   modifyUserInfo = async (req, res, next) => {
     const payloadData = res.locals.payload;

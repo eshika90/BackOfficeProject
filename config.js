@@ -30,4 +30,9 @@ const jwt = {
 
 const port = 3000;
 
-module.exports = { db, jwt, port };
+const mailer = {
+  user: '',
+  password: '',
+};
+
+module.exports = { db, jwt, port, mailer };
