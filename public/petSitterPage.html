@@ -12,6 +12,7 @@
     />
     <script src="./js/user.js" defer></script>
     <script src="./js/petSitterInfo.js" defer></script>
+    <script src="./js/createReservation.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -34,11 +35,43 @@
 
     <main>
       <div id="petSitterInfo">펫시터 정보</div>
-      <p>예약 현황</p>
       <div>
-        <ul id="reservationInfo"></ul>
+        <p>예약 현황</p>
+        <div id="reservationInfo"></div>
       </div>
-      <button onclick="chattingPetSitter()">채팅하기</button>
+
+      <!-- 예약하기 -->
+      <div id="reservaionContainer">
+        <form id="reservaionForm">
+          <p class="mainTitle">예약하기</p>
+          <div>
+            반려동물 :
+            <select name="petType">
+              <option></option>
+              <option value="개">개</option>
+              <option value="고양이">고양이</option>
+            </select>
+          </div>
+          <div id="startDate">
+            <p>
+              시작 날짜 :
+              <input type="date" name="startDate" />
+            </p>
+          </div>
+          <div id="endDate">
+            <p>
+              종료 날짜 :
+              <input type="date" name="endDate" />
+            </p>
+          </div>
+          <div id="totalPrice">총 금액 :</div>
+          <div id="reservationBtn" onclick="createCompleteBtn()">예약 완료</div>
+          <div id="reservationBtn" onclick="createCancleBtn()">예약 취소</div>
+        </form>
+      </div>
+
+      <!-- 채팅하기 -->
+      <button onclick="chattingPetSitter()" id="chattingBtn">채팅하기</button>
 
       <!-- 로그인 모달창 -->
       <div
@@ -218,6 +251,5 @@
     </main>
 
     <footer></footer>
-    <script src="./js/reservationBtn.js" defer></script>
   </body>
 </html>

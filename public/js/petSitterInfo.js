@@ -61,7 +61,6 @@ const petSitterInfo = async () => {
                               <p>1박 가격 : ${price}</p>
                               <p>${petSitterInfo.summary}</p>
                               <p>${petSitterInfo.summaryTitle}</p>
-                              <button onclick="createReservationBtn(${petSitterInfo.petSitterId})">예약하기</button>
                             </div>`;
       $('#petSitterInfo').append(petSitterList);
 
