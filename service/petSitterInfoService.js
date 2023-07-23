@@ -61,7 +61,7 @@ class PetSitterInfoService {
               // 펫시터 이름
               as: 'petSitterUserInfo',
               model: Users,
-              attributes: ['name','id'],
+              attributes: ['name', 'id'],
             },
             {
               // 펫시터 예약 현황
@@ -107,6 +107,7 @@ class PetSitterInfoService {
       const petSitter = {
         name: petSitterData.petSitterUserInfo.name,
         petSitterId: petSitterData.id,
+        petSitterUserId: petSitterData.petSitterUserInfo.id,
         homeType: petSitterData.homeType,
         summaryTitle: petSitterData.summaryTitle,
         summary: petSitterData.summary,

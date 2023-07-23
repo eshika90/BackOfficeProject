@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pet Sitter Info</title>
     <link rel="stylesheet" type="text/css" href="./css/petSitterPage.css" />
+    <link rel="stylesheet" type="text/css" href="./css/chattingRoom.css" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -13,6 +14,9 @@
     <script src="./js/user.js" defer></script>
     <script src="./js/petSitterInfo.js" defer></script>
     <script src="./js/createReservation.js" defer></script>
+    <script src="./js/makeChattingHtml.js" defer></script>
+    <script src="./js/chatting.js" defer></script>
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -81,9 +85,6 @@
           </form>
         </div>
       </div>
-
-      <!-- 채팅하기 -->
-      <button onclick="chattingPetSitter()" id="chattingBtn">채팅하기</button>
 
       <!-- 로그인 모달창 -->
       <div
@@ -259,6 +260,14 @@
             </div>
           </div>
         </div>
+      </div>
+      <div id="chattingRoomContainer">
+        <h2 id="roomName"></h2>
+        <div id="chatRoom"></div>
+        <form id="user-input" autocomplete="off">
+          <input id="message-text" placeholder="메시지를 입력하세요..." />
+          <button id="submit">전송</button>
+        </form>
       </div>
     </main>
     <footer>
