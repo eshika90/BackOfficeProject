@@ -19,7 +19,14 @@
   </head>
   <body>
     <header>
-      <h1 onclick="clickHome()">로고</h1>
+      <div class="image-wrapper">
+        <img
+          src="img/일조벌조로고.png"
+          alt="HTML"
+          style="width: 200px; height: 200px"
+          onclick="clickHome()"
+        />
+      </div>
       <div class="userBox">
         <!-- 로그인 하면 로그아웃 버튼으로 -->
         <button id="loginBtn" data-toggle="modal" data-target="#loginModal">
@@ -254,7 +261,14 @@
         </div>
       </div>
     </main>
-
-    <footer></footer>
+    <footer>
+      <div class="footer-container">
+        <h3 class="footer-title">TEAM 일조벌조</h3>
+        <p class="footer-text">people. 장봉준 김주희 배병일 방두현 김세령</p>
+        <p class="footer-text">
+          Git Hub. https://github.com/eshika90/BackOfficeProject
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

@@ -10,8 +10,9 @@ async function mypageInfos() {
     },
   });
   mypageData = await mypageData.json();
-  document.querySelector('#profileImg').innerHTML =
-    mypageData['Users detail']['profileImage'];
+  const profileImageURL = mypageData['Users detail']['profileImage'];
+  const profileImgElement = document.getElementById('profileImg');
+  profileImgElement.src = profileImageURL;
   document.querySelector('#email').innerHTML =
     mypageData['Users detail']['email'];
   document.querySelector('#name').innerHTML =
