@@ -30,6 +30,7 @@ class ReservationService {
     petSitterId,
   ) => {
     try {
+      console.log(petSitterId);
       if (!petSitterId) {
         return { status: 400, message: '펫시터가 올바르지 않습니다.' };
       } else if (!startDate) {
@@ -123,9 +124,7 @@ class ReservationService {
     petSitterId,
   ) => {
     try {
-      if (!reservation) {
-        return { status: 400, message: '존재하지 않는 예약 정보입니다.' };
-      } else if (!startDate) {
+      if (!startDate) {
         return { status: 400, message: '예약 시작 날짜를 정해주세요.' };
       } else if (!endDate) {
         return { status: 400, message: '예약 마지막 날짜를 정해주세요.' };
@@ -139,12 +138,11 @@ class ReservationService {
 
       // 존재하는 예약 날짜인지 확인
       const reservationDatas = await this.reservationRepository.dateReservation(
+        reservationId,
         petSitterId,
         startDate,
         endDate,
       );
-
-      console.log(reservationDatas);
 
       // 펫시터 가격 확인
       const reservationData = await this.reservationRepository.findsReservation(
@@ -156,8 +154,9 @@ class ReservationService {
         startDate,
         endDate,
       );
-
-      if (reservationDatas.length) {
+      if (!reservation) {
+        return { status: 400, message: '존재하지 않는 예약 정보입니다.' };
+      } else if (reservationDatas.length) {
         return {
           status: 400,
           message:
@@ -186,6 +185,8 @@ class ReservationService {
         return { status: 400, message: '예약 수정 실패' };
       }
     } catch (err) {
+      console.log(err);
+
       return { status: 500, message: 'Server Error' };
     }
   };

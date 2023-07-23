@@ -22,7 +22,7 @@ app.get('/reservation', (req, res) => {
 });
 
 app.get('/reservation/update', (req, res) => {
-  res.sendFile(__dirname + '/public/detailReservation.html');
+  res.sendFile(__dirname + '/public/updateReservation.html');
 });
 
 app.get('/reservation/create', (req, res) => {
