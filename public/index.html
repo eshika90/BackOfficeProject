@@ -10,21 +10,24 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <!-- <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    /> -->
     <script src="./js/user.js" defer></script>
+    <script src="./js/chatting.js" defer></script>
     <script src="./js/petSitterInfo.js" defer></script>
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </head>
   <body>
     <header>
-      <h1>로고</h1>
+      <div class="image-wrapper">
+        <img
+          src="img/일조벌조로고.png"
+          alt="HTML"
+          style="width: 200px; height: 200px"
+        />
+      </div>
       <div class="userBox">
-        <!-- 로그인 하면 로그아웃 버튼으로 -->
         <button id="loginBtn" data-toggle="modal" data-target="#loginModal">
           로그인
         </button>
@@ -34,13 +37,13 @@
         </button>
         <button id="mypageBtn" onclick="clickMyPage()">마이페이지</button>
       </div>
+      <p class="maintitle">우리 아이 24시간 케어 서비스</p>
+      <p class="maintitle2">20만 반려가족이 선택한</p>
+      <p class="maintitle3">일조벌조에서 대한민국 1등 펫시터를 만나보세요</p>
     </header>
 
     <main>
-      <div>
-        <h4>모든 펫시터를 만나보세요</h4>
-        <div id="petSitterList">펫시터 리스트</div>
-      </div>
+      <div id="petSitterList">펫시터 리스트</div>
 
       <!-- 리뷰 박스 -->
       <div class="review-box review-container">
@@ -225,8 +228,15 @@
         </div>
       </div>
     </main>
-
-    <footer></footer>
+    <footer>
+      <div class="footer-container">
+        <h3 class="footer-title">TEAM 일조벌조</h3>
+        <p class="footer-text">people. 장봉준 김주희 배병일 방두현 김세령</p>
+        <p class="footer-text">
+          Git Hub. https://github.com/eshika90/BackOfficeProject
+        </p>
+      </div>
+    </footer>
 
     <script src="./js/reviews.js"></script>
     <script>

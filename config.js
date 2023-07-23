@@ -1,9 +1,9 @@
 const db = {
   development: {
-    username: 'root',
-    password: '4321!!!!',
-    database: 'reviewtest2',
-    host: '127.0.0.1',
+    username: '',
+    password: '',
+    database: 'BackOfficeProject',
+    host: '',
     dialect: 'mysql',
   },
   test: {
@@ -23,7 +23,7 @@ const db = {
 };
 
 const jwt = {
-  secretKey: '1234',
+  secretKey: '',
   expireIn: '600s', // accesstoken 유효기간
   expireIn2: '7d', // refreshtoken 유효기간
 };
@@ -31,8 +31,8 @@ const jwt = {
 const port = 3000;
 
 const mailer = {
-  user: 'doob0323@kakao.com',
-  password: 'qlalfqjsgh12#',
+  user: '',
+  password: '',
 };
 
 module.exports = { db, jwt, port, mailer };

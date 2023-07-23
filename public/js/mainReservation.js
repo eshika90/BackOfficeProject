@@ -22,6 +22,8 @@ function viewReservation() {
         let endDate = rows[i]['endDate'];
         let totalPrice = rows[i]['totalPrice'];
         let updatedAt = rows[i]['updatedAt'];
+        let startDates = startDate.substring(0, 10);
+        let endDates = endDate.substring(0, 10);
         let updatedAts = updatedAt.substring(0, 10);
 
         let temp_html = `
@@ -29,8 +31,8 @@ function viewReservation() {
             <div id="revervationId">예약 번호 : ${id}</div>
             <div id="petSitterId">펫시터 번호 : ${petSitterId}</div>
             <div id="">반려 동물 : ${petType}</div>
-            <div id="">시작일 : ${startDate}</div>
-            <div id="endDate">종료일 : ${endDate}</div>
+            <div id="">시작일 : ${startDates}</div>
+            <div id="">종료일 : ${endDates}</div>
             <div id="">총 금액 : ${totalPrice}</div>
             <div id="">입금 계좌 : 농협 (351-0857-5423-13)</div>
             <div id="">예약 날짜 : ${updatedAts}</div>
