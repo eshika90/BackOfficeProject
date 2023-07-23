@@ -53,8 +53,76 @@ function viewOneReservation() {
           `;
 
       $('#container').append(temp_html);
+      const options = {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      fetch(`http://localhost:3000/api/petSitterInfo/${petSitterId}`, options)
+        .then((response) => response.json())
+        .then((data) => {
+          const petSitterInfo = data.petSitter;
+          const reservationList = petSitterInfo.reservation;
+          $('#reservationInfo').empty();
+          for (const reservation of reservationList) {
+            const startDateData = reservation.startDate;
+            const endDateData = reservation.endDate;
+
+            const startDate = startDateData.slice(0, 10);
+            const endDate = endDateData.slice(0, 10);
+
+            const reservationInfo = `<li>${startDate} ~ ${endDate}</li>`;
+            $('#reservationInfo').append(reservationInfo);
+          }
+        })
+        .catch((err) => console.error(err));
+      return;
     });
 }
+
+// const petSitterInfo = async () => {
+//   const options = {
+//     method: 'get',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   };
+
+//   await fetch(`http://localhost:3000/api/petSitterInfo/${petSitterId}`, options)
+//     .then((response) => response.json())
+//     .then((data) => {
+//       const petSitterInfo = data.petSitter;
+//       const reservationList = petSitterInfo.reservation;
+//       const price = petSitterInfo.price.toLocaleString();
+
+//       $('#petSitterInfo').empty();
+//       const petSitterList = `<div><img src="${petSitterInfo.image}">
+//                               <p>${petSitterInfo.address} 펫시터 · ${petSitterInfo.name}님</p>
+//                               <p>펫시터 경력 : ${petSitterInfo.career}</p>
+//                               <p>홈타입 : ${petSitterInfo.homeType}</p>
+//                               <p>${petSitterInfo.introduction}</p>
+//                               <p>1박 가격 : ${price}</p>
+//                               <p>${petSitterInfo.summary}</p>
+//                               <p>${petSitterInfo.summaryTitle}</p>
+//                             </div>`;
+//       $('#petSitterInfo').append(petSitterList);
+
+//       for (const reservation of reservationList) {
+//         const startDateData = reservation.startDate;
+//         const endDateData = reservation.endDate;
+
+//         const startDate = startDateData.slice(0, 10);
+//         const endDate = endDateData.slice(0, 10);
+
+//         const reservationInfo = `<li>${startDate} ~ ${endDate}</li>`;
+//         $('#reservationInfo').append(reservationInfo);
+//       }
+//     })
+//     .catch((err) => console.error(err));
+//   return;
+// };
+// petSitterInfo();
 
 function updateCompleteBtn(petSitterId) {
   const urlParams = new URLSearchParams(window.location.search);

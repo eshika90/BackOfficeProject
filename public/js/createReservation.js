@@ -1,6 +1,8 @@
 function createCompleteBtn() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const petSitterId = urlParams.get('petSitterId');
+  // const urlParams = new URLSearchParams(window.location.search);
+  // const petSitterId = urlParams.get('petSitterId');
+
+  const petSitterId = sessionStorage.getItem('petSitterId');
 
   const form = document.getElementById('reservaionForm');
 
