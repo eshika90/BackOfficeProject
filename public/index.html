@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main</title>
     <link rel="stylesheet" type="text/css" href="./css/mainPage.css" />
+    <link rel="stylesheet" type="text/css" href="./css/mainPageReview.css" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -43,6 +44,13 @@
 
     <main>
       <div id="petSitterList">펫시터 리스트</div>
+
+      <!-- 리뷰 박스 -->
+      <div class="review-box review-container">
+        <ul class="review-list review-container">
+          <!-- 리뷰 템플릿 추가 -->
+        </ul>
+      </div>
 
       <!-- 로그인 모달창 -->
       <div
@@ -229,5 +237,12 @@
         </p>
       </div>
     </footer>
+
+    <script src="./js/reviews.js"></script>
+    <script>
+      $('document').ready(function () {
+        findAllReviews();
+      });
+    </script>
   </body>
 </html>

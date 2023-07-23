@@ -9,6 +9,11 @@
     <link rel="stylesheet" type="text/css" href="./css/chattingRoom.css" />
     <link
       rel="stylesheet"
+      type="text/css"
+      href="./css/petSitterPageReview.css"
+    />
+    <link
+      rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
     <script src="./js/user.js" defer></script>
@@ -269,6 +274,13 @@
           <button id="submit">전송</button>
         </form>
       </div>
+
+      <!-- 해당 펫시터의 리뷰 불러오기 -->
+      <div class="review-box" style="margin-top: 100px">
+        <ul class="review-list review-container">
+          <!-- 리뷰 템플릿 추가 -->
+        </ul>
+      </div>
     </main>
     <footer>
       <div class="footer-container">
@@ -279,5 +291,6 @@
         </p>
       </div>
     </footer>
+    <script src="./js/petSitterReviews.js" defer></script>
   </body>
 </html>

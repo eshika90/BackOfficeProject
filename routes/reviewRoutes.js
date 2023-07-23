@@ -12,6 +12,11 @@ router.get(
   '/petSitterInfo/:petSitterId/reviews',
   reviewsController.findPetSitterReview,
 );
+// 특정 예약 리뷰 가져오기
+router.get(
+  '/reservation/:reservationId/review',
+  reviewsController.findReservationReview,
+);
 // 리뷰 작성
 router.post(
   '/reservation/:reservationId/reviews',

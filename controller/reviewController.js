@@ -6,7 +6,7 @@ class ReviewController {
   }
 
   createReview = async (req, res) => {
-    const { rating, comment, image } = req.body;
+    let { rating, comment, image } = req.body;
     const { reservationId } = req.params;
     const userId = res.locals.payload.userId;
 
@@ -38,6 +38,30 @@ class ReviewController {
   findAllReview = async (req, res) => {
     try {
       const reviews = await this.reviewService.findAllReview();
+      return res.status(200).json({ reviews: reviews });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server Error' });
+    }
+  };
+
+  findReservationReview = async (req, res) => {
+    const { reservationId } = req.params;
+
+    try {
+      if (!reservationId) {
+        return res.status(400).json({
+          meesage: '예약 상세페이지 리뷰 불러오기 실패',
+        });
+      }
+      if (isNaN(reservationId.trim())) {
+        res.status(400).json({
+          message: '예약 상세페이지 리뷰 불러오기 실패',
+        });
+      }
+      const reviews = await this.reviewService.findReservationReview(
+        reservationId,
+      );
       return res.status(200).json({ reviews: reviews });
     } catch (err) {
       console.log(err);

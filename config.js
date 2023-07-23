@@ -1,6 +1,6 @@
 const db = {
   development: {
-    username: 'root',
+    username: '',
     password: '',
     database: 'BackOfficeProject',
     host: '',

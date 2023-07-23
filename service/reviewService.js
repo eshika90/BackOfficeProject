@@ -1,24 +1,28 @@
 const MakeError = require('../utils/makeErrorUtil');
 const ReviewRepository = require('../repositories/reviewRepository');
 const ReservationService = require('../service/reservationService');
+const PetSitterInfoService = require('../service/petSitterInfoService');
+
 const { Op } = require('sequelize');
 
 class ReviewService {
   constructor() {
     this.reservationService = new ReservationService();
+    this.petSitterInfoService = new PetSitterInfoService();
   }
   reviewRepository = new ReviewRepository();
 
   createReview = async ({ reservationId, userId, rating, comment, image }) => {
+    // console.log(reservationId, userId, rating, comment, image);
     const now = new Date();
     const loginUserId = userId;
     try {
       // 예약 서비스에 있는 예약 데이터 가져오기
       const reservationReturnValue =
         await this.reservationService.viewOneReservation(reservationId);
-      const reservationData = reservationReturnValue.message;
+      const reservationData = await reservationReturnValue.message;
       // reservationId에 해당하는 petSitterId 가져오기
-      const petSitterId = reservationData.petSitterId;
+      const petSitterId = await reservationData.petSitterId;
       if (!comment) {
         throw new MakeError('내용을 입력해주세요', 400, 'invalid comment');
       }
@@ -35,6 +39,7 @@ class ReviewService {
           comment,
           image,
         });
+
         return {
           userId: createReviewData.userId,
           reservationId: createReviewData.reservationId,
@@ -49,8 +54,45 @@ class ReviewService {
     }
   };
 
+  // 1. 예약 테이블에 있는 정보 다 받아오기
   findAllReview = async () => {
     const allReview = await this.reviewRepository.findAllReview();
+
+    // 펫시터 서비스에서 펫시터 정보 가져오기
+    const petSitterInfoData = await this.petSitterInfoService.findPetSitters();
+    const petSitterInfo = await petSitterInfoData.petSitters.map((a) => {
+      return { petSitterId: a.id, petSitterName: a.petSitterUserInfo.name };
+    });
+
+    return allReview.map((review) => {
+      let reviewer = review.User.name;
+      let petSitter = '';
+      petSitterInfo.forEach((item) => {
+        if (item.petSitterId == review.petSitterId) {
+          petSitter = item.petSitterName;
+        }
+      });
+      return {
+        id: review.id,
+        reservationId: review.reservationId,
+        userId: review.userId,
+        reviewer: reviewer,
+        petSitterId: review.petSitterId,
+        petSitter: petSitter,
+        rating: review.rating,
+        comment: review.comment,
+        image: review.image,
+        createdAt: review.createdAt,
+        updatedAt: review.updatedAt,
+      };
+    });
+  };
+
+  findReservationReview = async (reservationId) => {
+    const allReview = await this.reviewRepository.findReservationReview(
+      reservationId,
+    );
+
     allReview.sort((a, b) => {
       return b.createdAt - a.createdAt;
     });
@@ -60,6 +102,7 @@ class ReviewService {
         id: review.id,
         reservationId: review.reservationId,
         userId: review.userId,
+        reviewer: review.User.name,
         petSitterId: review.petSitterId,
         rating: review.rating,
         comment: review.comment,
@@ -84,6 +127,7 @@ class ReviewService {
         id: review.id,
         reservationId: review.reservationId,
         userId: review.userId,
+        reviewer: review.User.name,
         petSitterId: review.petSitterId,
         rating: review.rating,
         comment: review.comment,

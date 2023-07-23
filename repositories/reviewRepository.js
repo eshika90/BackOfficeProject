@@ -1,4 +1,4 @@
-const { Reviews } = require('../models');
+const { Reviews, Users } = require('../models');
 const { Op } = require('sequelize');
 
 class ReviewRepository {
@@ -34,12 +34,37 @@ class ReviewRepository {
     }
   };
   findAllReview = async () => {
-    const reviews = await Reviews.findAll();
+    const reviews = await Reviews.findAll({
+      include: [
+        {
+          model: Users,
+          attributes: ['name'],
+        },
+      ],
+    });
+    return reviews;
+  };
+  findReservationReview = async (reservationId) => {
+    const reviews = await Reviews.findAll({
+      where: { reservationId },
+      include: [
+        {
+          model: Users,
+          attributes: ['name'],
+        },
+      ],
+    });
     return reviews;
   };
   findPetSitterReview = async (petSitterId) => {
     const reviews = await Reviews.findAll({
       where: { petSitterId },
+      include: [
+        {
+          model: Users,
+          attributes: ['name'],
+        },
+      ],
     });
     return reviews;
   };

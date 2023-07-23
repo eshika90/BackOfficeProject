@@ -6,6 +6,7 @@
     <title>My Page</title>
     <link rel="stylesheet" type="text/css" href="./css/myPage.css" />
     <link rel="stylesheet" type="text/css" href="./css/mainReservation.css" />
+    <link rel="stylesheet" type="text/css" href="./css/myPageReviews.css" />
 
     <link
       rel="stylesheet"
@@ -17,6 +18,30 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </head>
   <body>
+    <!-- 리뷰 작성 모달창 -->
+    <div class="review-modal blind">
+      <div class="review-modal-form">
+        <textarea class="comment" id="comment" cols="50%" rows="10"></textarea>
+        <br />
+        <label>평점 : </label>
+        <select name="rating" id="rating" class="rating">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <br />
+        <label>이미지주소</label>
+        <input type="text" class="image" />
+
+        <!-- <label for="files"></label>
+        <input type="file" name="image" id="image" /> -->
+        <br />
+        <button onclick="reviewCreate(reservId)">작성</button>
+      </div>
+    </div>
+
     <header>
       <div class="image-wrapper">
         <img
@@ -110,6 +135,7 @@
           </div>
         </div>
       </div>
+
       <div id="loginInfo">
         <div class="myInfos">
           <div class="card" style="width: 25rem">
@@ -160,5 +186,7 @@
     </footer>
     <script src="./js/mainReservation.js" defer></script>
     <script src="./js/reservationBtn.js" defer></script>
+    <script src="./js/myPageReviews.js" defer></script>
+    <script></script>
   </body>
 </html>

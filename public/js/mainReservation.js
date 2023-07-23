@@ -38,6 +38,7 @@ function viewReservation() {
             <div id="">예약 날짜 : ${updatedAts}</div>
             <div id="reservationBtn" onclick="updateReservationBtn(${id},${petSitterId})">예약 수정하기</div>
             <div id="reservationBtn" onclick="deleteReservationBtn(${id})">예약 취소하기</div>
+            <div id="reservationBtn" onclick="reviewModal(${id})">리뷰 작성</div>
           </div
         `;
         $('#container').append(temp_html);
