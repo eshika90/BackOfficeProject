@@ -18,9 +18,14 @@
   </head>
   <body>
     <header>
-      <h1>로고</h1>
+      <div class="image-wrapper">
+        <img
+          src="img/일조벌조로고.png"
+          alt="HTML"
+          style="width: 200px; height: 200px"
+        />
+      </div>
       <div class="userBox">
-        <!-- 로그인 하면 로그아웃 버튼으로 -->
         <button id="logoutBtn" onclick="logout()">로그아웃</button>
         <button
           id="passModiBtn"
@@ -29,8 +34,6 @@
         >
           비밀번호 변경
         </button>
-        <!-- 기능 구현 안함 -->
-        <!-- <button>펫시터 지원</button> -->
       </div>
     </header>
     <main>
@@ -108,20 +111,53 @@
         </div>
       </div>
       <div id="loginInfo">
-        <div>
-          <img id="profileImg" src="null" />
-          <button onclick="profileimgModify()">프로필이미지 수정하기</button>
-          <p id="email"></p>
-          <p id="name"></p>
-          <p id="isPetsitter"></p>
-          <div id="myReservation">
-            나의 예약 현황
-            <div id="container">ㅇㅅㅇ</div>
+        <div class="myInfos">
+          <div class="card" style="width: 25rem">
+            <div class="card-img">
+              <img
+                id="profileImg"
+                src="..."
+                class="card-img-top"
+                alt="..."
+                style="width: 200px; height: 200px; object-fit: cover"
+              />
+            </div>
+            <button id="profileImgBtn" onclick="profileimgModify()">
+              프로필이미지 수정하기
+            </button>
+            <table class="table-fill">
+              <tbody class="table-hover">
+                <tr>
+                  <td class="text-left">이름</td>
+                  <td class="text-left" id="name"></td>
+                </tr>
+                <tr>
+                  <td class="text-left">이메일</td>
+                  <td class="text-left" id="email"></td>
+                </tr>
+                <tr>
+                  <td class="text-left">가입 유형</td>
+                  <td class="text-left" id="isPetsitter"></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        </div>
+        <div id="myReservation">
+          나의 예약 현황
+          <div id="container">ㅇㅅㅇ</div>
         </div>
       </div>
     </main>
-    <footer></footer>
+    <footer>
+      <div class="footer-container">
+        <h3 class="footer-title">TEAM 일조벌조</h3>
+        <p class="footer-text">people. 장봉준 김주희 배병일 방두현 김세령</p>
+        <p class="footer-text">
+          Git Hub. https://github.com/eshika90/BackOfficeProject
+        </p>
+      </div>
+    </footer>
     <script src="./js/mainReservation.js" defer></script>
     <script src="./js/reservationBtn.js" defer></script>
   </body>

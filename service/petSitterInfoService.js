@@ -61,7 +61,7 @@ class PetSitterInfoService {
               // 펫시터 이름
               as: 'petSitterUserInfo',
               model: Users,
-              attributes: ['name'],
+              attributes: ['name','id'],
             },
             {
               // 펫시터 예약 현황

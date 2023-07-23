@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 const UserService = require('../service/userService');
 const userService = new UserService();
-const cookieParser = require('cookie-parser');
 const jwtInfo = require('../config.js').jwt;
 const { secretKey, expireIn } = jwtInfo;
 const MakeError = require('../utils/makeErrorUtil');
+const cookieParser = require('../utils/cookie.parsing');
 
 const authMiddlewareHttp = async (req, res, next) => {
   try {
@@ -30,7 +30,9 @@ const authMiddlewareHttp = async (req, res, next) => {
       expireIn,
     );
     if (tokenAndUserId.newAccessToken) {
-      res.cookie('accessToken', `Bearer ${tokenAndUserId.newAccessToken}`);
+      res.cookie('accessToken', `Bearer ${tokenAndUserId.newAccessToken}`, {
+        httpOnly: true,
+      });
     }
     res.locals.payload = { userId: tokenAndUserId.userId };
     next();
@@ -41,9 +43,42 @@ const authMiddlewareHttp = async (req, res, next) => {
   }
 };
 
-const authMiddlewareSocket = async (socket) => {};
+const authMiddlewareSocket = async (socket) => {
+  try {
+    let cookieValues = socket.handshake.headers.cookie;
+    let parsedCookies = cookieParser(cookieValues);
 
-//1.accessToken => verify해서 try/catch로 감싸서 에러처리  refreshToken
+    const [accessTokenAuthType, accessToken] = (
+      parsedCookies.accessToken ?? ''
+    ).split(' ');
+    const [refreshTokenAuthType, refreshToken] = (
+      parsedCookies.refreshToken ?? ''
+    ).split(' ');
+    if (
+      accessTokenAuthType !== 'Bearer' ||
+      !refreshToken ||
+      refreshTokenAuthType !== 'Bearer' ||
+      !accessToken
+    ) {
+      throw new MakeError(401, '로그인이 필요한 기능입니다', 'invalid token');
+    }
+
+    if (!accessToken || !refreshToken) throw new Error();
+
+    const userAndToken = await verifyToken(
+      jwt,
+      accessToken,
+      refreshToken,
+      secretKey,
+      expireIn,
+    );
+
+    socket.userId = userAndToken.userId;
+  } catch (err) {
+    socket.userId = NaN;
+  }
+};
+
 function accessTokenVerify(jwt, accessToken) {
   try {
     const payload = jwt.verify(accessToken, secretKey);
@@ -52,6 +87,7 @@ function accessTokenVerify(jwt, accessToken) {
     return { userId: null };
   }
 }
+
 const verifyToken = async (
   jwt,
   accessToken,
@@ -65,7 +101,7 @@ const verifyToken = async (
       payload.newAccessToken = null;
       return payload;
     } else {
-      const refreshUserid = jwt.verify(refreshToken, secretKey);
+      jwt.verify(refreshToken, secretKey);
       const user = await userService.getUser({ refreshToken }, ['id']);
       if (user) {
         const newAccessToken = jwt.sign({ userId: user.id }, secretKey, {
