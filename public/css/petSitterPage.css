@@ -1,3 +1,9 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
 header {
   padding: 20px;
   display: inline-block;
@@ -6,4 +12,31 @@ header {
 
 header > h1 {
   text-align: left;
+}
+
+main {
+  padding-top: 50px;
+}
+
+footer {
+  height: 50px;
+  background-color: grey;
+}
+
+.userBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: right;
+
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  /* margin-bottom: 10px; */
+  font-size: large;
+}
+
+.userBox > button {
+  font-size: 15px;
+  margin: 0px 5px 0px 5px;
 }
