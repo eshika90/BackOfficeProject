@@ -13,15 +13,16 @@ class ReviewService {
   reviewRepository = new ReviewRepository();
 
   createReview = async ({ reservationId, userId, rating, comment, image }) => {
+    // console.log(reservationId, userId, rating, comment, image);
     const now = new Date();
     const loginUserId = userId;
     try {
       // 예약 서비스에 있는 예약 데이터 가져오기
       const reservationReturnValue =
         await this.reservationService.viewOneReservation(reservationId);
-      const reservationData = reservationReturnValue.message;
+      const reservationData = await reservationReturnValue.message;
       // reservationId에 해당하는 petSitterId 가져오기
-      const petSitterId = reservationData.petSitterId;
+      const petSitterId = await reservationData.petSitterId;
       if (!comment) {
         throw new MakeError('내용을 입력해주세요', 400, 'invalid comment');
       }
@@ -38,6 +39,7 @@ class ReviewService {
           comment,
           image,
         });
+
         return {
           userId: createReviewData.userId,
           reservationId: createReviewData.reservationId,

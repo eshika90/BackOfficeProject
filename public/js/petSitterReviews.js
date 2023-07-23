@@ -10,16 +10,21 @@ const findPetSitterReviews = async () => {
         comment = review.comment;
         createdAt = review.createdAt.substring(0, 10);
         reviewer = review.reviewer;
+        reviewId = review.id;
 
         const template = `<li class="review-card">
                             <img
                               src="${image}"
                               alt="review-image"
+                              class="review-card-image"
                               onerror="this.src='http://placehold.it/300x300'"
                             />
-                            <p>내용 : ${comment}</p>
-                            <p>작성일 : ${createdAt}</p>
-                            <p>작성자 : ${reviewer}</p>
+                            <div class="review-card-content">
+                              <p>${comment}</p>
+                              <p>작성일 : ${createdAt}</p>
+                              <p>작성자 : ${reviewer}</p>
+                              <button onclick="deleteReview(${reviewId})">삭제</button>
+                            </div>
                           </li>`;
 
         $('.review-list').append(template);
@@ -27,5 +32,21 @@ const findPetSitterReviews = async () => {
     },
   });
 };
+
+function deleteReview(reviewId) {
+  if (confirm('리뷰를 삭제하겠습니까?')) {
+    $.ajax({
+      type: 'DELETE',
+      url: `/api/reviews/${reviewId}`,
+      success: function (res) {
+        alert('리뷰 삭제 성공');
+        location.reload();
+      },
+      error: function () {
+        alert('리뷰 삭제 실패');
+      },
+    });
+  }
+}
 
 findPetSitterReviews();

@@ -6,7 +6,7 @@ class ReviewController {
   }
 
   createReview = async (req, res) => {
-    const { rating, comment, image } = req.body;
+    let { rating, comment, image } = req.body;
     const { reservationId } = req.params;
     const userId = res.locals.payload.userId;
 

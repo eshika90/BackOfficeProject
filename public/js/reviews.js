@@ -5,7 +5,7 @@ let reviewId = null;
 function createReview(reservationId) {
   const comment = $('.comment').val();
   const rating = $('.rating').val();
-  const image = $('.image').val();
+  const image = $('.image').html();
 
   $.ajax({
     type: 'POST',
@@ -20,19 +20,6 @@ function createReview(reservationId) {
     },
     error: function () {
       alert('리뷰 작성 실패');
-    },
-  });
-}
-
-function deleteReview(reviewId) {
-  $.ajax({
-    type: 'DELETE',
-    url: `/api/reviews/${reviewId}`,
-    success: function (res) {
-      findReservationReviews();
-    },
-    error: function () {
-      alert('리뷰 삭제에 실패');
     },
   });
 }
@@ -59,14 +46,17 @@ function findAllReviews() {
                             <img
                               src="${image}"
                               alt="review-image"
+                              class="review-card-image"
                               onerror="this.src='http://placehold.it/300x300'"
                             />
+                            <div class="review-card-content">
                             <h3>
-                              <a href="#" onclick="clickPetSitter(${petSitterId})">${petSitter}</a>
+                              <a href="#" onclick="clickPetSitter(${petSitterId})">${petSitter} 펫시터 후기</a>
                             </h3>
-                            <p>내용 : ${comment}</p>
+                            <p>${comment}</p>
                             <p>작성일 : ${createdAt}</p>
                             <p>작성자 : ${reviewer}</p>
+                            </div>
                           </li>`;
 
         $('.review-list').append(template);
