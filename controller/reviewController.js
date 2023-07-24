@@ -84,10 +84,14 @@ class ReviewController {
         });
       }
       const reviews = await this.reviewService.findPetSitterReview(petSitterId);
+      console.log('reviews', reviews);
       return res.status(200).json({ reviews: reviews });
     } catch (err) {
-      console.log(err);
-      return res.status(500).json({ message: 'Server Error' });
+      try {
+        return res.status(500).json({ message: 'Server Error' });
+      } catch (errors) {
+        console.log(errors);
+      }
     }
   };
 

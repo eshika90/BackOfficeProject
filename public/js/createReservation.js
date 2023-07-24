@@ -4,6 +4,11 @@ function createCompleteBtn() {
 
   const petSitterId = sessionStorage.getItem('petSitterId');
 
+  const reservationUser = userRoomMessage.id;
+  if (reservationUser === petSitterUserId) {
+    alert('예약이 불가능한 유저입니다');
+    return;
+  }
   const form = document.getElementById('reservaionForm');
 
   const payload = new FormData(form);

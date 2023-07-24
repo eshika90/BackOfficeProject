@@ -191,7 +191,6 @@ class ChattingServiceSocket {
 
   handleSendMessage = (socket, isOnline, rooms) => {
     return socket.on('sendMessage', async (data) => {
-      console.log(`sendMessage`);
       try {
         await authMiddlewareSocket(socket);
         const senderId = socket.userId;

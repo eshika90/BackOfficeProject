@@ -59,7 +59,6 @@ const sendMessage = (receiverId) => {
       }
     }
   }
-
   if (!roomId) {
     console.log('zxcdv');
     socket.emit('sendMessage', {

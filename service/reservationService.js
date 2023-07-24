@@ -33,9 +33,8 @@ class ReservationService {
       const today = new Date();
       const startDates = new Date(startDate);
       const endDates = new Date(endDate);
-      const canStartReservationDate = new Date(
-        today.setDate(today.getDate() + 1),
-      );
+      const canStartReservationDate = new Date(today.setDate(today.getDate()));
+
       const canEndReservationDate = new Date(
         today.setDate(today.getDate() + 91),
       );
@@ -77,7 +76,9 @@ class ReservationService {
         startDate,
         endDate,
       );
-
+      if (userId == reservationData.userId) {
+        return { status: 400, message: '펫시터랑 로그인 유저랑 같음' };
+      }
       if (reservationDatas.length) {
         return {
           status: 400,
