@@ -38,7 +38,7 @@ const sendMessage = (receiverId) => {
   if (userRoomMessage.ChattingRooms.length) {
     let ChattingRooms = userRoomMessage.ChattingRooms;
     let i, a;
-    for (a = 0; a < ChattingRooms.length + 1; a++) {
+    for (a = 0; a < ChattingRooms.length; a++) {
       if (roomId) {
         break;
       }
