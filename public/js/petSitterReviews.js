@@ -1,3 +1,5 @@
+let star = null;
+
 const findPetSitterReviews = async () => {
   const petSitterId = localStorage.getItem('petSitterId');
   await $.ajax({
@@ -11,6 +13,9 @@ const findPetSitterReviews = async () => {
         createdAt = review.createdAt.substring(0, 10);
         reviewer = review.reviewer;
         reviewId = review.id;
+        rating = review.rating;
+
+        star = '⭐'.repeat(rating);
 
         const template = `<li class="review-card">
                             <img
@@ -21,6 +26,7 @@ const findPetSitterReviews = async () => {
                             />
                             <div class="review-card-content">
                               <p>${comment}</p>
+                              <p>평점 : ${star}</p>
                               <p>작성일 : ${createdAt}</p>
                               <p>작성자 : ${reviewer}</p>
                               <button onclick="deleteReview(${reviewId})">삭제</button>

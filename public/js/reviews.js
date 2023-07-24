@@ -1,6 +1,7 @@
 let reservationId = null;
 let petSitterId = null;
 let reviewId = null;
+let star = null;
 
 function createReview(reservationId) {
   const comment = $('.comment').val();
@@ -41,6 +42,9 @@ function findAllReviews() {
         petSitter = review.petSitter;
         reviewer = review.reviewer;
         petSitterId = review.petSitterId;
+        rating = review.rating;
+
+        star = '⭐'.repeat(rating);
 
         const template = `<li class="review-card">
                             <img
@@ -54,6 +58,7 @@ function findAllReviews() {
                               <a href="#" onclick="clickPetSitter(${petSitterId})">${petSitter} 펫시터 후기</a>
                             </h3>
                             <p>${comment}</p>
+                            <p>평점 : ${star}</p>
                             <p>작성일 : ${createdAt}</p>
                             <p>작성자 : ${reviewer}</p>
                             </div>
