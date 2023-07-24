@@ -1,4 +1,5 @@
 // 펫시터 목록
+let petSitterUserId;
 const petSitterInfos = async () => {
   const options = {
     method: 'get',
@@ -51,7 +52,7 @@ const petSitterInfo = async () => {
       const petSitterInfo = data.petSitter;
       const reservationList = petSitterInfo.reservation;
       const price = petSitterInfo.price.toLocaleString();
-
+      petSitterUserId = petSitterInfo.petSitterUserId;
       $('#petSitterInfo').empty();
       const petSitterList = `<div><img src="${petSitterInfo.image}" style="width:300px; height:300px;">
                               <p>${petSitterInfo.address} ${petSitterInfo.introduction} · ${petSitterInfo.name}님</p>

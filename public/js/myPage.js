@@ -98,3 +98,6 @@ async function profileimgModify() {
     alert(`${profileImgModify.message}`);
   }
 }
+const clickHome = () => {
+  location.href = 'http://localhost:3000';
+};
