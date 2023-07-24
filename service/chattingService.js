@@ -142,7 +142,7 @@ class ChattingServiceSocket {
     try {
       await authMiddlewareSocket(socket);
       const userId = socket.userId;
-      // console.log(userId)
+      console.log(userId);
       delete socket.userId;
       if (!userId) {
         throw new MakeError(401, '로그인을 진행해주세요', 'invalid userInfo');
@@ -191,6 +191,7 @@ class ChattingServiceSocket {
 
   handleSendMessage = (socket, isOnline, rooms) => {
     return socket.on('sendMessage', async (data) => {
+      console.log(`sendMessage`);
       try {
         await authMiddlewareSocket(socket);
         const senderId = socket.userId;
@@ -200,7 +201,6 @@ class ChattingServiceSocket {
 
         if (!isExistRoom) {
           isNewChattingRoom = true;
-          console.log('1234');
           roomData = await chattingRepository.makeChattingRoom({
             name: 'room',
             password: 'a',
@@ -295,13 +295,15 @@ class ChattingServiceSocket {
         }
         const roomIndex = isOnline[userId].indexOf(roomId);
         isOnline[userId][roomIndex] = null;
-        console.log('aaa',rooms)
+        console.log('aaa', rooms);
         if (!Object.keys(rooms[roomId].allUsers).length === 1) {
           chattingRepository.exitChattingRoom({ where: { roomId } });
           delete rooms[roomId];
         } else {
           delete rooms[roomId].users[String(userId)];
-          chattingRepository.exitChattingRoom({ where: { userId:Number(userId) } });
+          chattingRepository.exitChattingRoom({
+            where: { userId: Number(userId) },
+          });
         }
         chattingServiceHTTP.exitChattingRoom({ userId, roomId });
 
@@ -327,8 +329,8 @@ class ChattingServiceSocket {
           }
         });
         delete isOnline[userId];
-        console.log('eixt isOnline', isOnline);
-        console.log('qqq', rooms);
+        console.log('eixt isOnline :', isOnline);
+        console.log('rooms :', rooms);
       } catch (err) {
         console.log(err);
       }

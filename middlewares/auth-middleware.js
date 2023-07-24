@@ -75,6 +75,7 @@ const authMiddlewareSocket = async (socket) => {
 
     socket.userId = userAndToken.userId;
   } catch (err) {
+    console.log(err);
     socket.userId = NaN;
   }
 };
