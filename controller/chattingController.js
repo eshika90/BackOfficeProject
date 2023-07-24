@@ -18,7 +18,7 @@ class ChattingControllerSocket {
         await socket.on('readyToChatting', async () => {
           await chattingServiceSocket.readyToChatting(socket, isOnline, rooms);
         });
-
+        //a
         await chattingServiceSocket.handleSendMessage(socket, isOnline, rooms);
 
         await chattingServiceSocket.getChattingMessage(socket);

@@ -2,7 +2,7 @@ const PetSitterInfoRepository = require('../repositories/petSitterInfoRepository
 const careerCalculation = require('../utils/dateCalculationUtil.js');
 const { Users, Reservations } = require('../models');
 const { Op } = require('sequelize');
-
+//a
 class PetSitterInfoService {
   petSitterInfoRepository = new PetSitterInfoRepository();
 

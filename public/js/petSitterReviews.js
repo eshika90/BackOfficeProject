@@ -13,6 +13,9 @@ const findPetSitterReviews = async () => {
         createdAt = review.createdAt.substring(0, 10);
         reviewer = review.reviewer;
         reviewId = review.id;
+
+        //a
+
         rating = review.rating;
 
         star = '⭐'.repeat(rating);

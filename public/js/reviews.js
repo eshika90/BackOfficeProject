@@ -1,7 +1,32 @@
 let reservationId = null;
 let petSitterId = null;
 let reviewId = null;
+
+//a
+function createReview(reservationId) {
+  const comment = $('.comment').val();
+  const rating = $('.rating').val();
+  const image = $('.image').html();
+
+  $.ajax({
+    type: 'POST',
+    url: `/api/reservation/${reservationId}/reviews`,
+    data: {
+      comment: comment,
+      rating: rating,
+      image: image,
+    },
+    success: function (res) {
+      findReservationReviews();
+    },
+    error: function () {
+      alert('리뷰 작성 실패');
+    },
+  });
+}
+
 let star = null;
+
 
 function findAllReviews() {
   $.ajax({

@@ -175,7 +175,7 @@ class ChattingServiceSocket {
             name: data.name,
             users,
             allUsers: userInfoObj,
-          };
+          }; //a
         } else {
           rooms[data.id].users[userId] = RoomsAndMessages.name;
         }

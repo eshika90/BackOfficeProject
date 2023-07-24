@@ -11,7 +11,7 @@ class ReviewService {
     this.petSitterInfoService = new PetSitterInfoService();
   }
   reviewRepository = new ReviewRepository();
-
+  //a
   createReview = async ({ reservationId, userId, rating, comment, image }) => {
     // console.log(reservationId, userId, rating, comment, image);
     const now = new Date();
@@ -121,7 +121,6 @@ class ReviewService {
     allReview.sort((a, b) => {
       return b.createdAt - a.createdAt;
     });
-    console.log(11111111);
     return allReview.map((review) => {
       return {
         id: review.id,

@@ -13,7 +13,7 @@ const petSitterInfos = async () => {
     .then((data) => {
       const petSitterList = data['petSitters'];
       $('#petSitterList').empty();
-
+      //a
       petSitterList.forEach((petSitter) => {
         const petSitterId = petSitter['id'];
         const image = petSitter['image'];
