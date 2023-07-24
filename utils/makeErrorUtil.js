@@ -1,5 +1,5 @@
 class MakeError extends Error {
-  constructor(code,message,name) {
+  constructor(code, message, name) {
     super(message);
     this.code = code;
     this.name = name;
