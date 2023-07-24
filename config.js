@@ -1,6 +1,6 @@
 const db = {
   development: {
-    username: '',
+    username: 'root',
     password: '',
     database: 'BackOfficeProject',
     host: '',
@@ -21,6 +21,10 @@ const db = {
     dialect: 'mysql',
   },
 };
+const mailer = {
+  user: '',
+  password: '',
+};
 
 const jwt = {
   secretKey: '',
@@ -29,10 +33,5 @@ const jwt = {
 };
 
 const port = 3000;
-
-const mailer = {
-  user: '',
-  password: '',
-};
 
 module.exports = { db, jwt, port, mailer };

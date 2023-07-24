@@ -45,7 +45,6 @@ const petSitterInfo = async () => {
     },
   };
   const petSitterId = sessionStorage.getItem('petSitterId');
-
   await fetch(`http://localhost:3000/api/petSitterInfo/${petSitterId}`, options)
     .then((response) => response.json())
     .then((data) => {
@@ -61,6 +60,7 @@ const petSitterInfo = async () => {
                               <p>${petSitterInfo.summaryTitle}</p>
                               <p>${petSitterInfo.summary}</p>
                               <p>1박 가격 : ${price}원</p>
+                              <button id = chattingBtn onclick="chattingRoomHtml('${petSitterInfo.petSitterUserId}','${petSitterInfo.name}')">채팅하기</button>
                             </div>`;
       $('#petSitterInfo').append(petSitterList);
 

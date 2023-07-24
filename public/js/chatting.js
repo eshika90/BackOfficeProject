@@ -24,13 +24,16 @@ socket.on('errorMessage', (message) => {
 socket.on('disconnect', () => {
   console.log('소켓종료됨');
 });
-
-export const readyToChatting = () => {
+const logoutSocket = () => {
+  socket.disconnect();
+};
+const readyToChatting = () => {
   socket.emit('readyToChatting');
 };
 
-export const sendMessage = (receiverId, message) => {
+const sendMessage = (receiverId) => {
   let roomId = null;
+  const message = document.getElementById('message-text').value;
 
   if (userRoomMessage.ChattingRooms.length) {
     let ChattingRooms = userRoomMessage.ChattingRooms;
@@ -75,21 +78,22 @@ export const sendMessage = (receiverId, message) => {
   }
 };
 
-export const exitChattingRoom = (roomId) => {
+const exitChattingRoom = (roomId) => {
   userRoomMessage.ChattingRooms = userRoomMessage.ChattingRooms.filter(
     (room) => {
       return !room.id === roomId;
     },
   );
-  console.log(userRoomMessage)
-  socket.emit('exitChattingRoom',  {roomId} );
+  console.log(userRoomMessage);
+  socket.emit('exitChattingRoom', { roomId });
 };
 
-// socket.on('newChattingRoom', (data) => {
-//   if (!userRoomMessage) {
-//     userRoomMessage = {};
-//   } else {
-//     userRoomMessage.ChattingRooms.push(data);
-//     console.log('newChattingRoom', userRoomMessage);
-//   }
-// });
+socket.on('newChattingRoom', (data) => {
+  if (!userRoomMessage) {
+    userRoomMessage = {};
+  } else {
+    userRoomMessage.ChattingRooms.push(data);
+    console.log('newChattingRoom', userRoomMessage);
+  }
+  console.log('newChattingRoom', userRoomMessage);
+});

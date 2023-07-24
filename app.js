@@ -16,8 +16,6 @@ app.use(
 app.use([express.json(), cookieParser()]);
 app.use('/api', indexRouter);
 
-
-
 app.use(express.static('public'));
 
 app.get('/reservation', (req, res) => {
