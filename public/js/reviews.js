@@ -1,7 +1,7 @@
 let reservationId = null;
 let petSitterId = null;
 let reviewId = null;
-
+//a
 function createReview(reservationId) {
   const comment = $('.comment').val();
   const rating = $('.rating').val();

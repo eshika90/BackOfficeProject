@@ -13,7 +13,7 @@ class UserController {
       console.log(err);
       return res.status(500).json({ message: 'Server Error' });
     }
-  };
+  }; //a
   mailCodeVerify = async (req, res, next) => {
     try {
       const { email, code } = req.body;

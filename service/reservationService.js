@@ -106,7 +106,7 @@ class ReservationService {
       return { status: 500, message: 'Server Error' };
     }
   };
-
+  //a
   // 예약 상세 조회
   viewOneReservation = async (reservationId) => {
     const reservationData = await this.reservationRepository.viewOneReservation(

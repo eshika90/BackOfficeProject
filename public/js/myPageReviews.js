@@ -3,7 +3,7 @@ let reservId = null;
 const reviewModal = (id) => {
   $('.review-modal').removeClass('blind');
   return (reservId = id);
-};
+}; //a
 
 const reviewCreate = async (reservId) => {
   const reservationId = reservId;
